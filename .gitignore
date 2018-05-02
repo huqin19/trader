@@ -1,0 +1,6 @@
+.metadata
+*.class
+renren-fastplus/.settings
+renren-fastplus/target
+renren-fastplus/.classpath
+renren-fastplus/.project

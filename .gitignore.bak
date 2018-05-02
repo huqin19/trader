@@ -1,0 +1,9 @@
+.metadata
+*.class
+renren-fastplus/.settings
+renren-fastplus/target
+dc_platform/Servers
+dc_platform/dc_platform_web/build
+dc_platform/dc_platform_web/WebContent/classes
+dc_platform/dc_platform_web/build
+dc_platform/dc_utils/bin/.svn/
