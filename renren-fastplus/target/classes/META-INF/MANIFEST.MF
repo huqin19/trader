@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: renren-fastplus
+Implementation-Version: 1.1.0
+Built-By: Milk
+Implementation-Vendor-Id: io.renren
+Build-Jdk: 1.8.0_20
+Implementation-URL: http://projects.spring.io/spring-boot/renren-fastp
+ lus/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+
