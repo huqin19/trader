@@ -108,6 +108,6 @@ function getSelectedRows() {
     	alert("请选择一条记录");
     	return ;
     }
-    
+    //alert(grid.getGridParam("selarrrow"));
     return grid.getGridParam("selarrrow");
 }

@@ -36,3 +36,20 @@ spring:
                 wall:
                     config:
                         multi-statement-allow: true
+api:
+    request-department:
+        name: 获取部门信息
+        url: http://172.16.45.177/RoxQyWeb/qy-no/department/getDepartmentByParentId.g
+        param-name: parentid
+    request-user: 
+        name: 根据部门ID获取成员信息   
+        url: http://172.16.45.177/RoxQyWeb/qy-no/user/getUserByDepartmentId.g
+        param-name: departmentId   
+    send-message:
+        name: 给指定的成员或部门发送信息
+        url: http://172.16.45.177/RoxQyWeb/cgi-bin/agentMessage/send.g
+        param-name: messages
+    send-file:
+        name: 给指定的成员或部门发送文件信息
+        url: http://172.16.45.177/RoxQyWeb/cgi-bin/agentFile/send.g
+        param-name: files

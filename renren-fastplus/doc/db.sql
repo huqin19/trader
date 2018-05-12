@@ -391,3 +391,21 @@ CREATE INDEX IDX_QRTZ_FT_J_G ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,JOB_NAME,JOB_GROU
 CREATE INDEX IDX_QRTZ_FT_JG ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,JOB_GROUP);
 CREATE INDEX IDX_QRTZ_FT_T_G ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP);
 CREATE INDEX IDX_QRTZ_FT_TG ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,TRIGGER_GROUP);
+
+-- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- 推送任务相关表结构 -------------------------------------------------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE `zq_sync_log`(
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '同步编号',
+  `url` varchar(100) NOT NULL COMMENT '同步接口地址',
+  `function_name` varchar(20) DEFAULT NULL COMMENT '同步接口名',
+  `param` varchar(2048) DEFAULT NULL COMMENT '同步参数',
+  `create_time` timestamp DEFAULT NULL COMMENT '同步时间',
+  `reason` varchar(100) DEFAULT NULL COMMENT '同步原因',
+  `way` int(1) NOT NULL COMMENT '同步方式，0-定时，1手动',
+  `result` int(1) NOT NULL COMMENT '同步结果，0-成功，1失败',
+  `result_desc` varchar(2000) DEFAULT NULL COMMENT '结果描述',
+  `remark` varchar(100) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY(`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='推送同步日志';
