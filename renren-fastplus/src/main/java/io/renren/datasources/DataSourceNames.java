@@ -8,7 +8,8 @@ package io.renren.datasources;
  * @date 2017/8/18 23:46
  */
 public interface DataSourceNames {
-    String FIRST = "first";
-    String SECOND = "second";
+    String DFDB_SOURCE = "dfdb_source";
+    String WDDB_SOURCE = "wddb_source";
+    String HTDB_SOURCE = "htdb_source";
 
 }

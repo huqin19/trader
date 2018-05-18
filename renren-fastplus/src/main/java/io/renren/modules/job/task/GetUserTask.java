@@ -2,6 +2,7 @@ package io.renren.modules.job.task;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -10,10 +11,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import io.renren.common.utils.SpringContextUtils;
-import io.renren.modules.api.entity.UserEntity;
-import io.renren.modules.job.entity.ResultObjListEntity;
+import io.renren.modules.job.entity.DepartmentEntity;
+import io.renren.modules.job.entity.ResultEntity;
 import io.renren.modules.job.entity.SyncPushLogEntity;
+import io.renren.modules.job.entity.UsersEntity;
 import io.renren.modules.job.service.SyncPushLogService;
+import io.renren.modules.job.utils.GsonUtil;
 import io.renren.modules.job.utils.HttpClientUtils;
 /**
  * 定时任务接受用户
@@ -46,9 +49,17 @@ public class GetUserTask {
 		Map<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put(paramName, param);
 		//发送get请求
-		String strResult = HttpClientUtils.doGet(url, paramMap, true);
-		@SuppressWarnings("unchecked")
-		ResultObjListEntity<UserEntity> result = ResultObjListEntity.fromJson(strResult, UserEntity.class);
+		//String strResult = HttpClientUtils.doGet(url, paramMap, true);
+		String strResult = "{\"cause\": null,\"code\":0,\"obj\":[{\"name\":\"张亮\",\"userid\":\"zhangliang\",\"department\":[10]},{\"name\":\"蔡瀚廷\",\"userid\":\"caihanting\",\"department\": [2,22]}],\"msg\":\"成功！\"}";
+		ResultEntity<List<UsersEntity>> result = GsonUtil.fromJsonArray(strResult, UsersEntity.class);
+		List<UsersEntity> list = result.getObj();
+		for(UsersEntity d : list ) {
+			System.out.println(d.getUserid()+"----"+d.getName()+"----");
+			List<Integer> inList = d.getDepartment();
+			for(Integer i : inList) {
+				System.out.println(i+"================");
+			}
+	}
 		//数据库保存执行记录
 		SyncPushLogEntity log = new SyncPushLogEntity();
 		log.setUrl(url);

@@ -1,6 +1,8 @@
 package io.renren.modules.job.entity;
 
 import java.io.Serializable;
+import java.util.List;
+
 
 /**
  * 返回部门
@@ -11,7 +13,7 @@ public class DepartmentEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private Integer id;
-	private Integer orderNo;
+	private Long orderNo;
 	private Integer parentid;
 	public String getName() {
 		return name;
@@ -25,10 +27,10 @@ public class DepartmentEntity implements Serializable{
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Integer getOrderNo() {
+	public Long getOrderNo() {
 		return orderNo;
 	}
-	public void setOrderNo(Integer orderNo) {
+	public void setOrderNo(Long orderNo) {
 		this.orderNo = orderNo;
 	}
 	public Integer getParentid() {
@@ -36,6 +38,12 @@ public class DepartmentEntity implements Serializable{
 	}
 	public void setParentid(Integer parentid) {
 		this.parentid = parentid;
+	}
+	//test
+	@Override
+	public String toString() {
+		return "DepartmentEntity [name=" + name + ", id=" + id + ", orderNo=" + orderNo + ", parentid=" + parentid
+				+ "]";
 	}
 	
 	

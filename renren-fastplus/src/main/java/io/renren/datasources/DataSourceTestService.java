@@ -21,7 +21,7 @@ public class DataSourceTestService {
         return userService.queryObject(userId);
     }
 
-    @DataSource(name = DataSourceNames.SECOND)
+    @DataSource(name = DataSourceNames.WDDB_SOURCE)
     public UserEntity queryObject2(Long userId){
         return userService.queryObject(userId);
     }

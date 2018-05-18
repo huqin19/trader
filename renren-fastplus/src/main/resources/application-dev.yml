@@ -1,13 +1,28 @@
 spring:
     datasource:
         type: com.alibaba.druid.pool.DruidDataSource
-        driverClassName: com.mysql.jdbc.Driver
+        #driverClassName: com.mysql.jdbc.Driver
         druid:
-            first:  #数据源1
+            dfdb_source:  #数据源1
+                #driverClassName: com.mysql.jdbc.Driver
+                type: com.alibaba.druid.pool.DruidDataSource
+                driverClassName: com.mysql.jdbc.Driver
                 url: jdbc:mysql://localhost:3306/renren_fastplus?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
                 username: root
                 password: 123456
-            second:  #数据源2
+            wddb_source:  #数据源2
+                #driverClassName: oracle.jdbc.driver.OracleDriver
+                type: com.alibaba.druid.pool.DruidDataSource
+                driverClassName: oracle.jdbc.driver.OracleDriver
+                url: jdbc:oracle:thin:@192.168.39.58:1521:zqdbsid
+                username: huqin
+                password: huqin
+                #url: jdbc:mysql://localhost:3306/renren_fastplus?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+                #username: root
+                #password: 123456
+            htdb_source:
+                type: com.alibaba.druid.pool.DruidDataSource
+                driverClassName: com.mysql.jdbc.Driver
                 url: jdbc:mysql://localhost:3306/renren_fastplus?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
                 username: root
                 password: 123456
@@ -35,7 +50,7 @@ spring:
                     merge-sql: true
                 wall:
                     config:
-                        multi-statement-allow: true
+                        multi-statement-allow: true                     
 api:
     request-department:
         name: 获取部门信息

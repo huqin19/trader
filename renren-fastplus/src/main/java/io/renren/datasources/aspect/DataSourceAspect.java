@@ -38,8 +38,8 @@ public class DataSourceAspect implements Ordered {
 
         DataSource ds = method.getAnnotation(DataSource.class);
         if(ds == null){
-            DynamicDataSource.setDataSource(DataSourceNames.FIRST);
-            logger.debug("set datasource is " + DataSourceNames.FIRST);
+            DynamicDataSource.setDataSource(DataSourceNames.DFDB_SOURCE);
+            logger.debug("set datasource is " + DataSourceNames.DFDB_SOURCE);
         }else {
             DynamicDataSource.setDataSource(ds.name());
             logger.debug("set datasource is " + ds.name());

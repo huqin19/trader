@@ -20,23 +20,30 @@ import java.util.Map;
 public class DynamicDataSourceConfig {
 
     @Bean
-    @ConfigurationProperties("spring.datasource.druid.first")
-    public DataSource firstDataSource(){
+    @ConfigurationProperties("spring.datasource.druid.dfdb_source")
+    public DataSource dfdbDataSource(){
         return DruidDataSourceBuilder.create().build();
     }
 
     @Bean
-    @ConfigurationProperties("spring.datasource.druid.second")
-    public DataSource secondDataSource(){
+    @ConfigurationProperties("spring.datasource.druid.wddb_source")
+    public DataSource wddbDataSource(){
         return DruidDataSourceBuilder.create().build();
     }
+    
+    @Bean
+    @ConfigurationProperties("spring.datasource.druid.htdb_source")
+    public DataSource htdbDataSource(){
+        return DruidDataSourceBuilder.create().build();
+    }  
 
     @Bean
     @Primary
-    public DynamicDataSource dataSource(DataSource firstDataSource, DataSource secondDataSource) {
+    public DynamicDataSource dataSource(DataSource dfdbDataSource, DataSource wddbDataSource,DataSource htdbDataSource) {
         Map<String, DataSource> targetDataSources = new HashMap<>();
-        targetDataSources.put(DataSourceNames.FIRST, firstDataSource);
-        targetDataSources.put(DataSourceNames.SECOND, secondDataSource);
-        return new DynamicDataSource(firstDataSource, targetDataSources);
+        targetDataSources.put(DataSourceNames.DFDB_SOURCE, dfdbDataSource);
+        targetDataSources.put(DataSourceNames.WDDB_SOURCE, wddbDataSource);
+        targetDataSources.put(DataSourceNames.HTDB_SOURCE, htdbDataSource);
+        return new DynamicDataSource(dfdbDataSource, targetDataSources);
     }
 }

@@ -16,6 +16,7 @@ import io.renren.modules.job.entity.InvalidEntity;
 import io.renren.modules.job.entity.ResultEntity;
 import io.renren.modules.job.entity.SyncPushLogEntity;
 import io.renren.modules.job.service.SyncPushLogService;
+import io.renren.modules.job.utils.GsonUtil;
 import io.renren.modules.job.utils.HttpClientUtils;
 
 /**
@@ -54,9 +55,8 @@ public class SendFileTask {
 	public void sendPushdFile(String param) {
 		logger.info("我是带参数的senPushdsend-file方法，正在被执行，参数为：" + param);
 		String strResult = HttpClientUtils.doPost(url, param, true);
-		// 测试
-		//String strResult = "{\"cause\":null,\"obj\":{\"invaliduser\":\"\",\"invalidparty\":\"\",\"invalidtag\":null},\"code\":0,\"msg\":\"成功！\"}";
-		//System.out.println(strResult + "---------------------");
+		// Json解析成实体类
+		ResultEntity<InvalidEntity> result = GsonUtil.fromJsonObject(strResult, InvalidEntity.class);
 		// 数据库保存执行记录
 		SyncPushLogEntity log = new SyncPushLogEntity();
 		log.setUrl(url);
@@ -66,9 +66,7 @@ public class SendFileTask {
 		log.setReason("需要使用" + name + "的接口，发送文件信息");
 		// 同步方式，0-定时，-1手动 ???
 		log.setWay(-1);
-		// Json解析成实体类
-		@SuppressWarnings("unchecked")
-		ResultEntity<InvalidEntity> result = ResultEntity.fromJson(strResult, InvalidEntity.class);
+
 		if (result == null) {
 			log.setResult(-1);
 			log.setResultDesc("发送文件信息失败,接收数据为空！");

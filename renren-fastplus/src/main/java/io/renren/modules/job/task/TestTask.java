@@ -1,9 +1,13 @@
 package io.renren.modules.job.task;
 
-import io.renren.modules.sys.entity.SysUserEntity;
-import io.renren.modules.sys.service.SysUserService;
+import io.renren.datasources.DataSourceNames;
+import io.renren.datasources.TestService;
+import io.renren.datasources.annotation.DataSource;
+import io.renren.modules.wd.entity.CBondFuturesEODPricesEntity;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,19 +27,26 @@ public class TestTask {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-	private SysUserService sysUserService;
+	private TestService tsestService;
 	
+	
+	@DataSource(name = DataSourceNames.WDDB_SOURCE)
 	public void test(String params){
 		logger.info("我是带参数的test方法，正在被执行，参数为：" + params);
-		
-		try {
-			Thread.sleep(1000L);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("tradeDt", "2017");
+		List<CBondFuturesEODPricesEntity> cbList = tsestService.queryList(map);
+		System.out.println("==================start");
+		for(int i = 0;i <=  cbList.size();i++) {
+			System.out.println("==================start2" + cbList.size());
+			System.out.println(cbList.get(i).toString());
+			System.out.println("==================end");
+			tsestService.saveToLocal(cbList.get(i));
 		}
-		
-		SysUserEntity user = sysUserService.queryObject(1L);
-		System.out.println(ToStringBuilder.reflectionToString(user));
+/*		for(CBondFuturesEODPricesEntity cbb : cbList){
+
+			
+		}*/
 		
 	}
 	

@@ -4,14 +4,23 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 返回成员
+ * 成员
  * @author DHB
  * @date 2018/5/9
  */
-public class UserEntity implements Serializable{
+public class UsersEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
+	/**
+	 * 成员名字
+	 */
 	private String name;
+	/**
+	 * 成员ID
+	 */
 	private String userid;
+	/**
+	 * 返回部门List
+	 */
 	private List<Integer> department;
 	public String getName() {
 		return name;
@@ -31,4 +40,6 @@ public class UserEntity implements Serializable{
 	public void setDepartment(List<Integer> department) {
 		this.department = department;
 	}
+
+		
 }

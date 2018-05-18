@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.wd.dao.CBondFuturesPositionsDao">
+	<select id="queryObject" resultType="io.renren.modules.wd.entity.CBondFuturesPositionsEntity" >
+		select * from wind_filesync.CBONDFUTURESPOSITIONS where object_id = #{value}
+	</select> 
+
+	<select id="queryList" resultType="io.renren.modules.wd.entity.CBondFuturesPositionsEntity" >
+		select * from wind_filesync.CBONDFUTURESPOSITIONS 
+		<where>
+			trade_dt like '%${tradeDt}%'
+		</where>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(1) from wind_filesync.CBONDFUTURESPOSITIONS 
+		<where>
+			trade_dt like '%${tradeDt}%' 
+		</where>
+	</select>
+		<insert id="save" parameterType="io.renren.modules.wd.entity.CBondFuturesPositionsEntity">
+		insert into wind_filesync.CBONDFUTURESPOSITIONS
+		(
+			`object_id`, 
+			`s_info_windcode`, 
+			`trade_dt`, 
+			`fs_info_membername`,
+			`fs_info_type`,
+			`fs_info_positionsnum`, 
+			`fs_info_rank`,
+			`s_oi_positionsnumc`,
+			`opdate`,
+			`opmode`,
+			`imp_date`,
+			`imp_time`
+		)
+		values
+		(
+			#{objectId}, 
+			#{sInfoWindcode}, 
+			#{tradeDt}, 
+			#{fsInfoMembername}, 
+			#{fsInfoType},
+			#{fsInfoPositionsnum},
+			#{fsInfoRank},
+			#{sOiPositionsnumc},
+			#{opdate},
+			#{opmode},
+			#{impDate},
+			#{impTime}	
+		)
+	</insert>
+</mapper>
