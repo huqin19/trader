@@ -11,7 +11,7 @@
 		select d.*,(select p.name from sys_dept p where p.dept_id = d.parent_id) as parentName
 		from sys_dept d where d.del_flag = 0
 		<if test="offset != null and limit != null">
-		 and rownum &lt;= offset + limit
+		 and rownum &lt;= ${offset} + #{limit}
 		</if>
 		<!--  数据过滤  -->
 		${filterSql}
@@ -23,12 +23,11 @@
                 order by d.order_num asc
 			</otherwise>
         </choose>
+<if test="offset != null">
 minus		
 		select d.*,(select p.name from sys_dept p where p.dept_id = d.parent_id) as parentName
 		from sys_dept d where d.del_flag = 0
-		<if test="offset != null">
-		and rownum &gt; #{offset}
-		</if>
+		and rownum &lt;= ${offset}
 		<!--  数据过滤  -->
 		${filterSql}
         <choose>
@@ -39,6 +38,7 @@ minus
                 order by d.order_num asc
 			</otherwise>
         </choose>
+</if>
 	</select>
 	 
 	<insert id="save" parameterType="io.renren.modules.sys.entity.SysDeptEntity" useGeneratedKeys="true" keyProperty="deptId">

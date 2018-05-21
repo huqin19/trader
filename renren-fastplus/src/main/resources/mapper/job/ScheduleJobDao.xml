@@ -13,7 +13,7 @@
 				bean_name like '%' || #{beanName} || '%'
 			</if>
 			<if test="offset != null and limit != null ">
-			rownum &lt;= offset + limit
+			rownum &lt;= ${offset} + ${limit}
 			</if>
 		</where>
 <if test="offset != null ">
@@ -23,7 +23,7 @@ minus
 			<if test="beanName != null and beanName.trim() != ''">
 				bean_name like '%' || #{beanName} || '%'
 			</if>
-			rownum &gt; #{offset}
+			rownum &lt;= ${offset}
 		</where>
 		</if>
 	</select>

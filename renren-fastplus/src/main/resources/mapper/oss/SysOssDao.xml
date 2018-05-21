@@ -11,18 +11,17 @@
 		select * from sys_oss 
 		<where>
 		<if test="offset != null and limit != null">
-			rownum &lt;= offset + limit
+			rownum &lt;= ${offset} + ${limit}
 		</if>
 		</where>
-		order by id desc
+<if test="offset != null ">
 minus		
 		select * from sys_oss
 		<where> 
-		<if test="offset != null ">
-			rownum &gt; #{offset}
-		</if>
+			rownum &lt;= ${offset}
 		</where>
-		order by id desc
+</if>
+		order by 1 desc
 	</select>
 	
  	<select id="queryTotal" resultType="int">

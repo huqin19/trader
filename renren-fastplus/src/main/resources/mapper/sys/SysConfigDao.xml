@@ -11,16 +11,16 @@
 			and key like '%' || #{key} || '%'
 		</if>
 		<if test="offset != null and limit != null">
-		and rownum &lt;= offset + limit
+		and rownum &lt;= ${offset} + ${limit}
 		</if>
+<if test="offset != null ">
 minus		
 		select * from sys_config where status = 1 
 		<if test="key != null and key.trim() != ''">
 			and key like '%' || #{key} || '%'
 		</if>
-		<if test="offset != null ">
-		and rownum &gt; #{offset}
-		</if>
+		and rownum &lt;= ${offset}
+</if>
 	</select>
 	
 	<select id="queryTotal" parameterType="map" resultType="int">

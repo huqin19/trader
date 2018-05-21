@@ -16,7 +16,7 @@
 			<!--  数据过滤  -->
 			${filterSql}
 			<if test="offset != null and limit != null">
-			rownum &lt;= offset + limit
+			rownum &lt;= ${offset} + ${limit}
 			</if>
 		</where>
 		<choose>
@@ -34,7 +34,7 @@ minus
 			<if test="username != null and username.trim() != ''">
 				and u.username like '%' || #{username} || '%'
 			</if>
-			rownum &gt; #{offset}
+			rownum &lt;= ${offset}
 			<!--  数据过滤  -->
 			${filterSql}
 		</where>

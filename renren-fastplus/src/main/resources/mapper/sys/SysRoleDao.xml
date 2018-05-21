@@ -14,7 +14,7 @@
 				and r.role_name like '%' || #{roleName} || '%'
 			</if>
 			<if test="offset != null and limit != null">
-			rownum &lt;= offset + limit
+			rownum &lt;= ${offset} + ${limit}
 			</if>
 			<!--  数据过滤  -->
 			${filterSql}
@@ -34,7 +34,7 @@ minus
 			<if test="roleName != null and roleName.trim() != ''">
 				and r.role_name like '%' || #{roleName} || '%'
 			</if>
-			rownum &gt; #{offset}
+			rownum &lt;= ${offset}
 			<!--  数据过滤  -->
 			${filterSql}
 		</where>

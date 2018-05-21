@@ -16,10 +16,9 @@
 				operation like '%' || #{key} || '%'
 			</if>
 			<if test="offset != null and limit != null">
-			rownum &lt;= offset + limit
+			rownum &lt;= ${offset} + ${limit}
 			</if>
 		</where>
-		order by id desc 
 <if test="offset != null">
 minus		
 		select * from sys_log 
@@ -29,10 +28,10 @@ minus
 				or 
 				operation like '%' || #{key} || '%'
 			</if>
-			rownum &gt; #{offset}
+			rownum &lt;= ${offset}
 		</where>
+</if>
 		order by id desc 
-		</if>
 	</select>
 	
  	<select id="queryTotal" resultType="int">

@@ -13,10 +13,9 @@
 				and job_id = #{jobId}
 			</if>
 			<if test="offset != null and limit != null ">
-			rownum &lt;= offset + limit
+			rownum &lt;= ${offset} + ${limit}
 			</if>
-		</where>
-		order by log_id desc 
+		</where>		
 <if test="offset != null ">
 minus		
 		select * from schedule_job_log 
@@ -24,10 +23,10 @@ minus
 			<if test="jobId != null and jobId.trim() != ''">
 				and job_id = #{jobId}
 			</if>
-			rownum &gt; #{offset}
+			rownum &lt;= ${offset}
 		</where>
-		order by log_id desc 
-		</if>
+</if>
+		order by 1 desc 
 	</select>
 	
  	<select id="queryTotal" resultType="int">
