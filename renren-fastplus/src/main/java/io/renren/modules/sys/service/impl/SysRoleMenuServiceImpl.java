@@ -1,5 +1,6 @@
 package io.renren.modules.sys.service.impl;
 
+import io.renren.common.sequence.Sequence;
 import io.renren.modules.sys.dao.SysRoleMenuDao;
 import io.renren.modules.sys.service.SysRoleMenuService;
 
@@ -24,6 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class SysRoleMenuServiceImpl implements SysRoleMenuService {
 	@Autowired
 	private SysRoleMenuDao sysRoleMenuDao;
+	
+	Sequence sequence = new Sequence(0, 0);
 
 	@Override
 	@Transactional
@@ -35,10 +38,13 @@ public class SysRoleMenuServiceImpl implements SysRoleMenuService {
 			return ;
 		}
 
+		//生成主键
+		Long xid = sequence.nextId();
 		//保存角色与菜单关系
 		Map<String, Object> map = new HashMap<>();
 		map.put("roleId", roleId);
 		map.put("menuIdList", menuIdList);
+		map.put("id", xid);
 		sysRoleMenuDao.save(map);
 	}
 

@@ -1,5 +1,6 @@
 package io.renren.modules.job.service.impl;
 
+import io.renren.common.sequence.Sequence;
 import io.renren.modules.job.dao.ScheduleJobLogDao;
 import io.renren.modules.job.entity.ScheduleJobLogEntity;
 import io.renren.modules.job.service.ScheduleJobLogService;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 public class ScheduleJobLogServiceImpl implements ScheduleJobLogService {
 	@Autowired
 	private ScheduleJobLogDao scheduleJobLogDao;
+	
+	Sequence sequence = new Sequence(0, 0);
 	
 	@Override
 	public ScheduleJobLogEntity queryObject(Long jobId) {
@@ -32,6 +35,9 @@ public class ScheduleJobLogServiceImpl implements ScheduleJobLogService {
 
 	@Override
 	public void save(ScheduleJobLogEntity log) {
+		//生成主键
+		Long logId = sequence.nextId();
+		log.setLogId(logId);
 		scheduleJobLogDao.save(log);
 	}
 

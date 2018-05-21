@@ -8,38 +8,46 @@
 	<select id="queryList" parameterType="map" resultType="io.renren.modules.sys.entity.SysConfigEntity">
 		select * from sys_config where status = 1 
 		<if test="key != null and key.trim() != ''">
-			and `key` like concat('%',#{key},'%') 
+			and key like '%' || #{key} || '%'
 		</if>
 		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
+		and rownum &lt;= offset + limit
+		</if>
+minus		
+		select * from sys_config where status = 1 
+		<if test="key != null and key.trim() != ''">
+			and key like '%' || #{key} || '%'
+		</if>
+		<if test="offset != null ">
+		and rownum &gt; #{offset}
 		</if>
 	</select>
 	
 	<select id="queryTotal" parameterType="map" resultType="int">
 		select count(*) from sys_config where status = 1 
 		<if test="key != null and key.trim() != ''">
-			and `key` like concat('%',#{key},'%')
+			and key like '%' || #{key} || '%'
 		</if>
 	</select>
 	
 	<insert id="save" parameterType="io.renren.modules.sys.entity.SysConfigEntity">
-		insert into sys_config(`key`, `value`, remark)
-			values(#{key},#{value},#{remark})
+		insert into sys_config(id, key, value, remark)
+			values(#{id}, #{key},#{value},#{remark})
 	</insert>
 	
 	<update id="update" parameterType="io.renren.modules.sys.entity.SysConfigEntity">
-		update sys_config set `key` = #{key}, `value` = #{value}, remark = #{remark} 
+		update sys_config set key = #{key}, value = #{value}, remark = #{remark} 
 			 where id = #{id}
 	</update>
 	
 	<!-- 根据key，更新value -->
 	<update id="updateValueByKey" parameterType="map">
-		update sys_config set `value` = #{value} where `key` = #{key}
+		update sys_config set value = #{value} where key = #{key}
 	</update>
 
 	<!-- 根据key，查询value -->
 	<select id="queryByKey" parameterType="string" resultType="io.renren.modules.sys.entity.SysConfigEntity">
-		select * from sys_config where `key` = #{key}
+		select * from sys_config where key = #{key}
 	</select>
 	
 	<delete id="deleteBatch" parameterType="int">

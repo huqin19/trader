@@ -10,6 +10,9 @@
 	<select id="queryList" resultType="io.renren.modules.sys.entity.SysDeptEntity">
 		select d.*,(select p.name from sys_dept p where p.dept_id = d.parent_id) as parentName
 		from sys_dept d where d.del_flag = 0
+		<if test="offset != null and limit != null">
+		 and rownum &lt;= offset + limit
+		</if>
 		<!--  数据过滤  -->
 		${filterSql}
         <choose>
@@ -20,20 +23,35 @@
                 order by d.order_num asc
 			</otherwise>
         </choose>
-		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
+minus		
+		select d.*,(select p.name from sys_dept p where p.dept_id = d.parent_id) as parentName
+		from sys_dept d where d.del_flag = 0
+		<if test="offset != null">
+		and rownum &gt; #{offset}
 		</if>
+		<!--  数据过滤  -->
+		${filterSql}
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by d.${sidx} ${order}
+            </when>
+			<otherwise>
+                order by d.order_num asc
+			</otherwise>
+        </choose>
 	</select>
 	 
 	<insert id="save" parameterType="io.renren.modules.sys.entity.SysDeptEntity" useGeneratedKeys="true" keyProperty="deptId">
 		insert into sys_dept
 		(
-			`parent_id`, 
-			`name`, 
-			`order_num`
+			dept_id,
+			parent_id, 
+			name, 
+			order_num
 		)
 		values
 		(
+			#{deptId}, 
 			#{parentId}, 
 			#{name}, 
 			#{orderNum}
@@ -43,9 +61,9 @@
 	<update id="update" parameterType="io.renren.modules.sys.entity.SysDeptEntity">
 		update sys_dept 
 		<set>
-			<if test="parentId != null">`parent_id` = #{parentId}, </if>
-			<if test="name != null">`name` = #{name}, </if>
-			<if test="orderNum != null">`order_num` = #{orderNum}</if>
+			<if test="parentId != null">parent_id = #{parentId}, </if>
+			<if test="name != null">name = #{name}, </if>
+			<if test="orderNum != null">order_num = #{orderNum}</if>
 		</set>
 		where dept_id = #{deptId}
 	</update>

@@ -14,26 +14,26 @@
 	<insert id="save" parameterType="io.renren.modules.sys.entity.SysUserTokenEntity">
 		insert into sys_user_token
 		(
-			`user_id`, 
-			`token`, 
-			`expire_time`, 
-			`update_time`
+			user_id, 
+			token, 
+			expire_time, 
+			update_time
 		)
 		values
 		(
-			#{userId}, 
-			#{token}, 
-			#{expireTime}, 
-			#{updateTime}
+			#{userId, jdbcType=BIGINT}, 
+			#{token, jdbcType=VARCHAR}, 
+			#{expireTime, jdbcType=DATE}, 
+			#{updateTime, jdbcType=DATE}
 		)
 	</insert>
 	 
 	<update id="update" parameterType="io.renren.modules.sys.entity.SysUserTokenEntity">
 		update sys_user_token
 		<set>
-			<if test="token != null">`token` = #{token}, </if>
-			<if test="expireTime != null">`expire_time` = #{expireTime}, </if>
-			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+			<if test="token != null">token = #{token}, </if>
+			<if test="expireTime != null">expire_time = #{expireTime}, </if>
+			<if test="updateTime != null">update_time = #{updateTime}</if>
 		</set>
 		where user_id = #{userId}
 	</update>

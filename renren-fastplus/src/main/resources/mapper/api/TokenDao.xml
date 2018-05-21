@@ -14,10 +14,10 @@
 	<insert id="save">
 		insert into tb_token
 		(
-			`user_id`, 
-			`token`, 
-			`expire_time`, 
-			`update_time`
+			user_id, 
+			token, 
+			expire_time, 
+			update_time
 		)
 		values
 		(
@@ -31,9 +31,9 @@
 	<update id="update">
 		update tb_token 
 		<set>
-			<if test="token != null">`token` = #{token}, </if>
-			<if test="expireTime != null">`expire_time` = #{expireTime}, </if>
-			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+			<if test="token != null">token = #{token}, </if>
+			<if test="expireTime != null">expire_time = #{expireTime}, </if>
+			<if test="updateTime != null">update_time = #{updateTime}</if>
 		</set>
 		where user_id = #{userId}
 	</update>

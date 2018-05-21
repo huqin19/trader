@@ -2,6 +2,7 @@ package io.renren.modules.api.service.impl;
 
 
 import io.renren.common.exception.RRException;
+import io.renren.common.sequence.Sequence;
 import io.renren.common.validator.Assert;
 import io.renren.modules.api.dao.UserDao;
 import io.renren.modules.api.entity.UserEntity;
@@ -21,6 +22,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao userDao;
 	
+	Sequence sequence = new Sequence(0, 0);
+	
 	@Override
 	public UserEntity queryObject(Long userId){
 		return userDao.queryObject(userId);
@@ -39,6 +42,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void save(String mobile, String password){
 		UserEntity user = new UserEntity();
+		//生成主键
+		Long userId = sequence.nextId();
+		user.setUserId(userId);
 		user.setMobile(mobile);
 		user.setUsername(mobile);
 		user.setPassword(DigestUtils.sha256Hex(password));

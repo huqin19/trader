@@ -2,6 +2,7 @@ package io.renren.modules.sys.service.impl;
 
 import com.google.gson.Gson;
 import io.renren.common.exception.RRException;
+import io.renren.common.sequence.Sequence;
 import io.renren.modules.sys.dao.SysConfigDao;
 import io.renren.modules.sys.entity.SysConfigEntity;
 import io.renren.modules.sys.redis.SysConfigRedis;
@@ -21,9 +22,14 @@ public class SysConfigServiceImpl implements SysConfigService {
 	@Autowired
 	private SysConfigRedis sysConfigRedis;
 	
+	Sequence sequence = new Sequence(0, 0);
+	
 	@Override
 	@Transactional
 	public void save(SysConfigEntity config) {
+		//生成主键
+		Long xid = sequence.nextId();
+		config.setId(xid);
 		sysConfigDao.save(config);
 		sysConfigRedis.saveOrUpdate(config);
 	}

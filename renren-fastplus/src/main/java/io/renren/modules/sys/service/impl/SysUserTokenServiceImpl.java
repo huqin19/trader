@@ -1,20 +1,22 @@
 package io.renren.modules.sys.service.impl;
 
-import io.renren.modules.sys.dao.SysUserTokenDao;
-import io.renren.modules.sys.entity.SysUserTokenEntity;
-import io.renren.modules.sys.service.SysUserTokenService;
-import io.renren.common.utils.R;
-import io.renren.modules.sys.oauth2.TokenGenerator;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import io.renren.common.utils.R;
+import io.renren.modules.sys.dao.SysUserTokenDao;
+import io.renren.modules.sys.entity.SysUserTokenEntity;
+import io.renren.modules.sys.oauth2.TokenGenerator;
+import io.renren.modules.sys.service.SysUserTokenService;
 
 
 @Service("sysUserTokenService")
 public class SysUserTokenServiceImpl implements SysUserTokenService {
 	@Autowired
 	private SysUserTokenDao sysUserTokenDao;
+	
 	//12小时后过期
 	private final static int EXPIRE = 3600 * 12;
 
@@ -56,14 +58,16 @@ public class SysUserTokenServiceImpl implements SysUserTokenService {
 			tokenEntity.setToken(token);
 			tokenEntity.setUpdateTime(now);
 			tokenEntity.setExpireTime(expireTime);
-
-			//保存token
-			save(tokenEntity);
+			try {
+				//保存token
+				save(tokenEntity);
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
 		}else{
 			tokenEntity.setToken(token);
 			tokenEntity.setUpdateTime(now);
 			tokenEntity.setExpireTime(expireTime);
-
 			//更新token
 			update(tokenEntity);
 		}

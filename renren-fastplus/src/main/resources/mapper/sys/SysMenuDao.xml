@@ -10,14 +10,14 @@
 	<insert id="save" parameterType="io.renren.modules.sys.entity.SysMenuEntity">
 		insert into sys_menu
 		(
-			`menu_id`, 
-			`parent_id`, 
-			`name`, 
-			`url`, 
-			`perms`, 
-			`type`, 
-			`icon`, 
-			`order_num`
+			menu_id, 
+			parent_id, 
+			name, 
+			url, 
+			perms, 
+			type, 
+			icon, 
+			order_num
 		)
 		values
 		(
@@ -43,6 +43,11 @@
 	<select id="queryList" resultType="io.renren.modules.sys.entity.SysMenuEntity">
 		select m.*,(select p.name from sys_menu p where p.menu_id = m.parent_id) as parentName 
 			from sys_menu m
+		<where>
+		<if test="offset != null and limit != null">
+		rownum &lt;= offset + limit
+		</if>
+		</where>
 		<choose>
 			<when test="sidx != null and sidx.trim() != ''">
 				order by m.${sidx} ${order}
@@ -51,8 +56,19 @@
 				order by m.order_num asc
 			</otherwise>
 		</choose>
-		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
+<if test="offset != null ">
+minus		
+		select m.*,(select p.name from sys_menu p where p.menu_id = m.parent_id) as parentName 
+		from sys_menu m
+		where rownum &gt; #{offset}
+		<choose>
+			<when test="sidx != null and sidx.trim() != ''">
+				order by m.${sidx} ${order}
+			</when>
+			<otherwise>
+				order by m.order_num asc
+			</otherwise>
+		</choose>
 		</if>
 	</select>
 	
@@ -72,13 +88,13 @@
 	<update id="update" parameterType="io.renren.modules.sys.entity.SysMenuEntity">
 		update sys_menu 
 		<set> 
-			<if test="parentId != null">`parent_id` = #{parentId}, </if>
-			<if test="name != null">`name` = #{name}, </if>
-			<if test="url != null">`url` = #{url}, </if>
-			<if test="perms != null">`perms` = #{perms}, </if>
-			<if test="type != null">`type` = #{type}, </if>
-			<if test="icon != null">`icon` = #{icon}, </if>
-			<if test="orderNum != null">`order_num` = #{orderNum}</if>
+			<if test="parentId != null">parent_id = #{parentId}, </if>
+			<if test="name != null">name = #{name}, </if>
+			<if test="url != null">url = #{url}, </if>
+			<if test="perms != null">perms = #{perms}, </if>
+			<if test="type != null">type = #{type}, </if>
+			<if test="icon != null">icon = #{icon}, </if>
+			<if test="orderNum != null">order_num = #{orderNum}</if>
 		</set>
 		where menu_id = #{menuId}
 	</update>

@@ -19,12 +19,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import io.renren.common.sequence.Sequence;
+
 @Service("scheduleJobService")
 public class ScheduleJobServiceImpl implements ScheduleJobService {
 	@Autowired
     private Scheduler scheduler;
 	@Autowired
 	private ScheduleJobDao schedulerJobDao;
+	
+	Sequence sequence = new Sequence(0, 0);
 	
 	/**
 	 * 项目启动时，初始化定时器
@@ -62,6 +66,9 @@ public class ScheduleJobServiceImpl implements ScheduleJobService {
 	@Transactional
 	public void save(ScheduleJobEntity scheduleJob) {
 		scheduleJob.setCreateTime(new Date());
+		//生成主键
+		Long jobId = sequence.nextId();
+		scheduleJob.setJobId(jobId);
 		scheduleJob.setStatus(ScheduleStatus.NORMAL.getValue());
         schedulerJobDao.save(scheduleJob);
         

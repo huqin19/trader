@@ -11,9 +11,11 @@
 		select r.*, (select d.name from sys_dept d where d.dept_id = r.dept_id) deptName from sys_role r
 		<where>
 			<if test="roleName != null and roleName.trim() != ''">
-				and r.`role_name` like concat('%',#{roleName},'%')
+				and r.role_name like '%' || #{roleName} || '%'
 			</if>
-
+			<if test="offset != null and limit != null">
+			rownum &lt;= offset + limit
+			</if>
 			<!--  数据过滤  -->
 			${filterSql}
 		</where>
@@ -25,8 +27,25 @@
 				order by r.role_id asc
 			</otherwise>
 		</choose>
-		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
+<if test="offset != null ">
+minus		
+		select r.*, (select d.name from sys_dept d where d.dept_id = r.dept_id) deptName from sys_role r
+		<where>
+			<if test="roleName != null and roleName.trim() != ''">
+				and r.role_name like '%' || #{roleName} || '%'
+			</if>
+			rownum &gt; #{offset}
+			<!--  数据过滤  -->
+			${filterSql}
+		</where>
+		<choose>
+			<when test="sidx != null and sidx.trim() != ''">
+				order by r.${sidx} ${order}
+			</when>
+			<otherwise>
+				order by r.role_id asc
+			</otherwise>
+		</choose>
 		</if>
 	</select>
 	
@@ -34,7 +53,7 @@
 		select count(*) from sys_role r
 		<where>
 			<if test="roleName != null and roleName.trim() != ''">
-				and r.`role_name` like concat('%',#{roleName},'%')
+				and r.role_name like '%' || #{roleName} || '%'
 			</if>
 
 			<!--  数据过滤  -->
@@ -42,31 +61,31 @@
 		</where>
 	</select>
 	
-	<insert id="save" parameterType="io.renren.modules.sys.entity.SysRoleEntity" useGeneratedKeys="true" keyProperty="roleId">
+	<insert id="save" parameterType="io.renren.modules.sys.entity.SysRoleEntity">
 		insert into sys_role
 		(
-			`role_id`, 
-			`role_name`, 
-			`remark`,
-			`dept_id`,
-			`create_time`
+			role_id, 
+			role_name, 
+			remark,
+			dept_id,
+			create_time
 		)
 		values
 		(
-			#{roleId}, 
-			#{roleName}, 
-			#{remark},
-			#{deptId},
-			#{createTime}
+			#{roleId, jdbcType=BIGINT}, 
+			#{roleName, jdbcType=VARCHAR}, 
+			#{remark, jdbcType=VARCHAR},
+			#{deptId, jdbcType=BIGINT},
+			#{createTime, jdbcType=DATE}
 		)
 	</insert>
 	 
 	<update id="update" parameterType="io.renren.modules.sys.entity.SysRoleEntity">
 		update sys_role 
 		<set> 
-			<if test="roleName != null">`role_name` = #{roleName}, </if>
-			<if test="remark != null">`remark` = #{remark},</if>
-			<if test="deptId != null">`dept_id` = #{deptId}, </if>
+			<if test="roleName != null">role_name = #{roleName}, </if>
+			<if test="remark != null">remark = #{remark},</if>
+			<if test="deptId != null">dept_id = #{deptId}, </if>
 		</set>
 		where role_id = #{roleId}
 	</update>

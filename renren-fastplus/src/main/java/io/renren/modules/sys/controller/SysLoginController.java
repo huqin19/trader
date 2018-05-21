@@ -77,7 +77,7 @@ public class SysLoginController {
 		if(user.getStatus() == 0){
 			return R.error("账号已被锁定,请联系管理员");
 		}
-
+		
 		//生成token，并保存到数据库
 		R r = sysUserTokenService.createToken(user.getUserId());
 		return r;

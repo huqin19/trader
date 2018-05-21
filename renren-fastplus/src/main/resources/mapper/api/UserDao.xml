@@ -6,13 +6,15 @@
 	<insert id="save" parameterType="io.renren.modules.api.entity.UserEntity" useGeneratedKeys="true" keyProperty="userId">
 		insert into tb_user
 		(
-			`username`,
-			`mobile`,
-			`password`,
-			`create_time`
+			user_id,
+			username,
+			mobile,
+			password,
+			create_time
 		)
 		values
 			(
+				#userId},
 				#{username},
 				#{mobile},
 				#{password},

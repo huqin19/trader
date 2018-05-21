@@ -11,12 +11,27 @@
 		select * from sys_log 
 		<where>
 			<if test="key != null and key.trim() != ''">
-				`username` like concat('%',#{key},'%') or `operation` like concat('%',#{key},'%')
+				username like '%' || #{key} || '%'
+				or 
+				operation like '%' || #{key} || '%'
+			</if>
+			<if test="offset != null and limit != null">
+			rownum &lt;= offset + limit
 			</if>
 		</where>
 		order by id desc 
-		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
+<if test="offset != null">
+minus		
+		select * from sys_log 
+		<where>
+			<if test="key != null and key.trim() != ''">
+				username like '%' || #{key} || '%'
+				or 
+				operation like '%' || #{key} || '%'
+			</if>
+			rownum &gt; #{offset}
+		</where>
+		order by id desc 
 		</if>
 	</select>
 	
@@ -24,7 +39,9 @@
 		select count(*) from sys_log 
 		<where>
 			<if test="key != null and key.trim() != ''">
-				`username` like concat('%',#{key},'%') or `operation` like concat('%',#{key},'%')
+				username like '%' || #{key} || '%'
+				or 
+				operation like '%' || #{key} || '%'
 			</if>
 		</where>
 	</select>
@@ -32,16 +49,18 @@
 	<insert id="save" parameterType="io.renren.modules.sys.entity.SysLogEntity" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_log
 		(
-			`username`, 
-			`operation`, 
-			`method`, 
-			`params`,
-			`time`,
-			`ip`, 
-			`create_date`
+			id,
+			username, 
+			operation, 
+			method, 
+			params,
+			time,
+			ip, 
+			create_date
 		)
 		values
 		(
+			#{id}, 
 			#{username}, 
 			#{operation}, 
 			#{method}, 

@@ -1,5 +1,6 @@
 package io.renren.modules.sys.service.impl;
 
+import io.renren.common.sequence.Sequence;
 import io.renren.modules.sys.dao.SysRoleDeptDao;
 import io.renren.modules.sys.service.SysRoleDeptService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ import java.util.Map;
 public class SysRoleDeptServiceImpl implements SysRoleDeptService {
 	@Autowired
 	private SysRoleDeptDao sysRoleDeptDao;
+	
+	Sequence sequence = new Sequence(0, 0);
 
 	@Override
 	@Transactional
@@ -33,10 +36,13 @@ public class SysRoleDeptServiceImpl implements SysRoleDeptService {
 			return ;
 		}
 
+		//生成主键
+		Long xid = sequence.nextId();
 		//保存角色与菜单关系
 		Map<String, Object> map = new HashMap<>();
 		map.put("roleId", roleId);
 		map.put("deptIdList", deptIdList);
+		map.put("id", xid);
 		sysRoleDeptDao.save(map);
 	}
 

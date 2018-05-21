@@ -2,6 +2,7 @@ package io.renren.modules.sys.service.impl;
 
 import com.qiniu.util.StringUtils;
 import io.renren.common.annotation.DataFilter;
+import io.renren.common.sequence.Sequence;
 import io.renren.modules.sys.dao.SysDeptDao;
 import io.renren.modules.sys.entity.SysDeptEntity;
 import io.renren.modules.sys.service.SysDeptService;
@@ -19,6 +20,8 @@ public class SysDeptServiceImpl implements SysDeptService {
 	@Autowired
 	private SysDeptDao sysDeptDao;
 	
+	Sequence sequence = new Sequence(0, 0);
+	
 	@Override
 	public SysDeptEntity queryObject(Long deptId){
 		return sysDeptDao.queryObject(deptId);
@@ -32,6 +35,9 @@ public class SysDeptServiceImpl implements SysDeptService {
 	
 	@Override
 	public void save(SysDeptEntity sysDept){
+		//生成主键
+		Long deptId = sequence.nextId();
+		sysDept.setDeptId(deptId);
 		sysDeptDao.save(sysDept);
 	}
 	

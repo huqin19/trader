@@ -10,11 +10,21 @@
 		select * from schedule_job
 		<where>
 			<if test="beanName != null and beanName.trim() != ''">
-				bean_name like concat('%', #{beanName}, '%') 
+				bean_name like '%' || #{beanName} || '%'
+			</if>
+			<if test="offset != null and limit != null ">
+			rownum &lt;= offset + limit
 			</if>
 		</where>
-		<if test="offset != null and limit != null ">
-		limit #{offset}, #{limit}
+<if test="offset != null ">
+minus
+		select * from schedule_job
+		<where>
+			<if test="beanName != null and beanName.trim() != ''">
+				bean_name like '%' || #{beanName} || '%'
+			</if>
+			rownum &gt; #{offset}
+		</where>
 		</if>
 	</select>
 	
@@ -22,7 +32,7 @@
 		select count(1) from schedule_job 
 		<where>
 			<if test="beanName != null and beanName.trim() != ''">
-				bean_name like concat('%', #{beanName}, '%') 
+				bean_name like '%' || #{beanName} || '%'
 			</if>
 		</where>
 	</select>
@@ -30,16 +40,18 @@
 	<insert id="save" parameterType="io.renren.modules.job.entity.ScheduleJobEntity" useGeneratedKeys="true" keyProperty="jobId">
 		insert into schedule_job
 		(
-			`bean_name`, 
-			`method_name`, 
-			`params`, 
-			`cron_expression`, 
-			`status`, 
-			`remark`, 
-			`create_time`
+			job_id,
+			bean_name, 
+			method_name, 
+			params, 
+			cron_expression, 
+			status, 
+			remark, 
+			create_time
 		)
 		values
 		(
+			#{jobId}, 
 			#{beanName}, 
 			#{methodName}, 
 			#{params}, 
@@ -53,12 +65,12 @@
 	<update id="update" parameterType="io.renren.modules.job.entity.ScheduleJobEntity">
 		update schedule_job 
 		<set> 
-			<if test="beanName != null">`bean_name` = #{beanName}, </if>
-			<if test="methodName != null">`method_name` = #{methodName}, </if>
-			<if test="params != null">`params` = #{params}, </if>
-			<if test="cronExpression != null">`cron_expression` = #{cronExpression}, </if>
-			<if test="status != null">`status` = #{status}, </if>
-			<if test="remark != null">`remark` = #{remark}, </if>
+			<if test="beanName != null">bean_name = #{beanName}, </if>
+			<if test="methodName != null">method_name = #{methodName}, </if>
+			<if test="params != null">params = #{params}, </if>
+			<if test="cronExpression != null">cron_expression = #{cronExpression}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="remark != null">remark = #{remark}, </if>
 		</set>
 		where job_id = #{jobId}
 	</update>

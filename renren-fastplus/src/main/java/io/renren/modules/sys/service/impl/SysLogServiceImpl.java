@@ -1,5 +1,6 @@
 package io.renren.modules.sys.service.impl;
 
+import io.renren.common.sequence.Sequence;
 import io.renren.modules.sys.dao.SysLogDao;
 import io.renren.modules.sys.entity.SysLogEntity;
 import io.renren.modules.sys.service.SysLogService;
@@ -14,6 +15,8 @@ import java.util.Map;
 public class SysLogServiceImpl implements SysLogService {
 	@Autowired
 	private SysLogDao sysLogDao;
+	
+	Sequence sequence = new Sequence(0, 0);
 	
 	@Override
 	public SysLogEntity queryObject(Long id){
@@ -32,6 +35,9 @@ public class SysLogServiceImpl implements SysLogService {
 	
 	@Override
 	public void save(SysLogEntity sysLog){
+		//生成主键
+		Long xid = sequence.nextId();
+		sysLog.setId(xid);
 		sysLogDao.save(sysLog);
 	}
 	

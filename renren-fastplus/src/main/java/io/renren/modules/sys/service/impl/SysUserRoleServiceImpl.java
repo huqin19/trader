@@ -1,5 +1,6 @@
 package io.renren.modules.sys.service.impl;
 
+import io.renren.common.sequence.Sequence;
 import io.renren.modules.sys.dao.SysUserRoleDao;
 import io.renren.modules.sys.service.SysUserRoleService;
 
@@ -23,20 +24,25 @@ import org.springframework.stereotype.Service;
 public class SysUserRoleServiceImpl implements SysUserRoleService {
 	@Autowired
 	private SysUserRoleDao sysUserRoleDao;
+	
+	Sequence sequence = new Sequence(0, 0);
 
 	@Override
 	public void saveOrUpdate(Long userId, List<Long> roleIdList) {
-		if(roleIdList.size() == 0){
+		if(null == roleIdList || roleIdList.size() == 0){
 			return ;
 		}
 		
 		//先删除用户与角色关系
 		sysUserRoleDao.delete(userId);
 		
+		//生成主键
+		Long xid = sequence.nextId();
 		//保存用户与角色关系
 		Map<String, Object> map = new HashMap<>();
 		map.put("userId", userId);
 		map.put("roleIdList", roleIdList);
+		map.put("id", xid);
 		sysUserRoleDao.save(map);
 	}
 

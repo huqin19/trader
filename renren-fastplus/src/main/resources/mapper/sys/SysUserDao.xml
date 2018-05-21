@@ -10,9 +10,31 @@
 		select u.*, (select d.name from sys_dept d where d.dept_id = u.dept_id) deptName from sys_user u
 		<where>
 			<if test="username != null and username.trim() != ''">
-				and u.`username` like concat('%',#{username},'%')
+				and u.username like '%' || #{username} || '%'
 			</if>
 
+			<!--  数据过滤  -->
+			${filterSql}
+			<if test="offset != null and limit != null">
+			rownum &lt;= offset + limit
+			</if>
+		</where>
+		<choose>
+			<when test="sidx != null and sidx.trim() != ''">
+				order by u.${sidx} ${order}
+			</when>
+			<otherwise>
+				order by u.user_id desc
+			</otherwise>
+		</choose>
+<if test="offset != null ">
+minus		
+		select u.*, (select d.name from sys_dept d where d.dept_id = u.dept_id) deptName from sys_user u
+		<where>
+			<if test="username != null and username.trim() != ''">
+				and u.username like '%' || #{username} || '%'
+			</if>
+			rownum &gt; #{offset}
 			<!--  数据过滤  -->
 			${filterSql}
 		</where>
@@ -24,8 +46,6 @@
 				order by u.user_id desc
 			</otherwise>
 		</choose>
-		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
 		</if>
 	</select>
 	
@@ -33,7 +53,7 @@
 		select count(*) from sys_user u
 		<where>
 			<if test="username != null and username.trim() != ''">
-				and u.`username` like concat('%',#{username},'%')
+				and u.username like '%' || #{username} || '%'
 			</if>
 
 			<!--  数据过滤  -->
@@ -60,48 +80,48 @@
 		select * from sys_user where username = #{username}
 	</select>
 	
-	<insert id="save" parameterType="io.renren.modules.sys.entity.SysUserEntity" useGeneratedKeys="true" keyProperty="userId">
+	<insert id="save" parameterType="io.renren.modules.sys.entity.SysUserEntity">
 		insert into sys_user
 		(
-			`user_id`, 
-			`username`, 
-			`password`,
-			`salt`,
-			`email`, 
-			`mobile`, 
-			`status`,
-			`dept_id`,
-			`create_time`
+			user_id, 
+			username, 
+			password,
+			salt,
+			email, 
+			mobile, 
+			status,
+			dept_id,
+			create_time
 		)
 		values
 		(
-			#{userId}, 
-			#{username}, 
-			#{password},
-			#{salt},
-			#{email}, 
-			#{mobile}, 
-			#{status},
-			#{deptId},
-			#{createTime}
+			#{userId, jdbcType=BIGINT}, 
+			#{username, jdbcType=VARCHAR}, 
+			#{password, jdbcType=VARCHAR},
+			#{salt, jdbcType=VARCHAR},
+			#{email, jdbcType=VARCHAR}, 
+			#{mobile, jdbcType=VARCHAR}, 
+			#{status, jdbcType=INTEGER},
+			#{deptId, jdbcType=BIGINT},
+			#{createTime, jdbcType=DATE}
 		)
 	</insert>
 	 
 	<update id="update" parameterType="io.renren.modules.sys.entity.SysUserEntity">
 		update sys_user 
 		<set> 
-			<if test="username != null">`username` = #{username}, </if>
-			<if test="password != null">`password` = #{password}, </if>
-			<if test="email != null">`email` = #{email}, </if>
-			<if test="mobile != null">`mobile` = #{mobile}, </if>
-			<if test="status != null">`status` = #{status}, </if>
-			<if test="deptId != null">`dept_id` = #{deptId}, </if>
+			<if test="username != null">username = #{username}, </if>
+			<if test="password != null">password = #{password}, </if>
+			<if test="email != null">email = #{email}, </if>
+			<if test="mobile != null">mobile = #{mobile}, </if>
+			<if test="status != null">status = #{status}, </if>
+			<if test="deptId != null">dept_id = #{deptId}, </if>
 		</set>
 		where user_id = #{userId}
 	</update>
 	
 	<update id="updatePassword" parameterType="map">
-		update sys_user set `password` = #{newPassword} 
+		update sys_user set password = #{newPassword} 
 			where user_id = #{userId} and password = #{password}
 	</update>
 	

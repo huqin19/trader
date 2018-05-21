@@ -8,10 +8,21 @@
 	</select>
 
 	<select id="queryList" resultType="io.renren.modules.oss.entity.SysOssEntity">
-		select * from sys_oss order by id desc
+		select * from sys_oss 
+		<where>
 		<if test="offset != null and limit != null">
-			limit #{offset}, #{limit}
+			rownum &lt;= offset + limit
 		</if>
+		</where>
+		order by id desc
+minus		
+		select * from sys_oss
+		<where> 
+		<if test="offset != null ">
+			rownum &gt; #{offset}
+		</if>
+		</where>
+		order by id desc
 	</select>
 	
  	<select id="queryTotal" resultType="int">
@@ -21,11 +32,13 @@
 	<insert id="save" parameterType="io.renren.modules.oss.entity.SysOssEntity" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_oss
 		(
-			`url`, 
-			`create_date`
+			id,
+			url, 
+			create_date
 		)
 		values
 		(
+			#{id}, 
 			#{url}, 
 			#{createDate}
 		)
@@ -34,8 +47,8 @@
 	<update id="update" parameterType="io.renren.modules.oss.entity.SysOssEntity">
 		update sys_oss 
 		<set>
-			<if test="url != null">`url` = #{url}, </if>
-			<if test="createDate != null">`create_date` = #{createDate}</if>
+			<if test="url != null">url = #{url}, </if>
+			<if test="createDate != null">create_date = #{createDate}</if>
 		</set>
 		where id = #{id}
 	</update>
