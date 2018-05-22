@@ -38,7 +38,7 @@
 		</if>
 	</select>
 	 
-	<insert id="save" parameterType="io.renren.modules.sys.entity.SysDeptEntity" useGeneratedKeys="true" keyProperty="deptId">
+	<insert id="save" parameterType="io.renren.modules.sys.entity.SysDeptEntity" >
 		insert into sys_dept
 		(
 			dept_id,

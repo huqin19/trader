@@ -1,5 +1,6 @@
 package io.renren.modules.sys.service.impl;
 
+import io.renren.common.sequence.Sequence;
 import io.renren.common.utils.Constant;
 import io.renren.common.utils.Constant.MenuType;
 import io.renren.modules.sys.dao.SysMenuDao;
@@ -21,6 +22,8 @@ public class SysMenuServiceImpl implements SysMenuService {
 	private SysMenuDao sysMenuDao;
 	@Autowired
 	private SysUserService sysUserService;
+	
+	Sequence sequence = new Sequence(0, 0);
 	
 	@Override
 	public List<SysMenuEntity> queryListParentId(Long parentId, List<Long> menuIdList) {
@@ -77,6 +80,9 @@ public class SysMenuServiceImpl implements SysMenuService {
 
 	@Override
 	public void save(SysMenuEntity menu) {
+		//生成主键
+		Long menuId = sequence.nextId();
+		menu.setMenuId(menuId);
 		sysMenuDao.save(menu);
 	}
 

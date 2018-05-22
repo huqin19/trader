@@ -34,7 +34,7 @@
 		select count(*) from sys_oss
 	</select>
 	 
-	<insert id="save" parameterType="io.renren.modules.oss.entity.SysOssEntity" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="io.renren.modules.oss.entity.SysOssEntity">
 		insert into sys_oss
 		(
 			id,

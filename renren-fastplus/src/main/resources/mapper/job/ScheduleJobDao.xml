@@ -41,7 +41,7 @@
 		</where>
 	</select>
 	 
-	<insert id="save" parameterType="io.renren.modules.job.entity.ScheduleJobEntity" useGeneratedKeys="true" keyProperty="jobId">
+	<insert id="save" parameterType="io.renren.modules.job.entity.ScheduleJobEntity">
 		insert into schedule_job
 		(
 			job_id,

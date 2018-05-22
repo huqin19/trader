@@ -46,7 +46,7 @@
 		</where>
 	</select>
 	 
-	<insert id="save" parameterType="io.renren.modules.sys.entity.SysLogEntity" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="io.renren.modules.sys.entity.SysLogEntity" >
 		insert into sys_log
 		(
 			id,

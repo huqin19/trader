@@ -1,6 +1,7 @@
 package io.renren.modules.sys.service.impl;
 
 import io.renren.common.annotation.DataFilter;
+import io.renren.common.sequence.Sequence;
 import io.renren.modules.sys.dao.SysRoleDao;
 import io.renren.modules.sys.entity.SysRoleEntity;
 import io.renren.modules.sys.service.SysRoleDeptService;
@@ -31,6 +32,8 @@ public class SysRoleServiceImpl implements SysRoleService {
 	private SysRoleMenuService sysRoleMenuService;
 	@Autowired
 	private SysRoleDeptService sysRoleDeptService;
+	
+	Sequence sequence = new Sequence(0, 0);
 
 	@Override
 	public SysRoleEntity queryObject(Long roleId) {
@@ -53,6 +56,9 @@ public class SysRoleServiceImpl implements SysRoleService {
 	@Transactional
 	public void save(SysRoleEntity role) {
 		role.setCreateTime(new Date());
+		//生成主键
+		Long roleId = sequence.nextId();
+		role.setRoleId(roleId);
 		sysRoleDao.save(role);
 		
 		//保存角色与菜单关系

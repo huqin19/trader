@@ -3,7 +3,7 @@
 
 <mapper namespace="io.renren.modules.api.dao.UserDao">
 
-	<insert id="save" parameterType="io.renren.modules.api.entity.UserEntity" useGeneratedKeys="true" keyProperty="userId">
+	<insert id="save" parameterType="io.renren.modules.api.entity.UserEntity">
 		insert into tb_user
 		(
 			user_id,
@@ -14,7 +14,7 @@
 		)
 		values
 			(
-				#userId},
+				#{userId},
 				#{username},
 				#{mobile},
 				#{password},
