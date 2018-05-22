@@ -64,6 +64,11 @@ public class SysMenuEntity implements Serializable {
 	 */
 	private Boolean open;
 	
+	/**
+	 * 行号
+	 */
+	private Long rowx;
+	
 	private List<?> list;
 
 	public void setMenuId(Long menuId) {
@@ -192,5 +197,13 @@ public class SysMenuEntity implements Serializable {
 
 	public void setOpen(Boolean open) {
 		this.open = open;
+	}
+
+	public Long getRowx() {
+		return rowx;
+	}
+
+	public void setRowx(Long rowx) {
+		this.rowx = rowx;
 	}
 }

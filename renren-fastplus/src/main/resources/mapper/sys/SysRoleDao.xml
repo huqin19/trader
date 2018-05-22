@@ -8,44 +8,34 @@
 	</select>
 	
 	<select id="queryList" resultType="io.renren.modules.sys.entity.SysRoleEntity">
-		select r.*, (select d.name from sys_dept d where d.dept_id = r.dept_id) deptName from sys_role r
-		<where>
-			<if test="roleName != null and roleName.trim() != ''">
-				and r.role_name like '%' || #{roleName} || '%'
-			</if>
-			<if test="offset != null and limit != null">
-			rownum &lt;= ${offset} + ${limit}
-			</if>
-			<!--  数据过滤  -->
-			${filterSql}
-		</where>
-		<choose>
-			<when test="sidx != null and sidx.trim() != ''">
-				order by r.${sidx} ${order}
-			</when>
-			<otherwise>
-				order by r.role_id asc
-			</otherwise>
-		</choose>
-<if test="offset != null ">
-minus		
-		select r.*, (select d.name from sys_dept d where d.dept_id = r.dept_id) deptName from sys_role r
-		<where>
-			<if test="roleName != null and roleName.trim() != ''">
-				and r.role_name like '%' || #{roleName} || '%'
-			</if>
-			rownum &lt;= ${offset}
-			<!--  数据过滤  -->
-			${filterSql}
-		</where>
-		<choose>
-			<when test="sidx != null and sidx.trim() != ''">
-				order by r.${sidx} ${order}
-			</when>
-			<otherwise>
-				order by r.role_id asc
-			</otherwise>
-		</choose>
+		select 
+			* 
+		from 
+		(
+			select 
+				rownum rowx, r.*, (select d.name from sys_dept d where d.dept_id = r.dept_id) deptName from sys_role r
+			<where>
+				<if test="roleName != null and roleName.trim() != ''">
+					and r.role_name like '%' || #{roleName} || '%'
+				</if>
+				<!--  数据过滤  -->
+				${filterSql}
+				<if test="offset != null and limit != null ">
+					and rownum &lt;= ${offset} + ${limit}
+				</if>
+			</where>
+			<choose>
+				<when test="sidx != null and sidx.trim() != ''">
+					order by r.${sidx} ${order}
+				</when>
+				<otherwise>
+					order by r.role_id asc
+				</otherwise>
+			</choose>
+		)
+		<if test="offset != null ">
+			where 
+				rowx &gt; ${offset}
 		</if>
 	</select>
 	

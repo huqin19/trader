@@ -6,21 +6,29 @@
 	</select>
 	
 	<select id="queryList" parameterType="map" resultType="io.renren.modules.sys.entity.SysConfigEntity">
-		select * from sys_config where status = 1 
-		<if test="key != null and key.trim() != ''">
-			and key like '%' || #{key} || '%'
+		select 
+			* 
+		from 
+		( 
+			select 
+				rownum rowx, x.*
+			from
+				sys_config x
+			where
+				status = 1 
+				<if test="key != null and key.trim() != ''">
+					and key like '%' || #{key} || '%'
+				</if>
+				<if test="offset != null and limit != null ">
+					and rownum &lt;= ${offset} + ${limit}
+				</if>
+			order by 
+				x.id asc
+		)
+		<if test="offset != null ">
+			where 
+				rowx &gt; ${offset}
 		</if>
-		<if test="offset != null and limit != null">
-		and rownum &lt;= ${offset} + ${limit}
-		</if>
-<if test="offset != null ">
-minus		
-		select * from sys_config where status = 1 
-		<if test="key != null and key.trim() != ''">
-			and key like '%' || #{key} || '%'
-		</if>
-		and rownum &lt;= ${offset}
-</if>
 	</select>
 	
 	<select id="queryTotal" parameterType="map" resultType="int">

@@ -21,6 +21,11 @@ public class SysOssEntity implements Serializable {
 	private String url;
 	//创建时间
 	private Date createDate;
+	
+	/**
+	 * 行号
+	 */
+	private Long rowx;
 
 	/**
 	 * 设置：
@@ -57,5 +62,11 @@ public class SysOssEntity implements Serializable {
 	 */
 	public Date getCreateDate() {
 		return createDate;
+	}
+	public Long getRowx() {
+		return rowx;
+	}
+	public void setRowx(Long rowx) {
+		this.rowx = rowx;
 	}
 }

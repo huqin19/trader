@@ -24,6 +24,11 @@ public class ScheduleJobLogEntity implements Serializable {
 	private Long jobId;
 	
 	/**
+	 * 行号
+	 */
+	private Long rowx;
+	
+	/**
 	 * spring bean名称
 	 */
 	private String beanName;
@@ -128,6 +133,14 @@ public class ScheduleJobLogEntity implements Serializable {
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+
+	public Long getRowx() {
+		return rowx;
+	}
+
+	public void setRowx(Long rowx) {
+		this.rowx = rowx;
 	}
 	
 }
