@@ -17,7 +17,7 @@
 				schedule_job x
 			<where>
 				<if test="beanName != null and beanName.trim() != ''">
-					x.bean_name like concat('%', #{beanName}, '%') 
+					x.bean_name like '%' || #{beanName} || '%'
 				</if>
 				<if test="offset != null and limit != null ">
 					rownum &lt;= ${offset} + ${limit}
