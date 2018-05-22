@@ -30,6 +30,11 @@ public class SysDeptEntity implements Serializable {
 	private Boolean open;
 
 	private List<?> list;
+	
+	/**
+	 * 行号
+	 */
+	private Long rowx;
 
 
 	public void setDeptId(Long deptId) {
@@ -98,5 +103,13 @@ public class SysDeptEntity implements Serializable {
 
 	public void setList(List<?> list) {
 		this.list = list;
+	}
+
+	public Long getRowx() {
+		return rowx;
+	}
+
+	public void setRowx(Long rowx) {
+		this.rowx = rowx;
 	}
 }

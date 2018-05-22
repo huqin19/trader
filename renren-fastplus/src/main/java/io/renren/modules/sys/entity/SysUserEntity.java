@@ -84,6 +84,11 @@ public class SysUserEntity implements Serializable {
 	 * 部门名称
 	 */
 	private String deptName;
+	
+	/**
+	 * 行号
+	 */
+	private Long rowx;
 
 	/**
 	 * 设置：
@@ -235,5 +240,13 @@ public class SysUserEntity implements Serializable {
 
 	public void setDeptName(String deptName) {
 		this.deptName = deptName;
+	}
+
+	public Long getRowx() {
+		return rowx;
+	}
+
+	public void setRowx(Long rowx) {
+		this.rowx = rowx;
 	}
 }

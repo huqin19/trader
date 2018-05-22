@@ -7,26 +7,29 @@
 	</select> 
 
 	<select id="queryList" resultType="io.renren.modules.job.entity.ScheduleJobLogEntity" >
-		select * from schedule_job_log 
-		<where>
-			<if test="jobId != null and jobId.trim() != ''">
-				and job_id = #{jobId}
-			</if>
-			<if test="offset != null and limit != null ">
-			rownum &lt;= ${offset} + ${limit}
-			</if>
-		</where>		
-<if test="offset != null ">
-minus		
-		select * from schedule_job_log 
-		<where>
-			<if test="jobId != null and jobId.trim() != ''">
-				and job_id = #{jobId}
-			</if>
-			rownum &lt;= ${offset}
-		</where>
-</if>
-		order by 1 desc 
+		select 
+			* 
+		from 
+		( 
+			select 
+				rownum rowx, x.* 
+			from 
+				schedule_job_log x
+			<where>
+				<if test="jobId != null and jobId.trim() != ''">
+					and job_id = #{jobId}
+				</if>
+				<if test="offset != null and limit != null ">
+					rownum &lt;= ${offset} + ${limit}
+				</if>
+			</where>
+			order by 
+				log_id desc 
+		)
+		<if test="offset != null ">
+			where 
+				rowx &gt; ${offset}
+		</if>
 	</select>
 	
  	<select id="queryTotal" resultType="int">

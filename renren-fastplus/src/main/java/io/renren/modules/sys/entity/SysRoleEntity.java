@@ -53,6 +53,11 @@ public class SysRoleEntity implements Serializable {
 	 * 创建时间
 	 */
 	private Date createTime;
+	
+	/**
+	 * 行号
+	 */
+	private Long rowx;
 
 	/**
 	 * 设置：
@@ -140,5 +145,13 @@ public class SysRoleEntity implements Serializable {
 
 	public void setDeptIdList(List<Long> deptIdList) {
 		this.deptIdList = deptIdList;
+	}
+
+	public Long getRowx() {
+		return rowx;
+	}
+
+	public void setRowx(Long rowx) {
+		this.rowx = rowx;
 	}
 }

@@ -7,46 +7,35 @@
 	</select>
 	
 	<select id="queryList" resultType="io.renren.modules.sys.entity.SysUserEntity">
-		select u.*, (select d.name from sys_dept d where d.dept_id = u.dept_id) deptName from sys_user u
-		<where>
-			<if test="username != null and username.trim() != ''">
-				and u.username like '%' || #{username} || '%'
-			</if>
-
-			<!--  数据过滤  -->
-			${filterSql}
-			<if test="offset != null and limit != null">
-			rownum &lt;= ${offset} + ${limit}
-			</if>
-		</where>
-		<choose>
-			<when test="sidx != null and sidx.trim() != ''">
-				order by u.${sidx} ${order}
-			</when>
-			<otherwise>
-				order by u.user_id desc
-			</otherwise>
-		</choose>
-<if test="offset != null ">
-minus		
-		select u.*, (select d.name from sys_dept d where d.dept_id = u.dept_id) deptName from sys_user u
-		<where>
-			<if test="username != null and username.trim() != ''">
-				and u.username like '%' || #{username} || '%'
-			</if>
-			rownum &lt;= ${offset}
-			<!--  数据过滤  -->
-			${filterSql}
-		</where>
-		<choose>
-			<when test="sidx != null and sidx.trim() != ''">
-				order by u.${sidx} ${order}
-			</when>
-			<otherwise>
-				order by u.user_id desc
-			</otherwise>
-		</choose>
-		</if>
+		select 
+			* 
+		from 
+		( 
+			select 
+				rownum rowx, u.*, (select d.name from sys_dept d where d.dept_id = u.dept_id) deptName from sys_user u
+			<where>
+				<if test="username != null and username.trim() != ''">
+					and u.username like '%' || #{username} || '%'
+				</if>
+				<!--  数据过滤  -->
+				${filterSql}
+				<if test="offset != null and limit != null ">
+					rownum &lt;= ${offset} + ${limit}
+				</if>
+			</where>
+			<choose>
+				<when test="sidx != null and sidx.trim() != ''">
+					order by u.${sidx} ${order}
+				</when>
+				<otherwise>
+					order by u.user_id desc
+				</otherwise>
+			</choose>
+		)
+		<if test="offset != null ">
+			where 
+				rowx &gt; ${offset}
+		</if>	
 	</select>
 	
 	<select id="queryTotal" resultType="int">

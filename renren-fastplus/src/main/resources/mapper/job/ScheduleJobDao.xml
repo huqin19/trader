@@ -7,25 +7,29 @@
 	</select> 
 
 	<select id="queryList" resultType="io.renren.modules.job.entity.ScheduleJobEntity" >
-		select * from schedule_job
-		<where>
-			<if test="beanName != null and beanName.trim() != ''">
-				bean_name like '%' || #{beanName} || '%'
-			</if>
-			<if test="offset != null and limit != null ">
-			rownum &lt;= ${offset} + ${limit}
-			</if>
-		</where>
-<if test="offset != null ">
-minus
-		select * from schedule_job
-		<where>
-			<if test="beanName != null and beanName.trim() != ''">
-				bean_name like '%' || #{beanName} || '%'
-			</if>
-			rownum &lt;= ${offset}
-		</where>
-		</if>
+		select 
+			* 
+		from 
+		( 
+			select 
+				rownum rowx, x.* 
+			from 
+				schedule_job x
+			<where>
+				<if test="beanName != null and beanName.trim() != ''">
+					x.bean_name like concat('%', #{beanName}, '%') 
+				</if>
+				<if test="offset != null and limit != null ">
+					rownum &lt;= ${offset} + ${limit}
+				</if>
+			</where>
+			order by 
+				x.job_id desc
+		)
+		<if test="offset != null ">
+			where 
+				rowx &gt; ${offset}
+		</if>	
 	</select>
 	
  	<select id="queryTotal" resultType="int">

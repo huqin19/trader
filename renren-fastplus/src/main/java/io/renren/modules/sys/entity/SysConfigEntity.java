@@ -18,6 +18,11 @@ public class SysConfigEntity {
 	private String value; 
 	private String remark;
 	
+	/**
+	 * 行号
+	 */
+	private Long rowx;
+	
 	public Long getId() {
 		return id;
 	}
@@ -41,5 +46,11 @@ public class SysConfigEntity {
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	public Long getRowx() {
+		return rowx;
+	}
+	public void setRowx(Long rowx) {
+		this.rowx = rowx;
 	}
 }

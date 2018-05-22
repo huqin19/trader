@@ -8,24 +8,30 @@
 	</select>
 
 	<select id="queryList" resultType="io.renren.modules.oss.entity.SysOssEntity">
-		select * from sys_oss 
-		<where>
-		<if test="offset != null and limit != null">
-			rownum &lt;= ${offset} + ${limit}
+		select 
+			* 
+		from 
+		( 
+			select 
+				rownum rowx, x.*  
+			from 
+				sys_oss x
+			<where>
+				<if test="offset != null and limit != null ">
+					rownum &lt;= ${offset} + ${limit}
+				</if>
+			</where>
+			order by 
+				id desc
+		)
+		<if test="offset != null ">
+			where 
+				rowx &gt; ${offset}
 		</if>
-		</where>
-<if test="offset != null ">
-minus		
-		select * from sys_oss
-		<where> 
-			rownum &lt;= ${offset}
-		</where>
-</if>
-		order by 1 desc
 	</select>
 	
  	<select id="queryTotal" resultType="int">
-		select count(*) from sys_oss 
+		select count(*) from sys_oss
 	</select>
 	 
 	<insert id="save" parameterType="io.renren.modules.oss.entity.SysOssEntity" useGeneratedKeys="true" keyProperty="id">

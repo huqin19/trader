@@ -1,9 +1,9 @@
 package io.renren.modules.job.entity;
 
-import org.hibernate.validator.constraints.NotBlank;
-
 import java.io.Serializable;
 import java.util.Date;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * 定时器
@@ -24,6 +24,11 @@ public class ScheduleJobEntity implements Serializable {
 	 * 任务id
 	 */
 	private Long jobId;
+	
+	/**
+	 * 行号
+	 */
+	private Long rowx;
 
 	/**
 	 * spring bean名称
@@ -158,4 +163,14 @@ public class ScheduleJobEntity implements Serializable {
 	public Date getCreateTime() {
 		return createTime;
 	}
+
+	public Long getRowx() {
+		return rowx;
+	}
+
+	public void setRowx(Long rowx) {
+		this.rowx = rowx;
+	}
+
+
 }
