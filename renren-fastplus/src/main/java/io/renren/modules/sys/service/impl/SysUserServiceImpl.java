@@ -1,6 +1,7 @@
 package io.renren.modules.sys.service.impl;
 
 import io.renren.common.annotation.DataFilter;
+import io.renren.common.sequence.Sequence;
 import io.renren.modules.sys.dao.SysUserDao;
 import io.renren.modules.sys.entity.SysUserEntity;
 import io.renren.modules.sys.service.SysUserRoleService;
@@ -31,6 +32,8 @@ public class SysUserServiceImpl implements SysUserService {
 	private SysUserDao sysUserDao;
 	@Autowired
 	private SysUserRoleService sysUserRoleService;
+	
+	Sequence sequence = new Sequence(0, 0);
 
 	@Override
 	public List<String> queryAllPerms(Long userId) {
@@ -73,6 +76,10 @@ public class SysUserServiceImpl implements SysUserService {
 		user.setPassword("YzcmCZNvbXocrsz9dm8e");
 		user.setPassword(new Sha256Hash(user.getPassword(), salt).toHex());
 		user.setSalt(salt);
+		
+		//生成主键
+		Long userId = sequence.nextId();
+		user.setUserId(userId);
 		sysUserDao.save(user);
 		
 		//保存用户与角色关系
