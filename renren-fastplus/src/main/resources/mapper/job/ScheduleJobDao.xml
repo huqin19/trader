@@ -55,14 +55,14 @@
 		)
 		values
 		(
-			#{jobId}, 
-			#{beanName}, 
-			#{methodName}, 
-			#{params}, 
-			#{cronExpression}, 
-			#{status}, 
-			#{remark}, 
-			#{createTime}
+			#{jobId,jdbcType=NUMERIC}, 
+			#{beanName,jdbcType=VARCHAR}, 
+			#{methodName,jdbcType=VARCHAR}, 
+			#{params,jdbcType=VARCHAR}, 
+			#{cronExpression,jdbcType=VARCHAR}, 
+			#{status,jdbcType=NUMERIC}, 
+			#{remark,jdbcType=VARCHAR}, 
+			#{createTime,jdbcType=DATE}
 		)
 	</insert>
 	 

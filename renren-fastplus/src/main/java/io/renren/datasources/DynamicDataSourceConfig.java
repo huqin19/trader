@@ -13,30 +13,36 @@ import java.util.Map;
 /**
  * 配置多数据源
  * @author chenshun
- * @email sunlightcs@gmail.com
  * @date 2017/8/19 0:41
  */
 @Configuration
 public class DynamicDataSourceConfig {
 
     @Bean
-    @ConfigurationProperties("spring.datasource.druid.first")
-    public DataSource firstDataSource(){
+    @ConfigurationProperties("spring.datasource.druid.zqdb_source")
+    public DataSource zqdbDataSource(){
         return DruidDataSourceBuilder.create().build();
     }
 
     @Bean
-    @ConfigurationProperties("spring.datasource.druid.second")
-    public DataSource secondDataSource(){
+    @ConfigurationProperties("spring.datasource.druid.wddb_source")
+    public DataSource wddbDataSource(){
         return DruidDataSourceBuilder.create().build();
     }
+    
+    @Bean
+    @ConfigurationProperties("spring.datasource.druid.htdb_source")
+    public DataSource htdbDataSource(){
+        return DruidDataSourceBuilder.create().build();
+    }  
 
     @Bean
     @Primary
-    public DynamicDataSource dataSource(DataSource firstDataSource, DataSource secondDataSource) {
+    public DynamicDataSource dataSource(DataSource zqdbDataSource, DataSource wddbDataSource,DataSource htdbDataSource) {
         Map<String, DataSource> targetDataSources = new HashMap<>();
-        targetDataSources.put(DataSourceNames.FIRST, firstDataSource);
-        targetDataSources.put(DataSourceNames.SECOND, secondDataSource);
-        return new DynamicDataSource(firstDataSource, targetDataSources);
+        targetDataSources.put(DataSourceNames.ZQDB_SOURCE, zqdbDataSource);
+        targetDataSources.put(DataSourceNames.WDDB_SOURCE, wddbDataSource);
+        targetDataSources.put(DataSourceNames.HTDB_SOURCE, htdbDataSource);
+        return new DynamicDataSource(zqdbDataSource, targetDataSources);
     }
 }

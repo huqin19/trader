@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.ht.dao.TCalendarDatesDao">
+	<select id="queryCode" resultType="io.renren.modules.ht.entity.TCalendarDatesEntity" >
+		select * from xir_zx.TCALENDAR_DATES where cal_code = #{value}
+	</select> 
+
+	<select id="queryList" resultType="io.renren.modules.ht.entity.TCalendarDatesEntity" >
+		select * from xir_zx.TCALENDAR_DATES 
+		<where>
+			cal_day like '%${calDay}%'
+		</where>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(1) from xir_zx.TCALENDAR_DATES 
+		<where>
+				cal_day like '%${calDay}%' 
+		</where>
+	</select>
+		<insert id="save" parameterType="io.renren.modules.ht.entity.TCalendarDatesEntity">
+		insert into xir_zx.TCALENDAR_DATES
+		(
+			`cal_code`, 
+			`cal_day`, 
+			`cal_flag`
+		)
+		values
+		(
+			#{calCode}, 
+			#{calDay}, 
+			#{calFlag} 	
+		)
+	</insert>
+</mapper>

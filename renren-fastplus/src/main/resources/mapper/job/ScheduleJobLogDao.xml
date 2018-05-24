@@ -56,15 +56,15 @@
 		)
 		values
 		(
-			#{logId}, 
-			#{jobId}, 
-			#{beanName}, 
-			#{methodName}, 
-			#{params}, 
-			#{status}, 
-			#{error}, 
-			#{times}, 
-			#{createTime}
+			#{logId,jdbcType=NUMERIC}, 
+			#{jobId,jdbcType=NUMERIC}, 
+			#{beanName,jdbcType=VARCHAR}, 
+			#{methodName,jdbcType=VARCHAR}, 
+			#{params,jdbcType=VARCHAR}, 
+			#{status,jdbcType=NUMERIC}, 
+			#{error,jdbcType=VARCHAR}, 
+			#{times,jdbcType=NUMERIC}, 
+			#{createTime,jdbcType=DATE}
 		)
 	</insert>
 	

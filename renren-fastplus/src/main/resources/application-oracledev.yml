@@ -1,16 +1,23 @@
 spring:
     datasource:
-        type: com.alibaba.druid.pool.DruidDataSource
         druid:
-            first:  #数据源1
+            zqdb_source:  #数据源1
+                type: com.alibaba.druid.pool.DruidDataSource
                 driverClassName: oracle.jdbc.driver.OracleDriver
-                url: jdbc:oracle:thin:@localhost:1521:zqdbSid
-                username: huqin
-                password: huqin
-            second:  #数据源2
-                driverClassName: com.mysql.jdbc.Driver
-                url: jdbc:mysql://localhost:3306/renren_fastplus?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
-                username: root
+                url: jdbc:oracle:thin:@C64-20180408IGT:1521:zqdbsid
+                username: DHB
+                password: 123456
+            wddb_source:  #数据源2
+                type: com.alibaba.druid.pool.DruidDataSource
+                driverClassName: oracle.jdbc.driver.OracleDriver
+                url: jdbc:oracle:thin:@C64-20180408IGT:1521:zqdbsid
+                username: DHB
+                password: 123456
+            htdb_source:  #数据源3
+                type: com.alibaba.druid.pool.DruidDataSource
+                driverClassName: oracle.jdbc.driver.OracleDriver
+                url: jdbc:oracle:thin:@C64-20180408IGT:1521:zqdbsid
+                username: DHB
                 password: 123456
             initial-size: 10
             max-active: 100
@@ -37,3 +44,20 @@ spring:
                 wall:
                     config:
                         multi-statement-allow: true
+api:
+    request-department:
+        name: 1.1获取部门信息
+        url: http://172.16.45.177/RoxQyWeb/qy-no/department/getDepartmentByParentId.g
+        param-name: parentid
+    request-user: 
+        name: 1.2根据部门ID获取成员信息   
+        url: http://172.16.45.177/RoxQyWeb/qy-no/user/getUserByDepartmentId.g
+        param-name: departmentId   
+    send-message:
+        name: 1.3给指定的成员或部门发送信息
+        url: http://172.16.45.177/RoxQyWeb/cgi-bin/agentMessage/send.g
+        param-name: messages
+    send-file:
+        name: 1.4给指定的成员或部门发送文件信息
+        url: http://172.16.45.177/RoxQyWeb/cgi-bin/agentFile/send.g
+        param-name: files

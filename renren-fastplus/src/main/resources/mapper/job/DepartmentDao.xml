@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.job.dao.DepartmentDao">
+	<select id="queryObject" resultType="io.renren.modules.job.entity.DepartmentEntity" >
+		select * from zq_department where id = #{value}
+	</select> 
+	
+	<select id="queryAllDepartment" resultType="io.renren.modules.job.entity.DepartmentEntity" >
+		select * from zq_department
+	</select>
+	<select id="queryByTime" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select * from zq_department 
+                <where>
+                    <if test="dStart!=null">
+                        <![CDATA[  and DATE_FORMAT(#{dEnd}, '%Y-%m-%d %H:%T:%s') >=  
+                        DATE_FORMAT(#{dStart}, '%Y-%m-%d %H:%T:%s')   ]]>
+                    </if>
+                    <if test="dEnd!=null">
+                        <![CDATA[  and DATE_FORMAT(created_timestamp, '%Y-%m-%d %H:%T:%s') <= 
+                        DATE_FORMAT(#{dEnd} , '%Y-%m-%d %H:%T:%s')    ]]>
+                    </if>
+                </where>    
+                order by created_timestamp desc
+    </select>
+	<insert id="saveBatch" parameterType="java.util.List" >
+		insert into zq_department(
+			object_id,
+			dep_id,
+			parent_id,
+			dep_name,
+			status,
+			creator_id,
+			created_timestamp,
+			last_modifier_id,
+			modified_timestamp
+			)
+		values 
+		 
+		<foreach item="item" collection="list" index="index" separator="," >
+			(#{item.objectId,jdbcType=NUMERIC},
+			 #{item.id,jdbcType=VARCHAR},
+			 #{item.parentid,jdbcType=VARCHAR},
+			 #{item.name,jdbcType=VARCHAR},
+			 #{item.status,jdbcType=NUMERIC},
+			 #{item.creatorId,jdbcType=VARCHAR},
+			 #{item.createdTimestamp,jdbcType=TIMESTAMP},
+			 #{item.lastModifierId,jdbcType=VARCHAR},
+			 #{item.modifiedTimestamp,jdbcType=TIMESTAMP}
+			 )
+		</foreach>
+	</insert>
+	<insert id="save" parameterType="io.renren.modules.job.entity.DepartmentEntity" >
+		insert into zq_department(
+			object_id,
+			dep_id,
+			parent_id,
+			dep_name,
+			status,
+			creator_id,
+			created_timestamp,
+			last_modifier_id,
+			modified_timestamp
+			)
+		values 
+			(
+			 #{objectId,jdbcType=NUMERIC},
+			 #{id,jdbcType=VARCHAR},
+			 #{parentid,jdbcType=VARCHAR},
+			 #{name,jdbcType=VARCHAR},
+			 #{status,jdbcType=NUMERIC},
+			 #{creatorId,jdbcType=VARCHAR},
+			 #{createdTimestamp,jdbcType=TIMESTAMP},
+			 #{lastModifierId,jdbcType=VARCHAR},
+			 #{modifiedTimestamp,jdbcType=TIMESTAMP}
+			 )
+	</insert>
+</mapper>
