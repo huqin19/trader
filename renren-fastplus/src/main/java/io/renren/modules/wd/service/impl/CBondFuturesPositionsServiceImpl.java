@@ -19,9 +19,10 @@ import io.renren.modules.wd.service.CBondFuturesPositionsService;
 public class CBondFuturesPositionsServiceImpl implements CBondFuturesPositionsService {
 	@Autowired
 	private CBondFuturesPositionsDao cBondFuturesPositionsDao;
+
 	@Override
-	public CBondFuturesPositionsEntity queryObject(String objectId) {
-		return cBondFuturesPositionsDao.queryObject(objectId);
+	public CBondFuturesPositionsEntity queryFirst(Map<String, Object> map) {
+		return cBondFuturesPositionsDao.queryFirst(map);
 	}
 
 	@Override
@@ -30,8 +31,13 @@ public class CBondFuturesPositionsServiceImpl implements CBondFuturesPositionsSe
 	}
 
 	@Override
+	public List<CBondFuturesPositionsEntity> queryByTdDate(Map<String, Object> map) {
+		return cBondFuturesPositionsDao.queryByTdDate(map);
+	}
+
+	@Override
 	public int queryTotal(Map<String, Object> map) {
-		return cBondFuturesPositionsDao.queryTotal(map);
+		return cBondFuturesPositionsDao.queryTotal();
 	}
 
 	@Override
@@ -39,5 +45,6 @@ public class CBondFuturesPositionsServiceImpl implements CBondFuturesPositionsSe
 	public void save(CBondFuturesPositionsEntity cBondFuturesPositionsEntity) {
 		cBondFuturesPositionsDao.save(cBondFuturesPositionsEntity);
 	}
+
 
 }

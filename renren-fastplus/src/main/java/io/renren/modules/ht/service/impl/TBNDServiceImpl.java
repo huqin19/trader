@@ -1,6 +1,7 @@
 package io.renren.modules.ht.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,13 +22,33 @@ public class TBNDServiceImpl implements TBNDService{
 	private TBNDDao tBNDao;
 
 	@Override
-	public List<TBNDEntity> queryCode(String iCode) {
-		return tBNDao.queryCode(iCode);
-	}
-
-	@Override
 	@Transactional
 	public void save(TBNDEntity tBNDEntity) {
 		tBNDao.save(tBNDEntity);
+	}
+
+
+
+	@Override
+	public List<TBNDEntity> queryAll(Map<String, Object> map) {
+		return tBNDao.queryAll(map);
+	}
+
+
+
+	@Override
+	public void deleteAll() {
+		tBNDao.deleteAll();
+	}
+
+
+
+	@Override
+	@Transactional
+	public void deleteAllThenSave(List<TBNDEntity> list) {
+		tBNDao.deleteAll();
+		for(TBNDEntity tb : list) {
+			tBNDao.save(tb);
+		}
 	}
 }

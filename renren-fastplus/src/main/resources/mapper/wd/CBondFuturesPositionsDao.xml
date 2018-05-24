@@ -2,53 +2,66 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="io.renren.modules.wd.dao.CBondFuturesPositionsDao">
-	<select id="queryObject" resultType="io.renren.modules.wd.entity.CBondFuturesPositionsEntity" >
-		select * from wind_filesync.CBONDFUTURESPOSITIONS where object_id = #{value}
-	</select> 
-
-	<select id="queryList" resultType="io.renren.modules.wd.entity.CBondFuturesPositionsEntity" >
-		select * from wind_filesync.CBONDFUTURESPOSITIONS 
-		<where>
-			trade_dt like '%${tradeDt}%'
-		</where>
-	</select>
+	<select id="queryList" parameterType="java.util.HashMap" resultType="io.renren.modules.wd.entity.CBondFuturesPositionsEntity">
+        select * from ${tableName} 
+                <where>
+                    <if test="dStart !=null and dStart.trim() != ''">
+                        <![CDATA[  and TO_DATE(trade_dt, '%yy-%mm-%dd') >= 
+                        TO_DATE(#{dStart}, '%yy-%mm-%dd')   ]]>
+                    </if>
+                    <if test="dEnd!=null and dEnd.trim() != ''">
+                        <![CDATA[  and TO_DATE(trade_dt, '%yy-%mm-%dd') <=
+                        TO_DATE(#{dEnd} , '%yy-%mm-%dd')    ]]>
+                    </if>
+                </where>    
+    	order by trade_dt desc
+    </select>
 	
- 	<select id="queryTotal" resultType="int">
-		select count(1) from wind_filesync.CBONDFUTURESPOSITIONS 
+    <select id="queryByTdDate" parameterType="java.util.HashMap" resultType="io.renren.modules.wd.entity.CBondFuturesPositionsEntity">
+        select * from ${tableName} where trade_dt = #{tradeDt}    
+    </select>
+    <select id="queryFirst" parameterType="java.util.HashMap" resultType="io.renren.modules.wd.entity.CBondFuturesPositionsEntity">
+			select * from (select * from ${tableName} order by trade_dt desc) where rownum=1 
+    </select>
+	
+ 	<select id="queryTotal" parameterType="java.util.HashMap" resultType="int">
+		select count(1) from ${tableName} 
 		<where>
-			trade_dt like '%${tradeDt}%' 
+			<if test="tradeDt !=null and tradeDt.trim() != ''">
+				trade_dt like '%${tradeDt}%'
+			</if> 
 		</where>
 	</select>
 		<insert id="save" parameterType="io.renren.modules.wd.entity.CBondFuturesPositionsEntity">
-		insert into wind_filesync.CBONDFUTURESPOSITIONS
+		insert into CBONDFUTURESPOSITIONS
 		(
-			`object_id`, 
-			`s_info_windcode`, 
-			`trade_dt`, 
-			`fs_info_membername`,
-			`fs_info_type`,
-			`fs_info_positionsnum`, 
-			`fs_info_rank`,
-			`s_oi_positionsnumc`,
-			`opdate`,
-			`opmode`,
-			`imp_date`,
-			`imp_time`
+			object_id, 
+			s_info_windcode, 
+			trade_dt, 
+			fs_info_membername,
+			fs_info_type,
+			fs_info_positionsnum, 
+			fs_info_rank,
+			s_oi_positionsnumc,
+			opdate,
+			opmode,
+			imp_date,
+			imp_time
 		)
 		values
 		(
-			#{objectId}, 
-			#{sInfoWindcode}, 
-			#{tradeDt}, 
-			#{fsInfoMembername}, 
-			#{fsInfoType},
-			#{fsInfoPositionsnum},
-			#{fsInfoRank},
-			#{sOiPositionsnumc},
-			#{opdate},
-			#{opmode},
-			#{impDate},
-			#{impTime}	
+			#{objectId,jdbcType=VARCHAR}, 
+			#{sInfoWindcode,jdbcType=VARCHAR}, 
+			#{tradeDt,jdbcType=VARCHAR}, 
+			#{fsInfoMembername,jdbcType=VARCHAR}, 
+			#{fsInfoType,jdbcType=VARCHAR},
+			#{fsInfoPositionsnum,jdbcType=NUMERIC},
+			#{fsInfoRank,jdbcType=NUMERIC},
+			#{sOiPositionsnumc,jdbcType=NUMERIC},
+			#{opdate,jdbcType=CHAR},
+			#{opmode,jdbcType=VARCHAR},
+			#{impDate,jdbcType=CHAR},
+			#{impTime,jdbcType=CHAR}	
 		)
 	</insert>
 </mapper>

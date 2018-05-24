@@ -2,6 +2,7 @@ package io.renren.modules.wd.service;
 
 import java.util.List;
 import java.util.Map;
+
 import io.renren.modules.wd.entity.CFuturesDescriptionEntity;
 
 /**
@@ -12,22 +13,22 @@ import io.renren.modules.wd.entity.CFuturesDescriptionEntity;
 
 public interface CFuturesDescriptionService {
 	/**
-	 * 通过对象ID查询表内容
-	 * @param objectId
+	 * 查询所有
+	 * @param map
 	 * @return
 	 */
-	CFuturesDescriptionEntity queryObject(String objectId);
+	List<CFuturesDescriptionEntity> queryAll(Map<String, Object> map);
 	/**
-	 * 通过日期查询
-	 * @return
+	 * 删除所有
 	 */
-	List<CFuturesDescriptionEntity> queryList(Map<String, Object> map);
-	/**
-	 * 查询总数
-	 */
-	int queryTotal(Map<String, Object> map);
+	void deleteAll();
 	/**
 	 * 保存
 	 */
 	void save(CFuturesDescriptionEntity cFuturesDescriptionEntity);
+	/**
+	 * 清空后保存
+	 * @param list
+	 */
+	void deleteAllThenSave(List<CFuturesDescriptionEntity> list);
 }

@@ -1,5 +1,6 @@
 package io.renren.modules.job.task;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -81,12 +82,12 @@ public class GetUserTask {
 					for(UsersEntity user : list) {
 						user.setStatus(1);
 						usersService.save(user);
-						for(Integer deptId : user.getDepartment()) {
+						List<Integer> septlist = user.getDepartment();
+						Integer deptId = Collections.max(septlist);
 							UserDepartmentEntity userDept = new UserDepartmentEntity();
 							userDept.setDepId(deptId.toString());
 							userDept.setUserId(user.getUserid());
 							userDepartmentService.save(userDept);
-						}
 					}					
 					log.setResult(1);
 					log.setResultDesc("获取成员信息成功！");

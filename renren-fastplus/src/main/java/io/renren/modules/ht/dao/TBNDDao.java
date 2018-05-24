@@ -1,6 +1,8 @@
 package io.renren.modules.ht.dao;
 
+
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,5 +17,6 @@ import io.renren.modules.sys.dao.BaseDao;
 */
 @Mapper
 public interface TBNDDao extends BaseDao<TBNDEntity>{
-	List<TBNDEntity> queryCode(String iCode);
+	void deleteAll();
+	List<TBNDEntity> queryAll(Map<String, Object> map);
 }

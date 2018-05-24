@@ -2,57 +2,47 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="io.renren.modules.wd.dao.CBondRatingDao">
-	<select id="queryObject" resultType="io.renren.modules.wd.entity.CBondRatingEntity" >
-		select * from wind_filesync.CBONDRATING where object_id = #{value}
-	</select> 
+	<select id="queryAll" parameterType="java.util.HashMap" resultType="io.renren.modules.wd.entity.CBondRatingEntity" >
+		select * from ${tableName}
+	</select> 	
 
-	<select id="queryList" resultType="io.renren.modules.wd.entity.CBondRatingEntity" >
-		select * from wind_filesync.CBONDRATING 
-		<where>
-			ann_dt like '%${annDt}%'
-		</where>
-	</select>
-	
- 	<select id="queryTotal" resultType="int">
-		select count(1) from wind_filesync.CBONDRATING 
-		<where>
-			ann_dt like '%${annDt}%' 
-		</where>
-	</select>
-		<insert id="save" parameterType="io.renren.modules.wd.entity.CBondRatingEntity">
-		insert into wind_filesync.CBONDRATING
+	<delete id="deleteAll">
+		delete from CBONDRATING
+	</delete>
+	<insert id="save" parameterType="io.renren.modules.wd.entity.CBondRatingEntity">
+		insert into CBONDRATING
 		(
-			`object_id`, 
-			`s_info_windcode`, 
-			`ann_dt`, 
-			`b_rate_style`,
-			`b_info_creditrating`,
-			`b_info_creditratingagency`, 
-			`b_info_creditratingexplain`,
-			`b_info_precreditrating`,
-			`b_creditrating_change`,
-			`ann_dt2`,
-			`opdate`,
-			`opmode`,
-			`imp_date`,
-			`imp_time`
+			object_id, 
+			s_info_windcode, 
+			ann_dt, 
+			b_rate_style,
+			b_info_creditrating,
+			b_info_creditratingagency, 
+			b_info_creditratingexplain,
+			b_info_precreditrating,
+			b_creditrating_change,
+			ann_dt2,
+			opdate,
+			opmode,
+			imp_date,
+			imp_time
 		)
 		values
 		(
-			#{objectId}, 
-			#{sInfoWindcode}, 
-			#{annDt}, 
-			#{bRateStyle}, 
-			#{bInfoCreditrating},
-			#{bInfoCreditratingagency},
-			#{bInfoCreditratingexplain},
-			#{bInfoPrecreditrating},
-			#{bCreditratingChange},
-			#{annDt2},
-			#{opdate},
-			#{opmode},
-			#{impDate},
-			#{impTime}	
+			#{objectId,jdbcType=VARCHAR}, 
+			#{sInfoWindcode,jdbcType=VARCHAR}, 
+			#{annDt,jdbcType=VARCHAR}, 
+			#{bRateStyle,jdbcType=VARCHAR}, 
+			#{bInfoCreditrating,jdbcType=VARCHAR},
+			#{bInfoCreditratingagency,jdbcType=VARCHAR},
+			#{bInfoCreditratingexplain,jdbcType=VARCHAR},
+			#{bInfoPrecreditrating,jdbcType=VARCHAR},
+			#{bCreditratingChange,jdbcType=VARCHAR},
+			#{annDt2,jdbcType=VARCHAR},
+			#{opdate,jdbcType=TIMESTAMP},
+			#{opmode,jdbcType=VARCHAR},
+			#{impDate,jdbcType=CHAR},
+			#{impTime,jdbcType=CHAR}	
 		)
 	</insert>
 </mapper>

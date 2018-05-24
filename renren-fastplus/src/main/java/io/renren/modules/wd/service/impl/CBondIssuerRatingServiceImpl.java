@@ -21,25 +21,33 @@ public class CBondIssuerRatingServiceImpl implements CBondIssuerRatingService{
 	private CBondIssuerRatingDao cBondIssuerRatingDao;
 
 	@Override
-	public CBondIssuerRatingEntity queryObject(String objectId) {
-		return cBondIssuerRatingDao.queryObject(objectId);
-	}
-
-	@Override
-	public List<CBondIssuerRatingEntity> queryList(Map<String, Object> map) {
-		return cBondIssuerRatingDao.queryList(map);
-	}
-
-	@Override
 	public int queryTotal(Map<String, Object> map) {
-		// TODO Auto-generated method stub
 		return cBondIssuerRatingDao.queryTotal(map);
 	}
-
+	
 	@Override
 	@Transactional
 	public void save(CBondIssuerRatingEntity cBondIssuerRatingEntity) {
 		cBondIssuerRatingDao.save(cBondIssuerRatingEntity);
+	}
+
+	@Override
+	public List<CBondIssuerRatingEntity> queryAll(Map<String, Object> map) {
+		return cBondIssuerRatingDao.queryAll(map);
+	}
+
+	@Override
+	public void deleteAll() {
+		cBondIssuerRatingDao.deleteAll();
+	}
+
+	@Override
+	@Transactional
+	public void deleteAllThenSave(List<CBondIssuerRatingEntity> list) {
+		cBondIssuerRatingDao.deleteAll();
+		for(CBondIssuerRatingEntity cb : list) {
+			cBondIssuerRatingDao.save(cb);
+		}
 	}
 	
 }

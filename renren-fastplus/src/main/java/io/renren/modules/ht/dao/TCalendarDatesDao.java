@@ -1,6 +1,7 @@
 package io.renren.modules.ht.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,5 +14,7 @@ import io.renren.modules.sys.dao.BaseDao;
  */
 @Mapper
 public interface TCalendarDatesDao extends BaseDao<TCalendarDatesEntity>{
-	List<TCalendarDatesEntity> queryCode(String calCode);
+	List<TCalendarDatesEntity> queryCode(Map<String, Object> map);
+	void deleteAll();
+	List<TCalendarDatesEntity> queryAll(Map<String, Object> map);
 }

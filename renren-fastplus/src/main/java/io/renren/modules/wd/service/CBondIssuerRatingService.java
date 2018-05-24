@@ -11,16 +11,15 @@ import io.renren.modules.wd.entity.CBondIssuerRatingEntity;
  */
 public interface CBondIssuerRatingService {
 	/**
-	 * 通过对象ID查询
-	 * @param objectId
+	 * 查询所有
+	 * @param map
 	 * @return
 	 */
-	CBondIssuerRatingEntity queryObject(String objectId);
+	List<CBondIssuerRatingEntity> queryAll(Map<String, Object> map);
 	/**
-	 * 通过交易日期查询
-	 * @return
+	 * 删除所有
 	 */
-	List<CBondIssuerRatingEntity> queryList(Map<String, Object> map);
+	void deleteAll();
 	/**
 	 * 查询总数
 	 */
@@ -29,4 +28,9 @@ public interface CBondIssuerRatingService {
 	 * 保存
 	 */
 	void save(CBondIssuerRatingEntity cBondIssuerRatingEntity);
+	/**
+	 * 清空后保存
+	 * @param list
+	 */
+	void deleteAllThenSave(List<CBondIssuerRatingEntity> list);
 }

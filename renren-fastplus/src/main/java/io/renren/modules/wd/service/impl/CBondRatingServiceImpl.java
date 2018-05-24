@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import io.renren.modules.wd.dao.CBondRatingDao;
 import io.renren.modules.wd.entity.CBondRatingEntity;
@@ -19,24 +20,30 @@ import io.renren.modules.wd.service.CBondRatingService;
 public class CBondRatingServiceImpl implements CBondRatingService{
 	@Autowired
 	private CBondRatingDao cBondRatingDao;
+
 	@Override
-	public CBondRatingEntity queryObject(String objectId) {
-		return cBondRatingDao.queryObject(objectId);
+	public List<CBondRatingEntity> queryAll(Map<String, Object> map) {
+		return cBondRatingDao.queryAll(map);
 	}
 
 	@Override
-	public List<CBondRatingEntity> queryList(Map<String, Object> map) {
-		return cBondRatingDao.queryList(map);
+	public void deleteAll() {
+		cBondRatingDao.deleteAll();
 	}
 
 	@Override
-	public int queryTotal(Map<String, Object> map) {
-		return cBondRatingDao.queryTotal(map);
-	}
-
-	@Override
+	@Transactional
 	public void save(CBondRatingEntity cBondRatingEntity) {
 		cBondRatingDao.save(cBondRatingEntity);
+	}
+
+	@Override
+	@Transactional
+	public void deleteAllThenSave(List<CBondRatingEntity> list) {
+		cBondRatingDao.deleteAll();
+		for(CBondRatingEntity cb : list) {
+			cBondRatingDao.save(cb);
+		}
 	}
 	
 }

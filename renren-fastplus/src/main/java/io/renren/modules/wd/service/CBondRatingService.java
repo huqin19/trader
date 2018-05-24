@@ -12,22 +12,22 @@ import io.renren.modules.wd.entity.CBondRatingEntity;
  */
 public interface CBondRatingService {
 	/**
-	 * 通过对象ID查询表内容
-	 * @param objectId
+	 * 查询所有
+	 * @param map
 	 * @return
 	 */
-	CBondRatingEntity queryObject(String objectId);
+	List<CBondRatingEntity> queryAll(Map<String, Object> map);
 	/**
-	 * 通过交易日期查询
-	 * @return
+	 * 删除所有
 	 */
-	List<CBondRatingEntity> queryList(Map<String, Object> map);
-	/**
-	 * 查询总数
-	 */
-	int queryTotal(Map<String, Object> map);
+	void deleteAll();
 	/**
 	 * 保存
 	 */
 	void save(CBondRatingEntity cBondRatingEntity);
+	/**
+	 * 清空后保存
+	 * @param list
+	 */
+	void deleteAllThenSave(List<CBondRatingEntity> list);
 }

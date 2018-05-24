@@ -21,18 +21,13 @@ public class CFuturesDescriptionServiceImpl implements CFuturesDescriptionServic
 	private CFuturesDescriptionDao cFuturesDescriptionDao;
 
 	@Override
-	public CFuturesDescriptionEntity queryObject(String objectId) {
-		return cFuturesDescriptionDao.queryObject(objectId);
+	public List<CFuturesDescriptionEntity> queryAll(Map<String, Object> map) {
+		return cFuturesDescriptionDao.queryAll(map);
 	}
 
 	@Override
-	public List<CFuturesDescriptionEntity> queryList(Map<String, Object> map) {
-		return cFuturesDescriptionDao.queryList(map);
-	}
-
-	@Override
-	public int queryTotal(Map<String, Object> map) {
-		return cFuturesDescriptionDao.queryTotal(map);
+	public void deleteAll() {
+		cFuturesDescriptionDao.deleteAll();
 	}
 
 	@Override
@@ -40,5 +35,13 @@ public class CFuturesDescriptionServiceImpl implements CFuturesDescriptionServic
 	public void save(CFuturesDescriptionEntity cFuturesDescriptionEntity) {
 		cFuturesDescriptionDao.save(cFuturesDescriptionEntity);
 	}
-	
+
+	@Override
+	@Transactional
+	public void deleteAllThenSave(List<CFuturesDescriptionEntity> list) {
+		cFuturesDescriptionDao.deleteAll();
+		for(CFuturesDescriptionEntity cf : list) {
+			cFuturesDescriptionDao.save(cf);
+		}
+	}
 }

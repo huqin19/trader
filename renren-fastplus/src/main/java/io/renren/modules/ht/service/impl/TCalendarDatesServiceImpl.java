@@ -15,8 +15,8 @@ public class TCalendarDatesServiceImpl implements TCalendarDatesService{
 	private TCalendarDatesDao tCalendarDatesDao;
 
 	@Override
-	public List<TCalendarDatesEntity> queryCode(String calCode) {
-		return tCalendarDatesDao.queryCode(calCode);
+	public List<TCalendarDatesEntity> queryCode(Map<String, Object> map) {
+		return tCalendarDatesDao.queryCode(map);
 	}
 
 	@Override
@@ -25,8 +25,13 @@ public class TCalendarDatesServiceImpl implements TCalendarDatesService{
 	}
 
 	@Override
-	public int queryTotal(Map<String, Object> map) {
-		return tCalendarDatesDao.queryTotal(map);
+	public List<TCalendarDatesEntity> queryAll(Map<String, Object> map) {
+		return tCalendarDatesDao.queryAll(map);
+	}
+
+	@Override
+	public void deleteAll() {
+		tCalendarDatesDao.deleteAll();
 	}
 
 	@Override
@@ -34,4 +39,15 @@ public class TCalendarDatesServiceImpl implements TCalendarDatesService{
 	public void save(TCalendarDatesEntity tCalendarDates) {
 		tCalendarDatesDao.save(tCalendarDates);
 	}
+
+	@Override
+	@Transactional
+	public void deleteAllThenSave(List<TCalendarDatesEntity> list) {
+		tCalendarDatesDao.deleteAll();
+		for(TCalendarDatesEntity tc : list) {
+			tCalendarDatesDao.save(tc);
+		}		
+	}
+
+
 }

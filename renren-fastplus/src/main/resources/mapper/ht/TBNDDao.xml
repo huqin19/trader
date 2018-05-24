@@ -2,10 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="io.renren.modules.ht.dao.TBNDDao">
-	<select id="queryCode" resultType="io.renren.modules.ht.entity.TBNDEntity" >
-		select * from TBND where i_code = #{value}
+	<select id="queryAll" parameterType="java.util.HashMap" resultType="io.renren.modules.ht.entity.TBNDEntity" >
+		select * from ${tableName}
 	</select>
-	
+	<delete id="deleteAll">
+		delete from TBND
+	</delete>
 	<insert id="save" parameterType="io.renren.modules.ht.entity.TBNDEntity">
 		insert into TBND
 		(

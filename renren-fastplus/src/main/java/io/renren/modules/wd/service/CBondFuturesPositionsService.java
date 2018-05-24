@@ -11,16 +11,21 @@ import io.renren.modules.wd.entity.CBondFuturesPositionsEntity;
  */
 public interface CBondFuturesPositionsService {
 	/**
-	 * 通过对象ID查询
-	 * @param objectId
+	 * 查询最近一条数据
+	 * @param map
 	 * @return
 	 */
-	CBondFuturesPositionsEntity queryObject(String objectId);
+	CBondFuturesPositionsEntity queryFirst(Map<String, Object> map);
+	/**
+	 * 通过交易日期区间查询
+	 * @return
+	 */
+	List<CBondFuturesPositionsEntity> queryList(Map<String, Object> map);
 	/**
 	 * 通过交易日期查询
 	 * @return
 	 */
-	List<CBondFuturesPositionsEntity> queryList(Map<String, Object> map);
+	List<CBondFuturesPositionsEntity> queryByTdDate(Map<String, Object> map);
 	/**
 	 * 查询总数
 	 */

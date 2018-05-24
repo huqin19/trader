@@ -15,7 +15,7 @@ public interface TCalendarDatesService {
 	 * @param 
 	 * @return
 	 */
-	List<TCalendarDatesEntity> queryCode(String calCode);
+	List<TCalendarDatesEntity> queryCode(Map<String, Object> map);
 	/**
 	 * 通过日期查询
 	 * @param 
@@ -23,11 +23,23 @@ public interface TCalendarDatesService {
 	 */
 	List<TCalendarDatesEntity> queryList(Map<String, Object> map);
 	/**
-	 * 查询总数
+	 * 查询所有
+	 * @param map
+	 * @return
 	 */
-	int queryTotal(Map<String, Object> map);
+	List<TCalendarDatesEntity> queryAll(Map<String, Object> map);
+	/**
+	 * 删除所有
+	 */
+	void deleteAll();
 	/**
 	 * 保存
 	 */
 	void save(TCalendarDatesEntity tCalendarDates);
+	
+	/**
+	 * 清空后保存
+	 * @param list
+	 */
+	void deleteAllThenSave(List<TCalendarDatesEntity> list);
 }
