@@ -1,24 +1,23 @@
 spring:
     datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
         druid:
             zqdb_source:  #数据源1
-                type: com.alibaba.druid.pool.DruidDataSource
                 driverClassName: oracle.jdbc.driver.OracleDriver
-                url: jdbc:oracle:thin:@C64-20180408IGT:1521:zqdbsid
-                username: DHB
-                password: 123456
+                url: jdbc:oracle:thin:@localhost:1521:zqdbSid
+                username: huqin
+                password: huqin
             wddb_source:  #数据源2
-                type: com.alibaba.druid.pool.DruidDataSource
                 driverClassName: oracle.jdbc.driver.OracleDriver
-                url: jdbc:oracle:thin:@C64-20180408IGT:1521:zqdbsid
-                username: DHB
-                password: 123456
+                url: jdbc:oracle:thin:@localhost:1521:zqdbSid
+                username: huqin
+                password: huqin
             htdb_source:  #数据源3
-                type: com.alibaba.druid.pool.DruidDataSource
                 driverClassName: oracle.jdbc.driver.OracleDriver
-                url: jdbc:oracle:thin:@C64-20180408IGT:1521:zqdbsid
-                username: DHB
-                password: 123456
+                url: jdbc:oracle:thin:@localhost:1521:zqdbSid
+                username: huqin
+                password: huqin
+                
             initial-size: 10
             max-active: 100
             min-idle: 10

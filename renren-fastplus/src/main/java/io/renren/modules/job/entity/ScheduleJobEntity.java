@@ -26,6 +26,11 @@ public class ScheduleJobEntity implements Serializable {
 	private Long jobId;
 	
 	/**
+	 * 任务id String
+	 */
+	private String jobIdStr;
+	
+	/**
 	 * 行号
 	 */
 	private Long rowx;
@@ -170,6 +175,14 @@ public class ScheduleJobEntity implements Serializable {
 
 	public void setRowx(Long rowx) {
 		this.rowx = rowx;
+	}
+
+	public String getJobIdStr() {
+		return jobIdStr;
+	}
+
+	public void setJobIdStr(String jobIdStr) {
+		this.jobIdStr = jobIdStr;
 	}
 
 
