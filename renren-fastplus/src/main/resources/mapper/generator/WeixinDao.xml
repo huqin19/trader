@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.generator.dao.WeixinDao">
+
+	<select id="queryList" resultType="io.renren.modules.generator.entity.WeixinEntity" >
+		select 
+			*
+		from 
+		(
+			select 
+				DISTINCT dep_id as id, 
+				parent_id as pId, 
+				dep_name as name, 
+				case parent_id when '0' then 'true' else 'false' end as open, 
+				'false' as checked,
+				'0' as isleaf
+			from 
+				zq_department
+		
+		UNION
+			select 
+				DISTINCT
+				zq_user.user_id as id, 
+				zq_user_department.dep_id as pId, 
+				zq_user.user_name as name,  
+				'false' as open,
+				'false' as checked,
+				'1' as isleaf
+			from 
+				zq_user 
+			left join 
+				zq_user_department
+			on 
+				zq_user.user_id = zq_user_department.user_id
+		)x
+		ORDER BY 
+			x.id ASC
+	</select>
+</mapper>

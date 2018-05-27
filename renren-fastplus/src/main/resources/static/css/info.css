@@ -1,0 +1,94 @@
+.container{
+	display: inline-block;
+    margin-left: 230px;
+    margin-top:100px;
+}
+.form{
+	width:100%;
+}
+.line1{
+	min-width: 620px;
+}
+.check-type,.check-name,.check-date,.check-btn{
+	width: 300px;
+	display: inline-block;
+}
+label{
+	width:80px;
+	display: inline;
+}
+
+.check-type select,.check-name input,.check-date input{
+	width:60%;
+	height: 36px;
+	border-radius: 3px;
+	border:1px solid #ddd;
+	display: inline-block;
+}
+.check-name input{
+	padding-left: 5px
+}
+.check-date{
+	margin-top:20px;
+}
+.check-btn input[type="button"]{
+	width: 80px;
+	height:36px;
+	border-radius:3px;
+	background: #4395FF;
+	color:#fff;
+}
+.table-content{
+	padding-top:20px;
+	padding-right:20px;
+}
+th{
+	background-color: #4395FF;
+	width:8%;
+	height:40px;
+	vertical-align: middle;
+	border:1px solid #3b3b3b;
+}
+td{
+	text-align: center;
+	height:30px;
+	line-height: 30px;
+	border:1px solid #3b3b3b;
+}
+.page {
+	text-align: right;
+	padding-top:15px;
+	padding-right:20px;
+	margin-bottom: 40px;
+}
+.page ul,.page li{
+	display: inline-block;
+}
+.page li{
+	width:23px;
+	height: 23px;
+	text-align: center;
+	line-height: 20px;
+	color:#000;
+	border:1px solid #ddd;
+}
+.page li.active{
+	background: #4395FF;
+	color:#fff;
+}
+.page button{
+	
+}
+.page button:hover{
+	background: #4395FF;
+}
+.page input{
+	width:50px;
+	height:25px;
+	border:1px solid #ddd;
+	border-radius: 3px;
+	padding-left:5px;
+}
+tr td:first-child{
+	vertical-align: middle;
+}
