@@ -17,4 +17,6 @@ import io.renren.modules.wd.entity.CBondFuturesEODPricesEntity;
 public interface CBondFuturesEODPricesDao extends BaseDao<CBondFuturesEODPricesEntity>{
 	CBondFuturesEODPricesEntity queryFirst(Map<String, Object> map);
 	List<CBondFuturesEODPricesEntity> queryByTdDate(Map<String, Object> map);
+	List<CBondFuturesEODPricesEntity> queryAll(Map<String, Object> map);
+	List<CBondFuturesEODPricesEntity> queryLatest(Map<String, Object> map);
 }

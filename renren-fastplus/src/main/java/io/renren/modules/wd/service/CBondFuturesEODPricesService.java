@@ -35,5 +35,17 @@ public interface CBondFuturesEODPricesService {
 	 * 保存
 	 */
 	void save(CBondFuturesEODPricesEntity cBondFuturesEODPricesEntity);
+	/**
+	 * 查询所有
+	 * @param map
+	 * @return
+	 */
+	List<CBondFuturesEODPricesEntity> queryAll(Map<String, Object> map);
+	/**
+	 * 查询日期最近的
+	 * @param map
+	 * @return
+	 */
+	List<CBondFuturesEODPricesEntity> queryLatest(Map<String, Object> map);
 	
 }

@@ -46,5 +46,15 @@ public class CBondFuturesPositionsServiceImpl implements CBondFuturesPositionsSe
 		cBondFuturesPositionsDao.save(cBondFuturesPositionsEntity);
 	}
 
+	@Override
+	public List<CBondFuturesPositionsEntity> queryAll(Map<String, Object> map) {
+		return cBondFuturesPositionsDao.queryAll(map);
+	}
+
+	@Override
+	public List<CBondFuturesPositionsEntity> queryLatest(Map<String, Object> map) {
+		return cBondFuturesPositionsDao.queryLatest(map);
+	}
+
 
 }

@@ -64,6 +64,7 @@ public class GetDepartmentTask {
 			log.setUrl(url);
 			log.setFunctionName(name);
 			log.setParam(paramName + "=" + param);
+			log.setCreateTime(new Date());
 			log.setReason("需要使用" + name + "接口，用以获取数据");
 			//同步方式，0-定时，-1手动 ???
 			log.setWay(-1);
@@ -80,8 +81,8 @@ public class GetDepartmentTask {
 						List<DepartmentEntity> list = result.getObj();
 						for(DepartmentEntity dept : list) {
 							dept.setStatus(1);
-							departmentService.save(dept);
 						}
+						departmentService.deleteThenSave(list);
 						log.setResult(1);
 						log.setResultDesc("获取部门信息成功！");
 					}else {

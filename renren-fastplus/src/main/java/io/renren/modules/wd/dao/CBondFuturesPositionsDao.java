@@ -12,4 +12,6 @@ import io.renren.modules.wd.entity.CBondFuturesPositionsEntity;
 public interface CBondFuturesPositionsDao extends BaseDao<CBondFuturesPositionsEntity>{
 	CBondFuturesPositionsEntity queryFirst(Map<String, Object> map);
 	List<CBondFuturesPositionsEntity> queryByTdDate(Map<String, Object> map);
+	List<CBondFuturesPositionsEntity> queryAll(Map<String, Object> map);
+	List<CBondFuturesPositionsEntity> queryLatest(Map<String, Object> map);
 }

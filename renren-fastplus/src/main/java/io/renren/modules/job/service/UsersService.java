@@ -37,4 +37,14 @@ public interface UsersService {
 	 * @return
 	 */
 	List<UsersEntity> queryByTime(Map<String, Object> map);
+	
+	/**
+	 * 删除所有
+	 */
+	void deleteAll();
+	/**
+	 * 删除后插入
+	 * @param list
+	 */
+	void deleteThenSave(List<UsersEntity> list);
 }

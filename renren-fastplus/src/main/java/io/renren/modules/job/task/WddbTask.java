@@ -52,37 +52,40 @@ public class WddbTask {
 	/**
 	 * 表CBONDFUTURESEODPRICES定时任务
 	 * @param param
-	 * 1,在主表查询更新今日日期下的数据
-	 * 1.1，如果不为空就以插入本地数据库
-	 * 1.2，如果为空就没有数据返回
+	 * 1,在本地查询最近的数据trade_dt
+	 * 1.1，如果不为空就以插入万德中大于这个日期的数据
+	 * 1.2，如果为空就全量更新
 	 */
-	public void cBondFuturesEODPrices(String param) {
+	public void updateCBondFuturesEODPrices(String param) {
 		logger.info("我是带参数的cBondFuturesEODPrices方法，正在被执行，参数为：" + param);
 		Map<String, Object> wdMap = new HashMap<String, Object>();
+		Map<String,Object> zqMap = new HashMap<String,Object>();
+		zqMap.put("tableName","CBONDFUTURESEODPRICES");				
 		SyncPushLogEntity log = new SyncPushLogEntity();
 		log.setUrl(url);
-		log.setFunctionName("save");
+		log.setFunctionName("queryFirst,queryLatest,save");
 		log.setParam(param);
+		log.setCreateTime(new Date());
 		log.setWay(0);
 		log.setReason("用以更新本地万德CBONDFUTURESEODPRICES数据库表！");
-		String trderDt = DateUtils.format(new Date()).toString();
-		wdMap.put("tableName", "wind_filesync.CBONDFUTURESEODPRICES");
-		wdMap.put("tradeDt", trderDt);
-		System.out.println(trderDt+"============");
+		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
+		String latest = cBondFuturesEODPricesService.queryFirst(zqMap).getTradeDt();
+		DynamicDataSource.clearDataSource();				
 		DynamicDataSource.setDataSource(DataSourceNames.WDDB_SOURCE);
-		List<CBondFuturesEODPricesEntity> list = cBondFuturesEODPricesService.queryByTdDate(wdMap);
+		wdMap.put("tableName", "wind_filesync.CBONDFUTURESEODPRICES");
+		wdMap.put("latest", latest);
+		List<CBondFuturesEODPricesEntity> list = cBondFuturesEODPricesService.queryLatest(wdMap);
 		DynamicDataSource.clearDataSource();
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 		if(list != null && list.size() != 0) {
 			for(CBondFuturesEODPricesEntity cb : list) {
-				System.out.println("==="+cb.getTradeDt()+"==="+cb.getsInfoWindcode());
 				cBondFuturesEODPricesService.save(cb);
 			}
 			log.setResult(1);
 			log.setResultDesc("更新本地万德数据库表CBONDFUTURESEODPRICES成功！");
 		}else {
 			log.setResult(0);
-			log.setResultDesc("没有查询到今日数据，更新本地万德数据库表CBONDFUTURESEODPRICES失败！");
+			log.setResultDesc("没有查询到数据，更新本地万德数据库表CBONDFUTURESEODPRICES失败！");
 		}
 		log.setRemark("remark");
 		syncPushLogService.save(log);
@@ -91,37 +94,40 @@ public class WddbTask {
 	/**
 	 * 表CBONDFUTURESPOSITIONS定时任务
 	 * @param param
-	 * 1,在主表查询更新今日日期下的数据
-	 * 1.1，如果不为空就以插入本地数据库
-	 * 1.2，如果为空就没有数据返回
+	 * 1,在本地查询最近的数据trade_dt
+	 * 1.1，如果不为空就以插入万德中大于这个日期的数据
+	 * 1.2，如果为空就全量更新
 	 */
-	public void cBondFuturesPositions(String param) {
+	public void updateCBondFuturesPositions(String param) {
 		logger.info("我是带参数的cBondFuturesPositions方法，正在被执行，参数为：" + param);
 		Map<String, Object> wdMap = new HashMap<String, Object>();
+		Map<String,Object> zqMap = new HashMap<String,Object>();
+		zqMap.put("tableName","CBONDFUTURESPOSITIONS");				
 		SyncPushLogEntity log = new SyncPushLogEntity();
 		log.setUrl(url);
-		log.setFunctionName("queryByTdDate,save");
+		log.setFunctionName("queryFirst,queryLatest,save");
 		log.setParam(param);
+		log.setCreateTime(new Date());
 		log.setWay(0);
 		log.setReason("用以更新本地万德CBONDFUTURESPOSITIONS数据库表！");
-		String trderDt = DateUtils.format(new Date()).toString();
-		wdMap.put("tableName", "wind_filesync.CBONDFUTURESPOSITIONS");
-		wdMap.put("tradeDt", trderDt);
-		System.out.println(trderDt+"============");
+		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
+		String latest = cBondFuturesPositionsService.queryFirst(zqMap).getTradeDt();
+		DynamicDataSource.clearDataSource();				
 		DynamicDataSource.setDataSource(DataSourceNames.WDDB_SOURCE);
-		List<CBondFuturesPositionsEntity> list = cBondFuturesPositionsService.queryByTdDate(wdMap);
+		wdMap.put("tableName", "wind_filesync.CBONDFUTURESPOSITIONS");
+		wdMap.put("latest", latest);
+		List<CBondFuturesPositionsEntity> list = cBondFuturesPositionsService.queryLatest(wdMap);
 		DynamicDataSource.clearDataSource();
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 		if(list != null && list.size() != 0) {
 			for(CBondFuturesPositionsEntity cb : list) {
-				System.out.println("==="+cb.getTradeDt()+"==="+cb.getsInfoWindcode());
 				cBondFuturesPositionsService.save(cb);
 			}
 			log.setResult(1);
 			log.setResultDesc("更新本地万德数据库表CBONDFUTURESPOSITIONS成功！");
 		}else {
 			log.setResult(0);
-			log.setResultDesc("没有查询到今日数据，更新本地万德数据库表CBONDFUTURESPOSITIONS失败！");
+			log.setResultDesc("没有查询到数据，更新本地万德数据库表CBONDFUTURESPOSITIONS失败！");
 		}
 		log.setRemark("remark");
 		syncPushLogService.save(log);
@@ -134,14 +140,15 @@ public class WddbTask {
 	 * 1，查询万德数据库
 	 * 2，删除本地表数据，插入本地表
 	 */
-	public void cBondIssuerRating(String param) {
+	public void updateCBondIssuerRating(String param) {
 		logger.info("我是带参数的cBondIssuerRating方法，正在被执行，参数为：" + param);
 		Map<String, Object> wdMap = new HashMap<String, Object>();
-		wdMap.put("tableName", "wind_filesync.CBONDISSUERRATING");
+		wdMap.put("tableName", "CBONDISSUERRATING");
 		SyncPushLogEntity log = new SyncPushLogEntity();
 		log.setUrl(url);
 		log.setFunctionName("queryAll,deleteAllThenSave");
 		log.setParam(param);
+		log.setCreateTime(new Date());
 		log.setWay(0);
 		log.setReason("用以更新本地万德CBONDISSUERRATING数据库表！");
 		DynamicDataSource.setDataSource(DataSourceNames.WDDB_SOURCE);
@@ -167,14 +174,15 @@ public class WddbTask {
 	 * 1，查询万德数据库
 	 * 2，删除本地表数据，插入本地表
 	 */
-	public void cBondRating(String param) {
+	public void updateCBondRating(String param) {
 		logger.info("我是带参数的cBondRating方法，正在被执行，参数为：" + param);
 		Map<String, Object> wdMap = new HashMap<String, Object>();
-		wdMap.put("tableName", "wind_filesync.CBONDRATING");
+		wdMap.put("tableName", "CBONDRATING");
 		SyncPushLogEntity log = new SyncPushLogEntity();
 		log.setUrl(url);
 		log.setFunctionName("queryAll,deleteAllThenSave");
 		log.setParam(param);
+		log.setCreateTime(new Date());
 		log.setWay(0);
 		log.setReason("用以更新本地万德CBONDRATING数据库表！");
 		DynamicDataSource.setDataSource(DataSourceNames.WDDB_SOURCE);
@@ -200,7 +208,7 @@ public class WddbTask {
 	 * 1，查询万德数据库
 	 * 2，删除本地表数据，插入本地表
 	 */
-	public void cFuturesDescription(String param) {
+	public void updateCFuturesDescription(String param) {
 		logger.info("我是带参数的cFuturesDescription方法，正在被执行，参数为：" + param);
 		Map<String, Object> wdMap = new HashMap<String, Object>();
 		wdMap.put("tableName", "wind_filesync.CFUTURESDESCRIPTION");
@@ -208,6 +216,7 @@ public class WddbTask {
 		log.setUrl(url);
 		log.setFunctionName("queryAll,deleteAllThenSave");
 		log.setParam(param);
+		log.setCreateTime(new Date());
 		log.setWay(0);
 		log.setReason("用以更新本地万德CFUTURESDESCRIPTION数据库表！");
 		DynamicDataSource.setDataSource(DataSourceNames.WDDB_SOURCE);

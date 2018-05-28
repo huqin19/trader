@@ -48,5 +48,20 @@ public class DepartmentServiceImpl implements DepartmentService{
 		department.setCreatedTimestamp(new Date());
 		departmentDao.save(department);
 	}
+	@Override
+	public void deleteAll() {
+		departmentDao.deleteAll();
+	}
+	@Override
+	@Transactional
+	public void deleteThenSave(List<DepartmentEntity> list) {
+		departmentDao.deleteAll();
+		for(DepartmentEntity department : list) {
+			Long objectId = sequence.nextId();
+			department.setObjectId(objectId);
+			department.setCreatedTimestamp(new Date());
+		}
+		departmentDao.saveBatch(list);
+	}
 
 }

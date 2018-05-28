@@ -7,12 +7,27 @@
         select * from ${tableName} 
                 <where>
                     <if test="dStart !=null and dStart.trim() != ''">
-                        <![CDATA[  and TO_DATE(trade_dt, '%yy-%mm-%dd') >= 
-                        TO_DATE(#{dStart}, '%yy-%mm-%dd')   ]]>
+                        <![CDATA[  and TO_DATE(trade_dt, '%yy%mm%dd') >= 
+                        TO_DATE(#{dStart}, '%yy%mm%dd')   ]]>
                     </if>
                     <if test="dEnd!=null and dEnd.trim() != ''">
-                        <![CDATA[  and TO_DATE(trade_dt, '%yy-%mm-%dd') <=
-                        TO_DATE(#{dEnd} , '%yy-%mm-%dd')    ]]>
+                        <![CDATA[  and TO_DATE(trade_dt, '%yy%mm%dd') <=
+                        TO_DATE(#{dEnd} , '%yy%mm%dd')    ]]>
+                    </if>
+                </where>    
+    	order by trade_dt desc
+    </select>
+    
+    <select id="queryAll" parameterType="java.util.HashMap" resultType="io.renren.modules.wd.entity.CBondFuturesEODPricesEntity">
+        select * from ${tableName}   
+    </select>
+    
+    <select id="queryLatest" parameterType="java.util.HashMap" resultType="io.renren.modules.wd.entity.CBondFuturesEODPricesEntity">
+        select * from ${tableName} 
+                <where>
+                    <if test="latest !=null and latest.trim() != ''">
+                        <![CDATA[  and TO_DATE(trade_dt, '%yy%mm%dd') >
+                        TO_DATE(#{latest}, '%yy%mm%dd')   ]]>
                     </if>
                 </where>    
     	order by trade_dt desc

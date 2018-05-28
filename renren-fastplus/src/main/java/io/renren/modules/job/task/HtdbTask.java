@@ -1,5 +1,6 @@
 package io.renren.modules.job.task;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +43,7 @@ public class HtdbTask {
 	 * 1，查询恒泰数据库
 	 * 2，删除本地表数据，插入本地表
 	 */
-	public void tCalendarDates(String param) {
+	public void updateTCalendarDates(String param) {
 		logger.info("我是带参数的tCalendarDates方法，正在被执行，参数为：" + param);
 		Map<String, Object> htMap = new HashMap<String, Object>();
 		htMap.put("tableName", "XIR_MD.TCALENDAR_DATES");
@@ -50,6 +51,7 @@ public class HtdbTask {
 		log.setUrl(url);
 		log.setFunctionName("queryAll,deleteAllThenSave");
 		log.setParam(param);
+		log.setCreateTime(new Date());
 		log.setWay(0);
 		log.setReason("用以更新本地恒泰TCALENDAR_DATES数据库表！");
 		DynamicDataSource.setDataSource(DataSourceNames.HTDB_SOURCE);
@@ -75,7 +77,7 @@ public class HtdbTask {
 	 * 1，查询恒泰数据库
 	 * 2，删除本地表数据，插入本地表
 	 */
-	public void tBND(String param) {
+	public void updateTBND(String param) {
 		logger.info("我是带参数的tBND方法，正在被执行，参数为：" + param);
 		Map<String, Object> htMap = new HashMap<String, Object>();
 		htMap.put("tableName", "XIR_MD.TBND");
@@ -83,6 +85,7 @@ public class HtdbTask {
 		log.setUrl(url);
 		log.setFunctionName("queryAll,deleteAllThenSave");
 		log.setParam(param);
+		log.setCreateTime(new Date());
 		log.setWay(0);
 		log.setReason("用以更新本地恒泰TBND数据库表！");
 		DynamicDataSource.setDataSource(DataSourceNames.HTDB_SOURCE);

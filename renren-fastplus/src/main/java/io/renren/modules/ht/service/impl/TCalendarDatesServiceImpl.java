@@ -3,6 +3,7 @@ package io.renren.modules.ht.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +13,7 @@ import io.renren.modules.ht.service.TCalendarDatesService;
 
 @Service("tCalendarDatesService")
 public class TCalendarDatesServiceImpl implements TCalendarDatesService{
+	@Autowired
 	private TCalendarDatesDao tCalendarDatesDao;
 
 	@Override

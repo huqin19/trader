@@ -61,6 +61,7 @@ public class SendFileTask {
 		SyncPushLogEntity log = new SyncPushLogEntity();
 		log.setUrl(url);
 		log.setFunctionName(name);
+		log.setCreateTime(new Date());
 		log.setParam(param);
 		log.setReason("需要使用" + name + "的接口，发送文件信息");
 		// 同步方式，0-定时，-1手动 ???

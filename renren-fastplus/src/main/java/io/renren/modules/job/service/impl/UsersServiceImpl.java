@@ -53,4 +53,21 @@ public class UsersServiceImpl implements UsersService{
 	public List<UsersEntity> queryByTime(Map<String, Object> map) {
 		return usersDao.queryByTime(map);
 	}
+
+	@Override
+	public void deleteAll() {
+		usersDao.deleteAll();
+	}
+
+	@Override
+	@Transactional
+	public void deleteThenSave(List<UsersEntity> list) {
+		usersDao.deleteAll();
+		for(UsersEntity user : list) {
+			Long objectId = sequence.nextId();
+			user.setObjectId(objectId);
+			user.setCreatedTimestamp(new Date());
+		}
+		usersDao.saveBatch(list);
+	}
 }

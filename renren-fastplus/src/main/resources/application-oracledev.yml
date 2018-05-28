@@ -5,13 +5,13 @@ spring:
             zqdb_source:  #数据源1
                 driverClassName: oracle.jdbc.driver.OracleDriver
                 url: jdbc:oracle:thin:@localhost:1521:zqdbSid
-                username: huqin
-                password: huqin
+                username: dhb
+                password: 123456
             wddb_source:  #数据源2
                 driverClassName: oracle.jdbc.driver.OracleDriver
                 url: jdbc:oracle:thin:@localhost:1521:zqdbSid
-                username: huqin
-                password: huqin
+                username: dhb
+                password: 123456
             htdb_source:  #数据源3
                 driverClassName: oracle.jdbc.driver.OracleDriver
                 url: jdbc:oracle:thin:@localhost:1521:zqdbSid

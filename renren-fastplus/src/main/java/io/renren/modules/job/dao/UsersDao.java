@@ -12,4 +12,5 @@ import io.renren.modules.sys.dao.BaseDao;
 public interface UsersDao extends BaseDao<UsersEntity>{
 	List<UsersEntity> queryAllUsers();
 	List<UsersEntity> queryByTime(Map<String, Object> map);
+	void deleteAll();
 }

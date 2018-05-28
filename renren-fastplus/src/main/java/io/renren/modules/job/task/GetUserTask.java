@@ -1,5 +1,6 @@
 package io.renren.modules.job.task;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -66,6 +67,7 @@ public class GetUserTask {
 		SyncPushLogEntity log = new SyncPushLogEntity();
 		log.setUrl(url);
 		log.setFunctionName(name);
+		log.setCreateTime(new Date());
 		log.setParam(paramName + "=" + param);
 		log.setReason("需要使用" + name + "接口，用以获取数据");
 		//同步方式，0-定时，-1手动 ???
@@ -78,8 +80,9 @@ public class GetUserTask {
 			//状态码为0，获取成功
 			if(result.getCode() == 0) {
 				if(result.getObj() != null) {
-					List<UsersEntity> list = result.getObj();
-					for(UsersEntity user : list) {
+					List<UsersEntity> uList = result.getObj();
+					List<UserDepartmentEntity> udList = new ArrayList<UserDepartmentEntity>();
+					for(UsersEntity user : uList) {
 						user.setStatus(1);
 						usersService.save(user);
 						List<Integer> septlist = user.getDepartment();
@@ -87,8 +90,10 @@ public class GetUserTask {
 							UserDepartmentEntity userDept = new UserDepartmentEntity();
 							userDept.setDepId(deptId.toString());
 							userDept.setUserId(user.getUserid());
-							userDepartmentService.save(userDept);
-					}					
+							udList.add(userDept);						
+					}
+					usersService.deleteThenSave(uList);
+					userDepartmentService.saveBatch(udList);
 					log.setResult(1);
 					log.setResultDesc("获取成员信息成功！");
 				}else {

@@ -6,7 +6,7 @@
 		select * from zq_user_department
 	</select>
 	<select id="queryByTime" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-        select * from zq_user_department 
+     		select * from zq_user_department 
                 <where>
                     <if test="dStart!=null">
                         <![CDATA[  and DATE_FORMAT(#{dEnd}, '%Y-%m-%d %H:%T:%s') >=  
@@ -19,6 +19,10 @@
                 </where>    
                 order by created_timestamp desc
     </select>
+    
+    <delete id="deleteAll">
+		delete from zq_user_department
+	</delete>
 	<insert id="save" parameterType="io.renren.modules.job.entity.UserDepartmentEntity" >
 		insert into zq_user_department
 			(
@@ -34,5 +38,25 @@
 			 #{userId,jdbcType=VARCHAR},
 			 #{createdTimestamp,jdbcType=TIMESTAMP}
 			 )
+	</insert>
+	
+		<insert id="saveBatch" parameterType="java.util.List" >
+		insert into zq_user_department
+			(
+			object_id,
+			dep_id,
+			user_id,
+			created_timestamp
+			)
+		values 
+		 
+		<foreach item="item" collection="list" index="index" separator="," >
+			(
+			#{item.objectId,jdbcType=NUMERIC},
+			 #{item.depId,jdbcType=VARCHAR},
+			 #{item.userId,jdbcType=VARCHAR},
+			 #{item.createdTimestamp,jdbcType=TIMESTAMP}
+			 )
+		</foreach>
 	</insert>
 </mapper>

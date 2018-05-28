@@ -46,5 +46,15 @@ public class CBondFuturesEODPricesServiceImpl implements CBondFuturesEODPricesSe
 	public List<CBondFuturesEODPricesEntity> queryByTdDate(Map<String, Object> map) {
 		return cBondFuturesEODPricesDao.queryByTdDate(map);
 	}
+
+	@Override
+	public List<CBondFuturesEODPricesEntity> queryAll(Map<String, Object> map) {
+		return cBondFuturesEODPricesDao.queryAll(map);
+	}
+
+	@Override
+	public List<CBondFuturesEODPricesEntity> queryLatest(Map<String, Object> map) {
+		return cBondFuturesEODPricesDao.queryLatest(map);
+	}
 	
 }

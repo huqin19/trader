@@ -34,4 +34,17 @@ public interface CBondFuturesPositionsService {
 	 * 保存
 	 */
 	void save(CBondFuturesPositionsEntity cBondFuturesPositionsEntity);
+	/**
+	 * 查询所有
+	 * @param map
+	 * @return
+	 */
+	List<CBondFuturesPositionsEntity> queryAll(Map<String, Object> map);
+	
+	/**
+	 * 查询日期最近的
+	 * @param map
+	 * @return
+	 */
+	List<CBondFuturesPositionsEntity> queryLatest(Map<String, Object> map);
 }

@@ -35,7 +35,6 @@ public class SyncPushServiceImpl implements SyncPushLogService{
 	public void save(SyncPushLogEntity log) {
 		Long id = sequence.nextId();
 		log.setId(id);
-		log.setCreateTime(new Date());
 		syncPushLogDao.save(log);
 	}
 

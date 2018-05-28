@@ -17,4 +17,5 @@ import io.renren.modules.sys.dao.BaseDao;
 public interface DepartmentDao extends BaseDao<DepartmentEntity>{
 	List<DepartmentEntity> queryAllDepartment();
 	List<DepartmentEntity> queryByTime(Map<String, Object> map);
+	void deleteAll();
 }

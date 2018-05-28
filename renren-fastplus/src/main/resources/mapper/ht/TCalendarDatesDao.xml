@@ -10,6 +10,9 @@
 			</if> 
 		</where>
 	</select> 
+	<select id="queryAll" parameterType="java.util.HashMap" resultType="io.renren.modules.ht.entity.TCalendarDatesEntity" >
+		select * from ${tableName}
+	</select>
 
 	<select id="queryList" parameterType="java.util.HashMap" resultType="io.renren.modules.ht.entity.TCalendarDatesEntity" >
 		select * from ${tableName} 

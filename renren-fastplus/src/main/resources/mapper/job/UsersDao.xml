@@ -23,6 +23,11 @@
                 </where>    
                 order by created_timestamp desc
     </select>
+    
+  	<delete id="deleteAll">
+		delete from zq_user
+	</delete>
+	
 	<insert id="saveBatch" parameterType="java.util.List" >
 		insert into zq_user(
 			object_id,
