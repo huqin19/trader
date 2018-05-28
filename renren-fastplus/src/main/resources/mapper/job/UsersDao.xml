@@ -28,7 +28,7 @@
 		delete from zq_user
 	</delete>
 	
-	<insert id="saveBatch" parameterType="java.util.List" >
+	<insert id="saveBatch" parameterType="java.util.List">
 		insert into zq_user(
 			object_id,
 			user_name,
@@ -38,11 +38,11 @@
 			created_timestamp,
 			last_modifier_id,
 			modified_timestamp
-			)
-		values 
+			) 
 		 
-		<foreach item="item" collection="list" index="index" separator="," >
+		<foreach item="item" collection="list" index="index" separator="union all" >
 			(
+			 select
 			 #{item.objectId,jdbcType=NUMERIC},
 			 #{item.name,jdbcType=VARCHAR},
 			 #{item.userid,jdbcType=VARCHAR},
@@ -51,6 +51,7 @@
 			 #{item.createdTimestamp,jdbcType=TIMESTAMP},
 			 #{item.lastModifierId,jdbcType=VARCHAR},
 			 #{item.modifiedTimestamp,jdbcType=TIMESTAMP}
+			 from dual
 			 )
 		</foreach>
 	</insert>

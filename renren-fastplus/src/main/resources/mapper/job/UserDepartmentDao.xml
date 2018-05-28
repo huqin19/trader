@@ -40,7 +40,7 @@
 			 )
 	</insert>
 	
-		<insert id="saveBatch" parameterType="java.util.List" >
+	<insert id="saveBatch" parameterType="java.util.List">
 		insert into zq_user_department
 			(
 			object_id,
@@ -48,14 +48,15 @@
 			user_id,
 			created_timestamp
 			)
-		values 
 		 
-		<foreach item="item" collection="list" index="index" separator="," >
+		<foreach item="item" collection="list" index="index" separator="union all" >
 			(
-			#{item.objectId,jdbcType=NUMERIC},
+			 select
+			 #{item.objectId,jdbcType=NUMERIC},
 			 #{item.depId,jdbcType=VARCHAR},
 			 #{item.userId,jdbcType=VARCHAR},
 			 #{item.createdTimestamp,jdbcType=TIMESTAMP}
+			 from dual
 			 )
 		</foreach>
 	</insert>

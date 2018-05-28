@@ -55,7 +55,7 @@ public class GetDepartmentTask {
 			paramMap.put(paramName, param);
 			//发送get请求
 			//String strResult = HttpClientUtils.doGet(url, paramMap, true);
-			String strResult = "{\"cause\": null,\"code\":0,\"obj\":[{\"name\":\"人事部\",\"id\":20,\"orderNo\":201,\"parentid\":2},{\"name\":\"客服部\",\"id\":21,\"orderNo\":21,\"parentid\":2}],\"msg\":\"成功！\"}";
+			String strResult = "";
 			//test
 			System.out.println(strResult);
 			ResultEntity<List<DepartmentEntity>> result = GsonUtils.fromJsonArray(strResult, DepartmentEntity.class);

@@ -67,7 +67,8 @@ public class UsersServiceImpl implements UsersService{
 			Long objectId = sequence.nextId();
 			user.setObjectId(objectId);
 			user.setCreatedTimestamp(new Date());
+			usersDao.save(user);
 		}
-		usersDao.saveBatch(list);
+		
 	}
 }

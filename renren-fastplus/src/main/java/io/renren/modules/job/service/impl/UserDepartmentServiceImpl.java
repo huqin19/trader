@@ -65,11 +65,13 @@ public class UserDepartmentServiceImpl implements UserDepartmentService{
 	public void deleteThenSave(List<UserDepartmentEntity> list) {
 		userDepartmentDao.deleteAll();
 		for(UserDepartmentEntity userDept : list) {
+			System.out.println(userDept.getDepId()+"========================");
 			Long objectId = sequence.nextId();
 			userDept.setObjectId(objectId);
 			userDept.setCreatedTimestamp(new Date());
+			userDepartmentDao.save(userDept);
 		}
-		userDepartmentDao.saveBatch(list);
+		
 	}
 	
 }

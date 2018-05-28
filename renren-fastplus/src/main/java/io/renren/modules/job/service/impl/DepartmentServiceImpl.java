@@ -60,8 +60,9 @@ public class DepartmentServiceImpl implements DepartmentService{
 			Long objectId = sequence.nextId();
 			department.setObjectId(objectId);
 			department.setCreatedTimestamp(new Date());
+			departmentDao.save(department);
 		}
-		departmentDao.saveBatch(list);
+		
 	}
 
 }

@@ -28,7 +28,7 @@
 		delete from zq_department
 	</delete>
     
-	<insert id="saveBatch" parameterType="java.util.List" >
+	<insert id="saveBatch" parameterType="java.util.List">
 		insert into zq_department(
 			object_id,
 			dep_id,
@@ -40,10 +40,11 @@
 			last_modifier_id,
 			modified_timestamp
 			)
-		values 
 		 
-		<foreach item="item" collection="list" index="index" separator="," >
-			(#{item.objectId,jdbcType=NUMERIC},
+		<foreach item="item" collection="list" index="index" separator="union all" >
+			(
+			 select
+			 #{item.objectId,jdbcType=NUMERIC},
 			 #{item.id,jdbcType=VARCHAR},
 			 #{item.parentid,jdbcType=VARCHAR},
 			 #{item.name,jdbcType=VARCHAR},
@@ -52,6 +53,7 @@
 			 #{item.createdTimestamp,jdbcType=TIMESTAMP},
 			 #{item.lastModifierId,jdbcType=VARCHAR},
 			 #{item.modifiedTimestamp,jdbcType=TIMESTAMP}
+			 from dual
 			 )
 		</foreach>
 	</insert>
