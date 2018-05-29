@@ -11,6 +11,26 @@
 	<select id="queryTotal" resultType="int">
 		select count(1) from TTRD_CMDS_EXECUTIONREPORT
     </select>
+    <select id="queryLatest" parameterType="java.util.HashMap" resultType="io.renren.modules.ht.entity.TtrdCmdsExecutionreportEntity">
+        select * from 
+        	(select * from ${tableName} 
+        		<where>
+             		<if test="latestDate !=null and latestDate.trim() != ''">
+                        <![CDATA[  and TO_DATE(trddate , 'syyyy-mm-dd') >
+                        and TO_DATE(#{latestDate} , 'syyyy-mm-dd')    ]]>
+               		</if>
+        		</where>    
+         	) 
+                <where>
+                    <if test="latestTime !=null and latestTime.trim() != ''">
+                        <![CDATA[  and TO_DATE(trdtime , 'hh24:mi:ss') >
+                        and TO_DATE(#{latestTime} , 'hh24:mi:ss')    ]]>
+                    </if>
+                </where>    
+     </select>
+    <select id="queryFirst" parameterType="java.util.HashMap" resultType="io.renren.modules.ht.entity.TtrdCmdsExecutionreportEntity">
+			select * from (select * from ${tableName} order by trddate desc,trdtime desc) where rownum=1 
+    </select>
 	<insert id="save" parameterType="io.renren.modules.ht.entity.TtrdCmdsExecutionreportEntity">
 		insert into TTRD_CMDS_EXECUTIONREPORT
 		(

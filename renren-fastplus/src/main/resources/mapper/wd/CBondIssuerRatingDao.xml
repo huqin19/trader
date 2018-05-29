@@ -8,7 +8,17 @@
     <select id="queryTotal" parameterType="java.util.HashMap" resultType="int">
 			select count(1) from ${tableName} 
     </select>
-	
+	<select id="queryLatest" parameterType="java.util.HashMap" resultType="io.renren.modules.wd.entity.CBondIssuerRatingEntity">
+        select * from ${tableName} 
+                <where>
+                    <if test="latest !=null">
+                       opdate > #{latest}
+                    </if>
+                </where>    
+    </select>
+    <select id="queryFirst" parameterType="java.util.HashMap" resultType="io.renren.modules.wd.entity.CBondIssuerRatingEntity">
+			select * from (select * from ${tableName} order by opdate desc) where rownum=1 
+    </select>
 	<delete id="deleteAll">
 		delete from CBONDISSUERRATING
 	</delete>

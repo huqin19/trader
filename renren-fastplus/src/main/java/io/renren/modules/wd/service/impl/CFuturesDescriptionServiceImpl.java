@@ -47,6 +47,16 @@ public class CFuturesDescriptionServiceImpl implements CFuturesDescriptionServic
 
 	@Override
 	public int queryTotal(Map<String, Object> map) {
-		return cFuturesDescriptionDao.queryTotal();
+		return cFuturesDescriptionDao.queryTotal(map);
+	}
+
+	@Override
+	public CFuturesDescriptionEntity queryFirst(Map<String, Object> map) {
+		return cFuturesDescriptionDao.queryFirst(map);
+	}
+
+	@Override
+	public List<CFuturesDescriptionEntity> queryLatest(Map<String, Object> map) {
+		return cFuturesDescriptionDao.queryLatest(map);
 	}
 }

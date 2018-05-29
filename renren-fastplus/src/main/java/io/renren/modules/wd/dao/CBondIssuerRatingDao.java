@@ -12,4 +12,6 @@ import io.renren.modules.wd.entity.CBondIssuerRatingEntity;
 public interface CBondIssuerRatingDao extends BaseDao<CBondIssuerRatingEntity>{
 	void deleteAll();
 	List<CBondIssuerRatingEntity> queryAll(Map<String, Object> map);
+	CBondIssuerRatingEntity queryFirst(Map<String, Object> map);
+	List<CBondIssuerRatingEntity> queryLatest(Map<String, Object> map);
 }

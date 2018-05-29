@@ -18,4 +18,6 @@ import io.renren.modules.sys.dao.BaseDao;
 public interface TtrdCmdsExecutionreportDao extends BaseDao<TtrdCmdsExecutionreportEntity> {
 	void deleteAll();
 	List<TtrdCmdsExecutionreportEntity> queryAll();
+	TtrdCmdsExecutionreportEntity queryFirst(Map<String, Object> map);
+	List<TtrdCmdsExecutionreportEntity> queryLatest(Map<String, Object> map);
 }

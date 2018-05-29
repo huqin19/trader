@@ -14,7 +14,7 @@ public class MessageEntity implements Serializable{
 	private String toparty;
 	private String no;
 	private String msgtype;
-	private List<String> content;
+	private String content;
 	private String sendType;
 	private String safe;
 	public String getTouser() {
@@ -53,11 +53,12 @@ public class MessageEntity implements Serializable{
 	public void setSafe(String safe) {
 		this.safe = safe;
 	}
-	public List<String> getContent() {
+	public String getContent() {
 		return content;
 	}
-	public void setContent(List<String> content) {
+	public void setContent(String content) {
 		this.content = content;
 	}
+	
 	
 }

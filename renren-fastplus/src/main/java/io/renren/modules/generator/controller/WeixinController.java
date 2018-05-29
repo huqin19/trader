@@ -88,17 +88,18 @@ public class WeixinController {
     	}
 		MessageEntity msg = new MessageEntity();
 		Content con = new Content();
-		List<String> content = new ArrayList<String>();
-		con.setDescription("2015年5月14日，北京，天安门广场的华灯上悬挂起中印两国国旗，欢迎印度总理莫迪访华");
-		con.setTitle("天安门广场悬挂起中印国旗 欢迎莫迪来访");
-		con.setPicurl("https://ss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=c0c2b552881001e94e69474fde334fde/908fa0ec08fa513d45999065386d55fbb2fbd95e.jpg");
-		con.setUrl("http://pic.chinadaily.com.cn/2015-05/15/content_20724037.htm?source=bdxsy");	
-		String contstr = GsonUtils.gsonString(con);
-		content.add(contstr);
+		List<Content> content = new ArrayList<Content>();
+		con.setDescription("国债期货2018-04-28");
+		con.setTitle("国债期货当日结算价[2018-04-28]");
+		con.setPicurl("https://img.alicdn.com/tfs/TB1e58ksHSYBuNjSspiXXXNzpXa-290-130.gif");
+		con.setUrl("https://mp.weixin.qq.com/s/okXhuplO8Ok1hYJBNWvE5g");	
+		content.add(con);
+		String contstr = GsonUtils.gsonString(content);		
 		msg.setTouser(touser.toString());
-		msg.setNo("1254sdf5sd6dfd");
+		msg.setToparty("");
+		msg.setNo("b21aa97019ac42658af0f107bc5a379f");
 		msg.setMsgtype("news");
-		msg.setContent(content);
+		msg.setContent(contstr);
 		msg.setSendType("0");
 		msg.setSafe("0");
 		String gsonString = GsonUtils.gsonString(msg);

@@ -38,7 +38,7 @@ public class CBondFuturesPositionsServiceImpl implements CBondFuturesPositionsSe
 
 	@Override
 	public int queryTotal(Map<String, Object> map) {
-		return cBondFuturesPositionsDao.queryTotal();
+		return cBondFuturesPositionsDao.queryTotal(map);
 	}
 
 	@Override

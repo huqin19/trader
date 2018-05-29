@@ -56,6 +56,20 @@ public class TBNDServiceImpl implements TBNDService{
 
 	@Override
 	public int queryTotal(Map<String, Object> map) {
-		return tBNDao.queryTotal();
+		return tBNDao.queryTotal(map);
+	}
+
+
+
+	@Override
+	public TBNDEntity queryFirst(Map<String, Object> map) {
+		return tBNDao.queryFirst(map);
+	}
+
+
+
+	@Override
+	public List<TBNDEntity> queryLatest(Map<String, Object> map) {
+		return tBNDao.queryLatest(map);
 	}
 }

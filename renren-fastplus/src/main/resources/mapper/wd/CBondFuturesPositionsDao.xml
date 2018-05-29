@@ -24,12 +24,10 @@
 	<select id="queryLatest" parameterType="java.util.HashMap" resultType="io.renren.modules.wd.entity.CBondFuturesPositionsEntity">
         select * from ${tableName} 
                 <where>
-                    <if test="latest !=null and latest.trim() != ''">
-                        <![CDATA[  and TO_DATE(trade_dt, '%yy%mm%dd') >
-                        TO_DATE(#{latest}, '%yy%mm%dd')   ]]>
+                    <if test="latest !=null">
+						opdate > #{latest}
                     </if>
                 </where>    
-    	order by trade_dt desc
     </select>
     
     <select id="queryByTdDate" parameterType="java.util.HashMap" resultType="io.renren.modules.wd.entity.CBondFuturesPositionsEntity">
@@ -37,7 +35,7 @@
     </select>
     
     <select id="queryFirst" parameterType="java.util.HashMap" resultType="io.renren.modules.wd.entity.CBondFuturesPositionsEntity">
-			select * from (select * from ${tableName} order by trade_dt desc) where rownum=1 
+			select * from (select * from ${tableName} order by opdate desc) where rownum=1 
     </select>
 	
     <select id="queryTotal" parameterType="java.util.HashMap" resultType="int">
@@ -73,7 +71,7 @@
 			#{fsInfoPositionsnum,jdbcType=NUMERIC},
 			#{fsInfoRank,jdbcType=NUMERIC},
 			#{sOiPositionsnumc,jdbcType=NUMERIC},
-			#{opdate,jdbcType=CHAR},
+			#{opdate,jdbcType=DATE},
 			#{opmode,jdbcType=VARCHAR},
 			#{impDate,jdbcType=CHAR},
 			#{impTime,jdbcType=CHAR}	

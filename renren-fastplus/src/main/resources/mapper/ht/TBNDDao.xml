@@ -11,6 +11,17 @@
 	<select id="queryTotal" parameterType="java.util.HashMap" resultType="int">
 		select count(1) from ${tableName} 
     </select>
+    <select id="queryLatest" parameterType="java.util.HashMap" resultType="io.renren.modules.ht.entity.TBNDEntity">
+        select * from ${tableName} 
+                <where>
+                    <if test="latest !=null and latest.trim() != ''">
+                       IMP_TIME > #{latest}
+                    </if>
+                </where>    
+     </select>
+    <select id="queryFirst" parameterType="java.util.HashMap" resultType="io.renren.modules.ht.entity.TBNDEntity">
+			select * from (select * from ${tableName} order by IMP_TIME desc) where rownum=1 
+    </select>
 	<insert id="save" parameterType="io.renren.modules.ht.entity.TBNDEntity">
 		insert into TBND
 		(

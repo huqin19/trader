@@ -98,7 +98,7 @@ public class GetUserTask {
 						//usersService.save(user);
 						///userDepartmentService.save(userDept);
 					}				
-					//userDepartmentService.deleteThenSave(udList);
+					userDepartmentService.deleteThenSave(udList);
 					usersService.deleteThenSave(uList);
 					log.setResult(1);
 					log.setResultDesc("获取成员信息成功！");

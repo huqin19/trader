@@ -19,4 +19,7 @@ import io.renren.modules.sys.dao.BaseDao;
 public interface TBNDDao extends BaseDao<TBNDEntity>{
 	void deleteAll();
 	List<TBNDEntity> queryAll(Map<String, Object> map);
+	TBNDEntity queryFirst(Map<String, Object> map);
+	List<TBNDEntity> queryLatest(Map<String, Object> map);
+	
 }

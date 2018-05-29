@@ -11,7 +11,17 @@
 	<delete id="deleteAll">
 		delete from CFUTURESDESCRIPTION
 	</delete>
-
+	<select id="queryLatest" parameterType="java.util.HashMap" resultType="io.renren.modules.wd.entity.CFuturesDescriptionEntity">
+        select * from ${tableName} 
+                <where>
+                    <if test="latest !=null ">
+                       opdate > #{latest}
+                    </if>
+                </where>    
+     </select>
+    <select id="queryFirst" parameterType="java.util.HashMap" resultType="io.renren.modules.wd.entity.CFuturesDescriptionEntity">
+			select * from (select * from ${tableName} order by opdate desc) where rownum=1 
+    </select>
 	<insert id="save" parameterType="io.renren.modules.wd.entity.CFuturesDescriptionEntity">
 		insert into CFUTURESDESCRIPTION
 		(

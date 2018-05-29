@@ -33,4 +33,16 @@ public interface CBondIssuerRatingService {
 	 * @param list
 	 */
 	void deleteAllThenSave(List<CBondIssuerRatingEntity> list);
+	/**
+	 * 查询最近一条数据
+	 * @param map
+	 * @return
+	 */
+	CBondIssuerRatingEntity queryFirst(Map<String, Object> map);
+	/**
+	 * 查询所有日期最近的
+	 * @param map
+	 * @return
+	 */
+	List<CBondIssuerRatingEntity> queryLatest(Map<String, Object> map);
 }

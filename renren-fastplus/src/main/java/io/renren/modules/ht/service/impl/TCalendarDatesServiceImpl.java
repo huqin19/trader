@@ -53,7 +53,7 @@ public class TCalendarDatesServiceImpl implements TCalendarDatesService{
 
 	@Override
 	public int queryTotal(Map<String, Object> map) {
-		return tCalendarDatesDao.queryTotal();
+		return tCalendarDatesDao.queryTotal(map);
 	}
 
 

@@ -48,7 +48,17 @@ public class CBondRatingServiceImpl implements CBondRatingService{
 
 	@Override
 	public int queryTotal(Map<String, Object> map) {
-		return cBondRatingDao.queryTotal();
+		return cBondRatingDao.queryTotal(map);
+	}
+
+	@Override
+	public CBondRatingEntity queryFirst(Map<String, Object> map) {
+		return cBondRatingDao.queryFirst(map);
+	}
+
+	@Override
+	public List<CBondRatingEntity> queryLatest(Map<String, Object> map) {
+		return cBondRatingDao.queryLatest(map);
 	}
 	
 }

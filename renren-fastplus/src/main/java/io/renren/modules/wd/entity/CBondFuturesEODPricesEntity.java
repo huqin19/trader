@@ -2,6 +2,7 @@ package io.renren.modules.wd.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 万德数据库CBONDFUTURESEODPRICES表
@@ -37,7 +38,7 @@ public class CBondFuturesEODPricesEntity implements Serializable{
 	//s_dq_change
 	private BigDecimal sDqChange;
 	//opdate
-	private String opdate;
+	private Date opdate;
 	//opmode
 	private String opmode;
 	//imp_date
@@ -122,12 +123,7 @@ public class CBondFuturesEODPricesEntity implements Serializable{
 	public void setsDqChange(BigDecimal sDqChange) {
 		this.sDqChange = sDqChange;
 	}
-	public String getOpdate() {
-		return opdate;
-	}
-	public void setOpdate(String opdate) {
-		this.opdate = opdate;
-	}
+
 	public String getOpmode() {
 		return opmode;
 	}
@@ -145,6 +141,12 @@ public class CBondFuturesEODPricesEntity implements Serializable{
 	}
 	public void setImpTime(String impTime) {
 		this.impTime = impTime;
+	}
+	public Date getOpdate() {
+		return opdate;
+	}
+	public void setOpdate(Date opdate) {
+		this.opdate = opdate;
 	}
 
 }

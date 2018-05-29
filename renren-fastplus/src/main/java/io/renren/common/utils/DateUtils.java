@@ -1,7 +1,9 @@
 package io.renren.common.utils;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 
 /**
  * 日期处理
@@ -16,6 +18,7 @@ public class DateUtils {
 	/** 时间格式(yyyy-MM-dd HH:mm:ss) */
 	public final static String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 	
+	public final static String DATE_JOB = "yyyy/MM/dd HH:mm:ss";
 	public static String format(Date date) {
         return format(date, DATE_PATTERN);
     }
@@ -24,6 +27,13 @@ public class DateUtils {
         if(date != null){
             SimpleDateFormat df = new SimpleDateFormat(pattern);
             return df.format(date);
+        }
+        return null;
+    }
+    public static String timeStampFormat(Timestamp time, String pattern) {
+        if(time != null){
+            SimpleDateFormat df = new SimpleDateFormat(pattern);
+            return df.format(time);
         }
         return null;
     }

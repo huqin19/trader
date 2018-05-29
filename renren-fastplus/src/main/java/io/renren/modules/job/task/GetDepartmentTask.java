@@ -54,8 +54,8 @@ public class GetDepartmentTask {
 		Map<String, String> paramMap = new HashMap<String, String>();			
 			paramMap.put(paramName, param);
 			//发送get请求
-			//String strResult = HttpClientUtils.doGet(url, paramMap, true);
-			String strResult = "";
+			String strResult = HttpClientUtils.doGet(url, paramMap, true);
+			//String strResult = "";
 			//test
 			System.out.println(strResult);
 			ResultEntity<List<DepartmentEntity>> result = GsonUtils.fromJsonArray(strResult, DepartmentEntity.class);

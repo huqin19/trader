@@ -51,5 +51,15 @@ public class TtrdCmdsExecutionreportServiceImpl implements TtrdCmdsExecutionrepo
 	public int queryTotal() {
 		return ttrdCmdsExecutionreportDao.queryTotal();
 	}
+
+	@Override
+	public TtrdCmdsExecutionreportEntity queryFirst(Map<String, Object> map) {
+		return ttrdCmdsExecutionreportDao.queryFirst(map);
+	}
+
+	@Override
+	public List<TtrdCmdsExecutionreportEntity> queryLatest(Map<String, Object> map) {
+		return ttrdCmdsExecutionreportDao.queryLatest(map);
+	}
 	
 }

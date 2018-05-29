@@ -12,4 +12,6 @@ import io.renren.modules.wd.entity.CFuturesDescriptionEntity;
 public interface CFuturesDescriptionDao extends BaseDao<CFuturesDescriptionEntity>{
 	void deleteAll();
 	List<CFuturesDescriptionEntity> queryAll(Map<String, Object> map);
+	CFuturesDescriptionEntity queryFirst(Map<String, Object> map);
+	List<CFuturesDescriptionEntity> queryLatest(Map<String, Object> map);
 }

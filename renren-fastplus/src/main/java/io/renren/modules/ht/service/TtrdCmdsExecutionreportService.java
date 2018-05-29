@@ -2,7 +2,6 @@ package io.renren.modules.ht.service;
 
 import java.util.List;
 import java.util.Map;
-
 import io.renren.modules.ht.entity.TtrdCmdsExecutionreportEntity;
 
 /**
@@ -35,4 +34,16 @@ public interface TtrdCmdsExecutionreportService {
 	 * 查询总数
 	 */
 	int queryTotal();
+	/**
+	 * 查询最近一条数据
+	 * @param map
+	 * @return
+	 */
+	TtrdCmdsExecutionreportEntity queryFirst(Map<String, Object> map);
+	/**
+	 * 查询所有日期最近的
+	 * @param map
+	 * @return
+	 */
+	List<TtrdCmdsExecutionreportEntity> queryLatest(Map<String, Object> map);
 }

@@ -35,4 +35,16 @@ public interface CFuturesDescriptionService {
 	 * 查询总数
 	 */
 	int queryTotal(Map<String, Object> map);
+	/**
+	 * 查询最近一条数据
+	 * @param map
+	 * @return
+	 */
+	CFuturesDescriptionEntity queryFirst(Map<String, Object> map);
+	/**
+	 * 查询所有日期最近的
+	 * @param map
+	 * @return
+	 */
+	List<CFuturesDescriptionEntity> queryLatest(Map<String, Object> map);
 }

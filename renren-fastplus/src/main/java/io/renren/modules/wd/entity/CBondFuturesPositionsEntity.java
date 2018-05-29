@@ -2,6 +2,7 @@ package io.renren.modules.wd.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 /**
  * 万德数据库CBONDFUTURESPOSITIONS
  * @author DHB
@@ -17,7 +18,7 @@ public class CBondFuturesPositionsEntity implements Serializable{
 	private BigDecimal fsInfoPositionsnum;
 	private Integer fsInfoRank;
 	private BigDecimal sOiPositionsnumc;
-	private String opdate;
+	private Date opdate;
 	private String opmode;
 	private String impDate;
 	private String impTime;
@@ -69,12 +70,7 @@ public class CBondFuturesPositionsEntity implements Serializable{
 	public void setsOiPositionsnumc(BigDecimal sOiPositionsnumc) {
 		this.sOiPositionsnumc = sOiPositionsnumc;
 	}
-	public String getOpdate() {
-		return opdate;
-	}
-	public void setOpdate(String opdate) {
-		this.opdate = opdate;
-	}
+
 	public String getOpmode() {
 		return opmode;
 	}
@@ -100,6 +96,12 @@ public class CBondFuturesPositionsEntity implements Serializable{
 				+ ", fsInfoPositionsnum=" + fsInfoPositionsnum + ", fsInfoRank=" + fsInfoRank + ", sOiPositionsnumc="
 				+ sOiPositionsnumc + ", opdate=" + opdate + ", opmode=" + opmode + ", impDate=" + impDate + ", impTime="
 				+ impTime + "]";
+	}
+	public Date getOpdate() {
+		return opdate;
+	}
+	public void setOpdate(Date opdate) {
+		this.opdate = opdate;
 	}
 
 }
