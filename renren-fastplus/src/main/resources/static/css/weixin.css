@@ -5,12 +5,18 @@
 .form2,.echart{
 	margin-top:30px;
 }
+.form1 h3,.form2 h3{
+	line-height:50px;
+	text-align:center;
+	padding:0;
+}
 .form1 th,.form2 th{
 	background-color: #4395FF;
 	width:8%;
 	height:40px;
 	vertical-align: middle;
 	border:1px solid #3b3b3b;
+	text-align:center;
 }
 .form1 td,.form2 td{
 	text-align: center;

@@ -3,19 +3,34 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
-	<link rel="stylesheet" href="css/reset.css">
-	<link rel="stylesheet" href="css/info.css">
-    <link rel="stylesheet" href="css/jedate.css">
+	<link rel="stylesheet" href="../../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../../css/font-awesome.min.css">
+	<link rel="stylesheet" href="../../plugins/jqgrid/ui.jqgrid-bootstrap.css">
+	<link rel="stylesheet" href="../../plugins/ztree/css/metroStyle/metroStyle.css">
+	<link rel="stylesheet" href="../../css/main.css">
+	<script src="../../libs/jquery.min.js"></script>
+	<script src="../../plugins/layer/layer.js"></script>
+	<script src="../../libs/bootstrap.min.js"></script>
+	<script src="../../libs/vue.min.js"></script>
+	<script src="../../plugins/jqgrid/grid.locale-cn.js"></script>
+	<script src="../../plugins/jqgrid/jquery.jqGrid.min.js"></script>
+	<script src="../../plugins/ztree/jquery.ztree.all.min.js"></script>
+	<script src="../../js/common.js"></script>
+	
+	<link rel="stylesheet" href="../../css/reset.css">
+	<link rel="stylesheet" href="../../css/info.css">
+    <link rel="stylesheet" href="../../css/jedate.css">
 </head>
 <body>
 	<div class="container">
 		<div class="form">
 			<div class="line1">
 				<div class="check-type">
-					<label for="">债券类型：</label>
+					<label for="">类型：</label>
 					<select name="" id="">
-						<option value="">类型一</option>
-						<option value="">类型二</option>
+						<option value="1">银行间每日债券借贷</option>
+						<option value="2">国债期货当日结算价</option>
+						<option value="3">国债期货品种排名 </option>
 					</select>
 				</div>
 				<div class="check-name">
@@ -30,7 +45,7 @@
 					<div class="icons jebtns" onclick="jeDate('#dateinfo',{trigger:false,format: 'YYYY-MM-DD'})"></div>
 				</div>
 				<div class="check-btn">
-					<input type="button" value="查询" />
+					<input class="selTable" type="button" value="查询" />
 				</div>
 			</div>
 		</div>
@@ -48,7 +63,7 @@
 					</tr>
 				</thead>
 				<tbody>
-		  		<tr>
+		  	<tr>
 	          <td>SuZhou</td>
 	          <td>11111</td>
 	          <td>22222</td>
@@ -136,9 +151,9 @@
   </div>
 </div>
 </body>
-	<script src="js/jquery-1.4.4.min.js"></script>
-	<script src="js/table.js"></script>
-	<script src="js/jedate.min.js"></script>
+	<script src="../../js/jquery-1.4.4.min.js"></script>
+	<script src="../../js/table.js"></script>
+	<script src="../../js/jedate.min.js"></script>
 	<script>
 	    $(function(){
 	    	// 合并列 第一个参数table名，第二个参数需要合并的列数

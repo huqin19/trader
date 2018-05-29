@@ -96,11 +96,10 @@ ul.ztree.zTreeDragUL {margin:0; padding:0; position:absolute; width:auto; height
 	background:none;
 }*/
 
-.container{
+.z-container{
 	display: inline-block;
-    margin-left: 230px;
-    margin-top:100px;
-    padding: 30px 0 0 100px;
+    padding: 20px 0 0 50px;
+    width: 862px;
 }
 .left,.content_wrap{
 	display: inline-block;
@@ -109,8 +108,8 @@ ul.ztree.zTreeDragUL {margin:0; padding:0; position:absolute; width:auto; height
 	vertical-align: top;
 }
 .left-title{
-	padding-bottom: 50px;
-	padding-right:40px;
+	padding: 10px 50px 10px 0;
+	
 }
 .left p{
 	display: inline-block;
@@ -118,7 +117,7 @@ ul.ztree.zTreeDragUL {margin:0; padding:0; position:absolute; width:auto; height
 }
 #treeDemo{
 	margin-top:0;
-	background:#fbfff2;
+	background:#fff;
 }
 .check{
 	width:14px; height:14px; display: inline-block;background-position:0px 0px; background-image:url("../img/zTreeStandard.png");
@@ -127,8 +126,8 @@ ul.ztree.zTreeDragUL {margin:0; padding:0; position:absolute; width:auto; height
 	background-position:146px 0px;
 }
 .send-message {
-	margin:20px 0 40px 0;
-	text-align: center;
+	margin:20px 0 40px 240px;
+	
 }
 .send-message button{
 	width:80px;

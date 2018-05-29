@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.generator.dao.NewspaperDao">
+
+	<select id="queryZQJDList" resultType="io.renren.modules.generator.entity.NewspaperEntity" >
+		SELECT 
+			TCE.TRDDATE  AS   trddate,
+	       	TCE.U_I_CODE AS   uICode,
+	       	TBND.B_NAME  AS   bName,
+	       	TO_CHAR(ROUND(SUM(TCE.PRICE*TCE.TRDFV) / SUM(TCE.TRDFV),2),'FM999,999,999,999,999,990.00') AS weightedAverageRate,
+	       	TO_CHAR(SUM(TCE.TRDFV) / 100000000,'FM999,999,999,999,999,990.00') AS volume
+		FROM 
+			TTRD_CMDS_EXECUTIONREPORT TCE
+		LEFT JOIN 
+			TBND TBND
+		ON  
+			TBND.I_CODE = TCE.U_I_CODE
+		    AND TBND.M_TYPE = 'X_CNBD'
+		WHERE 
+			TCE.MARKETINDICATOR = 8
+		GROUP BY 
+			TCE.TRDDATE,TCE.U_I_CODE,TBND.B_NAME
+		ORDER BY 
+			TCE.TRDDATE,TCE.U_I_CODE,TBND.B_NAME
+	</select>
+	
+	<select id="queryVCBONDFUTURESPOSITIONSDList" resultType="io.renren.modules.generator.entity.NewspaperEntity" >
+		SELECT 
+			TRADE_DT AS tradeDt,
+	       	SUBSTR(S_INFO_WINDCODE,0,INSTR(S_INFO_WINDCODE,'.')-1) AS sInfoWindcode,
+	       	FS_INFO_RANK as fsInfoRank,
+	       	MAX( CASE WHEN FS_INFO_TYPE ='1' THEN FS_INFO_MEMBERNAME ELSE '' END)   AS cJmem,
+	       	SUM( CASE WHEN FS_INFO_TYPE ='1' THEN FS_INFO_POSITIONSNUM ELSE 0 END)  AS cJl,
+	       	SUM( CASE WHEN FS_INFO_TYPE ='1' THEN S_OI_POSITIONSNUMC ELSE 0 END)    AS cJlbh,
+	       	MAX( CASE WHEN FS_INFO_TYPE ='2' THEN FS_INFO_MEMBERNAME ELSE '' END)   AS cBmem,
+	       	SUM( CASE WHEN FS_INFO_TYPE ='2' THEN FS_INFO_POSITIONSNUM ELSE 0 END)  AS cBl,
+	       	SUM( CASE WHEN FS_INFO_TYPE ='2' THEN S_OI_POSITIONSNUMC ELSE 0 END)    AS cBlbh,
+	       	MAX( CASE WHEN FS_INFO_TYPE ='3' THEN FS_INFO_MEMBERNAME ELSE '' END)   AS cSmem,
+	       	SUM( CASE WHEN FS_INFO_TYPE ='3' THEN FS_INFO_POSITIONSNUM ELSE 0 END)  AS cSl,
+	       	SUM( CASE WHEN FS_INFO_TYPE ='3' THEN S_OI_POSITIONSNUMC ELSE 0 END)    AS cSlbh
+		FROM 
+			CBONDFUTURESPOSITIONS
+		GROUP BY 
+			TRADE_DT, S_INFO_WINDCODE, FS_INFO_RANK
+	</select>
+	
+	<select id="queryVCBONDFUTURESEODPRICESList" resultType="io.renren.modules.generator.entity.NewspaperEntity" >
+		SELECT 
+			T1.TRADE_DT    as  tradeDt,
+		    T2.S_INFO_CODE as  sInfoWindcode,
+		    T1.S_DQ_OPEN   as  sInfoWindcode,
+		    T1.S_DQ_HIGH   as  sDqHigh,
+		    T1.S_DQ_LOW    as  sDqLow,
+		    T1.S_DQ_CLOSE  as  sDqClose,
+		    T1.S_DQ_SETTLE as  sDqSettle,
+		    T1.S_DQ_VOLUME as  sDqVolume,
+		    T1.S_DQ_OI     as  sDqOi,
+		    TO_CHAR(ROUND(T1.S_DQ_CHANGE/T1.S_DQ_PRESETTLE*100,4),'fm990.0099') as sDqChange,
+		    T2.S_INFO_DELISTDATE as sInfoDelistdate
+		FROM 
+			CBONDFUTURESEODPRICES T1 
+		LEFT JOIN
+			CFUTURESDESCRIPTION T2 
+		ON 
+			T2.S_INFO_WINDCODE = T1.S_INFO_WINDCODE
+		WHERE 
+			T2.S_INFO_EXCHMARKET='CFFEX' AND T2.FS_INFO_SCCODE IN ('T','TF') 
+			AND T2.FS_INFO_TYPE=1
+			AND T1.S_DQ_VOLUME >= 1000
+	</select>
+</mapper>
