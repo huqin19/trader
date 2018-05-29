@@ -58,31 +58,35 @@ public class WddbTask {
 	 */
 	public void updateCBondFuturesEODPrices(String param) {
 		logger.info("我是带参数的cBondFuturesEODPrices方法，正在被执行，参数为：" + param);
+		Map<String, Object> zqMap = new HashMap<String, Object>();
 		Map<String, Object> wdMap = new HashMap<String, Object>();
-		Map<String,Object> zqMap = new HashMap<String,Object>();
-		zqMap.put("tableName","CBONDFUTURESEODPRICES");				
+		zqMap.put("tableName", "CBONDFUTURESEODPRICES");
+		wdMap.put("tableName", "wind_filesync.CBONDFUTURESEODPRICES");
 		SyncPushLogEntity log = new SyncPushLogEntity();
 		log.setUrl(url);
-		log.setFunctionName("queryFirst,queryLatest,save");
+		log.setFunctionName("queryTotal,queryAll,deleteAllThenSave");
 		log.setParam(param);
 		log.setCreateTime(new Date());
 		log.setWay(0);
 		log.setReason("用以更新本地万德CBONDFUTURESEODPRICES数据库表！");
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
-		String latest = cBondFuturesEODPricesService.queryFirst(zqMap).getTradeDt();
-		DynamicDataSource.clearDataSource();				
+		int before = cBondFuturesEODPricesService.queryTotal(zqMap);
+		DynamicDataSource.clearDataSource();
 		DynamicDataSource.setDataSource(DataSourceNames.WDDB_SOURCE);
-		wdMap.put("tableName", "wind_filesync.CBONDFUTURESEODPRICES");
-		wdMap.put("latest", latest);
-		List<CBondFuturesEODPricesEntity> list = cBondFuturesEODPricesService.queryLatest(wdMap);
+		List<CBondFuturesEODPricesEntity> list = cBondFuturesEODPricesService.queryAll(wdMap);
 		DynamicDataSource.clearDataSource();
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 		if(list != null && list.size() != 0) {
-			for(CBondFuturesEODPricesEntity cb : list) {
-				cBondFuturesEODPricesService.save(cb);
-			}
-			log.setResult(1);
-			log.setResultDesc("更新本地万德数据库表CBONDFUTURESEODPRICES成功！");
+			cBondFuturesEODPricesService.deleteAllThenSave(list);
+			if(before > 0) {
+				log.setResult(1);
+				int after = cBondFuturesEODPricesService.queryTotal(zqMap);
+				log.setResultDesc("非首次更新本地"+ after +"条万德数据库表CBONDFUTURESEODPRICES记录成功！");
+			}else {
+				log.setResult(1);
+				int after = cBondFuturesEODPricesService.queryTotal(zqMap);
+				log.setResultDesc("首次更新本地"+ after +"条万德数据库表CBONDFUTURESEODPRICES记录成功！");
+			}			
 		}else {
 			log.setResult(0);
 			log.setResultDesc("没有查询到数据，更新本地万德数据库表CBONDFUTURESEODPRICES失败！");
@@ -100,31 +104,35 @@ public class WddbTask {
 	 */
 	public void updateCBondFuturesPositions(String param) {
 		logger.info("我是带参数的cBondFuturesPositions方法，正在被执行，参数为：" + param);
+		Map<String, Object> zqMap = new HashMap<String, Object>();
 		Map<String, Object> wdMap = new HashMap<String, Object>();
-		Map<String,Object> zqMap = new HashMap<String,Object>();
-		zqMap.put("tableName","CBONDFUTURESPOSITIONS");				
+		zqMap.put("tableName", "CBONDFUTURESPOSITIONS");
+		wdMap.put("tableName", "wind_filesync.CBONDFUTURESPOSITIONS");
 		SyncPushLogEntity log = new SyncPushLogEntity();
 		log.setUrl(url);
-		log.setFunctionName("queryFirst,queryLatest,save");
+		log.setFunctionName("queryTotal,queryAll,deleteAllThenSave");
 		log.setParam(param);
 		log.setCreateTime(new Date());
 		log.setWay(0);
 		log.setReason("用以更新本地万德CBONDFUTURESPOSITIONS数据库表！");
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
-		String latest = cBondFuturesPositionsService.queryFirst(zqMap).getTradeDt();
-		DynamicDataSource.clearDataSource();				
+		int before = cBondFuturesPositionsService.queryTotal(zqMap);
+		DynamicDataSource.clearDataSource();
 		DynamicDataSource.setDataSource(DataSourceNames.WDDB_SOURCE);
-		wdMap.put("tableName", "wind_filesync.CBONDFUTURESPOSITIONS");
-		wdMap.put("latest", latest);
-		List<CBondFuturesPositionsEntity> list = cBondFuturesPositionsService.queryLatest(wdMap);
+		List<CBondFuturesPositionsEntity> list = cBondFuturesPositionsService.queryAll(wdMap);
 		DynamicDataSource.clearDataSource();
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 		if(list != null && list.size() != 0) {
-			for(CBondFuturesPositionsEntity cb : list) {
-				cBondFuturesPositionsService.save(cb);
-			}
-			log.setResult(1);
-			log.setResultDesc("更新本地万德数据库表CBONDFUTURESPOSITIONS成功！");
+			cBondFuturesPositionsService.deleteAllThenSave(list);
+			if(before > 0) {
+				log.setResult(1);
+				int after = cBondFuturesPositionsService.queryTotal(zqMap);
+				log.setResultDesc("非首次更新本地"+ after +"条万德数据库表CBONDFUTURESPOSITIONS记录成功！");
+			}else {
+				log.setResult(1);
+				int after = cBondFuturesPositionsService.queryTotal(zqMap);
+				log.setResultDesc("首次更新本地"+ after +"条万德数据库表CBONDFUTURESPOSITIONS记录成功！");
+			}			
 		}else {
 			log.setResult(0);
 			log.setResultDesc("没有查询到数据，更新本地万德数据库表CBONDFUTURESPOSITIONS失败！");
@@ -142,23 +150,35 @@ public class WddbTask {
 	 */
 	public void updateCBondIssuerRating(String param) {
 		logger.info("我是带参数的cBondIssuerRating方法，正在被执行，参数为：" + param);
+		Map<String, Object> zqMap = new HashMap<String, Object>();
 		Map<String, Object> wdMap = new HashMap<String, Object>();
-		wdMap.put("tableName", "CBONDISSUERRATING");
+		zqMap.put("tableName", "CBONDISSUERRATING");
+		wdMap.put("tableName", "wind_filesync.CBONDISSUERRATING");
 		SyncPushLogEntity log = new SyncPushLogEntity();
 		log.setUrl(url);
-		log.setFunctionName("queryAll,deleteAllThenSave");
+		log.setFunctionName("queryTotal,queryAll,deleteAllThenSave");
 		log.setParam(param);
 		log.setCreateTime(new Date());
 		log.setWay(0);
 		log.setReason("用以更新本地万德CBONDISSUERRATING数据库表！");
+		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
+		int before = cBondIssuerRatingService.queryTotal(zqMap);
+		DynamicDataSource.clearDataSource();
 		DynamicDataSource.setDataSource(DataSourceNames.WDDB_SOURCE);
 		List<CBondIssuerRatingEntity> list = cBondIssuerRatingService.queryAll(wdMap);
 		DynamicDataSource.clearDataSource();
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
-		if(list != null && list.size() != 0) {		
+		if(list != null && list.size() != 0) {
 			cBondIssuerRatingService.deleteAllThenSave(list);
-			log.setResult(1);
-			log.setResultDesc("更新本地万德数据库表CBONDISSUERRATING成功！");
+			if(before > 0) {
+				log.setResult(1);
+				int after = cBondIssuerRatingService.queryTotal(zqMap);
+				log.setResultDesc("非首次更新本地"+ after +"条万德数据库表CBONDISSUERRATING记录成功！");
+			}else {
+				log.setResult(1);
+				int after = cBondIssuerRatingService.queryTotal(zqMap);
+				log.setResultDesc("首次更新本地"+ after +"条万德数据库表CBONDISSUERRATING记录成功！");
+			}			
 		}else {
 			log.setResult(0);
 			log.setResultDesc("没有查询到数据，更新本地万德数据库表CBONDISSUERRATING失败！");
@@ -176,23 +196,35 @@ public class WddbTask {
 	 */
 	public void updateCBondRating(String param) {
 		logger.info("我是带参数的cBondRating方法，正在被执行，参数为：" + param);
+		Map<String, Object> zqMap = new HashMap<String, Object>();
 		Map<String, Object> wdMap = new HashMap<String, Object>();
-		wdMap.put("tableName", "CBONDRATING");
+		zqMap.put("tableName", "CBONDRATING");
+		wdMap.put("tableName", "wind_filesync.CBONDRATING");
 		SyncPushLogEntity log = new SyncPushLogEntity();
 		log.setUrl(url);
-		log.setFunctionName("queryAll,deleteAllThenSave");
+		log.setFunctionName("queryTotal,queryAll,deleteAllThenSave");
 		log.setParam(param);
 		log.setCreateTime(new Date());
 		log.setWay(0);
 		log.setReason("用以更新本地万德CBONDRATING数据库表！");
+		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
+		int before = cBondRatingService.queryTotal(zqMap);
+		DynamicDataSource.clearDataSource();
 		DynamicDataSource.setDataSource(DataSourceNames.WDDB_SOURCE);
 		List<CBondRatingEntity> list = cBondRatingService.queryAll(wdMap);
 		DynamicDataSource.clearDataSource();
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
-		if(list != null && list.size() != 0) {		
+		if(list != null && list.size() != 0) {
 			cBondRatingService.deleteAllThenSave(list);
-			log.setResult(1);
-			log.setResultDesc("更新本地万德数据库表CBONDRATING成功！");
+			if(before > 0) {
+				log.setResult(1);
+				int after = cBondRatingService.queryTotal(zqMap);
+				log.setResultDesc("非首次更新本地"+ after +"条万德数据库表CBONDRATING记录成功！");
+			}else {
+				log.setResult(1);
+				int after = cBondRatingService.queryTotal(zqMap);
+				log.setResultDesc("首次更新本地"+ after +"条万德数据库表CBONDRATING记录成功！");
+			}			
 		}else {
 			log.setResult(0);
 			log.setResultDesc("没有查询到数据，更新本地万德数据库表CBONDRATING失败！");
@@ -210,23 +242,35 @@ public class WddbTask {
 	 */
 	public void updateCFuturesDescription(String param) {
 		logger.info("我是带参数的cFuturesDescription方法，正在被执行，参数为：" + param);
+		Map<String, Object> zqMap = new HashMap<String, Object>();
 		Map<String, Object> wdMap = new HashMap<String, Object>();
+		zqMap.put("tableName", "CFUTURESDESCRIPTION");
 		wdMap.put("tableName", "wind_filesync.CFUTURESDESCRIPTION");
 		SyncPushLogEntity log = new SyncPushLogEntity();
 		log.setUrl(url);
-		log.setFunctionName("queryAll,deleteAllThenSave");
+		log.setFunctionName("queryTotal,queryAll,deleteAllThenSave");
 		log.setParam(param);
 		log.setCreateTime(new Date());
 		log.setWay(0);
 		log.setReason("用以更新本地万德CFUTURESDESCRIPTION数据库表！");
+		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
+		int before = cFuturesDescriptionService.queryTotal(zqMap);
+		DynamicDataSource.clearDataSource();
 		DynamicDataSource.setDataSource(DataSourceNames.WDDB_SOURCE);
 		List<CFuturesDescriptionEntity> list = cFuturesDescriptionService.queryAll(wdMap);
 		DynamicDataSource.clearDataSource();
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
-		if(list != null && list.size() != 0) {		
+		if(list != null && list.size() != 0) {
 			cFuturesDescriptionService.deleteAllThenSave(list);
-			log.setResult(1);
-			log.setResultDesc("更新本地万德数据库表CFUTURESDESCRIPTION成功！");
+			if(before > 0) {
+				log.setResult(1);
+				int after = cFuturesDescriptionService.queryTotal(zqMap);
+				log.setResultDesc("非首次更新本地"+ after +"条万德数据库表CFUTURESDESCRIPTION记录成功！");
+			}else {
+				log.setResult(1);
+				int after = cFuturesDescriptionService.queryTotal(zqMap);
+				log.setResultDesc("首次更新本地"+ after +"条万德数据库表CFUTURESDESCRIPTION记录成功！");
+			}			
 		}else {
 			log.setResult(0);
 			log.setResultDesc("没有查询到数据，更新本地万德数据库表CFUTURESDESCRIPTION失败！");

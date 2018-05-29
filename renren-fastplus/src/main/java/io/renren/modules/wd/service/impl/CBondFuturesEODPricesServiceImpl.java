@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.renren.modules.wd.dao.CBondFuturesEODPricesDao;
 import io.renren.modules.wd.entity.CBondFuturesEODPricesEntity;
+import io.renren.modules.wd.entity.CFuturesDescriptionEntity;
 import io.renren.modules.wd.service.CBondFuturesEODPricesService;
 
 /**
@@ -55,6 +56,20 @@ public class CBondFuturesEODPricesServiceImpl implements CBondFuturesEODPricesSe
 	@Override
 	public List<CBondFuturesEODPricesEntity> queryLatest(Map<String, Object> map) {
 		return cBondFuturesEODPricesDao.queryLatest(map);
+	}
+
+	@Override
+	@Transactional
+	public void deleteAllThenSave(List<CBondFuturesEODPricesEntity> list) {
+		cBondFuturesEODPricesDao.deleteAll();
+		for(CBondFuturesEODPricesEntity cf : list) {
+			cBondFuturesEODPricesDao.save(cf);
+		}
+	}
+
+	@Override
+	public void deleteAll() {
+		cBondFuturesEODPricesDao.deleteAll();
 	}
 	
 }

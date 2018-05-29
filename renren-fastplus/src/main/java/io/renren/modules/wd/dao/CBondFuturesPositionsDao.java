@@ -14,4 +14,5 @@ public interface CBondFuturesPositionsDao extends BaseDao<CBondFuturesPositionsE
 	List<CBondFuturesPositionsEntity> queryByTdDate(Map<String, Object> map);
 	List<CBondFuturesPositionsEntity> queryAll(Map<String, Object> map);
 	List<CBondFuturesPositionsEntity> queryLatest(Map<String, Object> map);
+	void deleteAll();
 }

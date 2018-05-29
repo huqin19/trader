@@ -45,5 +45,10 @@ public class CBondRatingServiceImpl implements CBondRatingService{
 			cBondRatingDao.save(cb);
 		}
 	}
+
+	@Override
+	public int queryTotal(Map<String, Object> map) {
+		return cBondRatingDao.queryTotal();
+	}
 	
 }

@@ -14,6 +14,19 @@ import io.renren.modules.job.entity.ResultEntity;
  * @date 2018年5月4日
  */
 public class GsonUtils {
+	
+    /** 
+     * 将object对象转成json字符串 
+     *  
+     * @param object 
+     * @return 
+     */  
+    public static String gsonString(Object object) { 
+    	String gsonString = null; 
+    	Gson gson = new Gson();  
+            gsonString = gson.toJson(object);  
+        return gsonString;  
+    }  
 	/**
 	 * 当为对象时
 	 * @param str 传入json字符串

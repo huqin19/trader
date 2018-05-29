@@ -23,12 +23,9 @@
 		</where>
 	</select>
 	
- 	<select id="queryTotal" resultType="int">
-		select count(1) from xir_zx.TCALENDAR_DATES 
-		<where>
-				cal_day like '%${calDay}%' 
-		</where>
-	</select>
+    <select id="queryTotal" parameterType="java.util.HashMap" resultType="int">
+			select count(1) from ${tableName} 
+    </select>
 	
 	<delete id="deleteAll">
 		delete from TCALENDAR_DATES

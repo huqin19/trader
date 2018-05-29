@@ -47,4 +47,13 @@ public interface CBondFuturesPositionsService {
 	 * @return
 	 */
 	List<CBondFuturesPositionsEntity> queryLatest(Map<String, Object> map);
+	/**
+	 * 删除所有
+	 */
+	void deleteAll();
+	/**
+	 * 清空后保存
+	 * @param list
+	 */
+	void deleteAllThenSave(List<CBondFuturesPositionsEntity> list);
 }

@@ -5,7 +5,9 @@
 	<select id="queryAll" parameterType="java.util.HashMap" resultType="io.renren.modules.wd.entity.CBondRatingEntity" >
 		select * from ${tableName}
 	</select> 	
-
+	<select id="queryTotal" parameterType="java.util.HashMap" resultType="int">
+			select count(1) from ${tableName} 
+    </select>
 	<delete id="deleteAll">
 		delete from CBONDRATING
 	</delete>

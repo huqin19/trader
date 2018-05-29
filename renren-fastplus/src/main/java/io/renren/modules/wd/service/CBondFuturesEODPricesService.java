@@ -48,4 +48,13 @@ public interface CBondFuturesEODPricesService {
 	 */
 	List<CBondFuturesEODPricesEntity> queryLatest(Map<String, Object> map);
 	
+	/**
+	 * 清空后保存
+	 * @param list
+	 */
+	void deleteAllThenSave(List<CBondFuturesEODPricesEntity> list);
+	/**
+	 * 删除所有
+	 */
+	void deleteAll();
 }

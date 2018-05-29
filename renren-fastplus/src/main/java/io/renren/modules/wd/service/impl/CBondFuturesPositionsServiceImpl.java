@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.renren.modules.wd.dao.CBondFuturesPositionsDao;
 import io.renren.modules.wd.entity.CBondFuturesPositionsEntity;
+import io.renren.modules.wd.entity.CFuturesDescriptionEntity;
 import io.renren.modules.wd.service.CBondFuturesPositionsService;
 /**
  * 万德数据库CBONDFUTURESPOSITIONS
@@ -54,6 +55,20 @@ public class CBondFuturesPositionsServiceImpl implements CBondFuturesPositionsSe
 	@Override
 	public List<CBondFuturesPositionsEntity> queryLatest(Map<String, Object> map) {
 		return cBondFuturesPositionsDao.queryLatest(map);
+	}
+
+	@Override
+	public void deleteAll() {
+		cBondFuturesPositionsDao.deleteAll();
+	}
+
+	@Override
+	@Transactional
+	public void deleteAllThenSave(List<CBondFuturesPositionsEntity> list) {
+		cBondFuturesPositionsDao.deleteAll();
+		for(CBondFuturesPositionsEntity cd : list) {
+			cBondFuturesPositionsDao.save(cd);
+		}
 	}
 
 

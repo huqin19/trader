@@ -31,4 +31,8 @@ public interface CFuturesDescriptionService {
 	 * @param list
 	 */
 	void deleteAllThenSave(List<CFuturesDescriptionEntity> list);
+	/**
+	 * 查询总数
+	 */
+	int queryTotal(Map<String, Object> map);
 }

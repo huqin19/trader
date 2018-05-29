@@ -51,4 +51,11 @@ public class TBNDServiceImpl implements TBNDService{
 			tBNDao.save(tb);
 		}
 	}
+
+
+
+	@Override
+	public int queryTotal(Map<String, Object> map) {
+		return tBNDao.queryTotal();
+	}
 }

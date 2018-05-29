@@ -30,4 +30,8 @@ public interface CBondRatingService {
 	 * @param list
 	 */
 	void deleteAllThenSave(List<CBondRatingEntity> list);
+	/**
+	 * 查询总数
+	 */
+	int queryTotal(Map<String, Object> map);
 }

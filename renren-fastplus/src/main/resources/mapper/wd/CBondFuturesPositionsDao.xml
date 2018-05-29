@@ -40,15 +40,14 @@
 			select * from (select * from ${tableName} order by trade_dt desc) where rownum=1 
     </select>
 	
- 	<select id="queryTotal" parameterType="java.util.HashMap" resultType="int">
-		select count(1) from ${tableName} 
-		<where>
-			<if test="tradeDt !=null and tradeDt.trim() != ''">
-				trade_dt like '%${tradeDt}%'
-			</if> 
-		</where>
-	</select>
-		<insert id="save" parameterType="io.renren.modules.wd.entity.CBondFuturesPositionsEntity">
+    <select id="queryTotal" parameterType="java.util.HashMap" resultType="int">
+			select count(1) from ${tableName} 
+    </select>
+    
+    <delete id="deleteAll">
+		delete from CBONDFUTURESPOSITIONS
+	</delete>
+	<insert id="save" parameterType="io.renren.modules.wd.entity.CBondFuturesPositionsEntity">
 		insert into CBONDFUTURESPOSITIONS
 		(
 			object_id, 

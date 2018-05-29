@@ -8,6 +8,9 @@
 	<delete id="deleteAll">
 		delete from TBND
 	</delete>
+	<select id="queryTotal" parameterType="java.util.HashMap" resultType="int">
+		select count(1) from ${tableName} 
+    </select>
 	<insert id="save" parameterType="io.renren.modules.ht.entity.TBNDEntity">
 		insert into TBND
 		(

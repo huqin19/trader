@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.ht.dao.TtrdCmdsExecutionreportDao">
+	<select id="queryAll" resultType="io.renren.modules.ht.entity.TtrdCmdsExecutionreportEntity" >
+		select * from TTRD_CMDS_EXECUTIONREPORT
+	</select>
+	<delete id="deleteAll">
+		delete from TTRD_CMDS_EXECUTIONREPORT
+	</delete>
+	<select id="queryTotal" resultType="int">
+		select count(1) from TTRD_CMDS_EXECUTIONREPORT
+    </select>
+	<insert id="save" parameterType="io.renren.modules.ht.entity.TtrdCmdsExecutionreportEntity">
+		insert into TTRD_CMDS_EXECUTIONREPORT
+		(
+			epid,
+			trddate, 
+			trdtime, 
+			execid,
+			trdtype,
+			marketindicator,
+			dirction,
+			i_code,
+			a_type,
+			m_type,
+			i_name,
+			u_i_code,
+			u_a_type,
+			u_m_type,
+			u_i_name,
+			price,
+			ytm,
+			trdfv,
+			trdcashamt,
+			u_clear_price,
+			u_clear_price2,
+			u_ytm,
+			u_ytm2,
+			tradelimitdays,
+			settlcurramt,
+			settlcurramt2,
+			exectype,
+			fra_tradefwddays,
+			bnd_trdtype,
+			irs_benchmark2,
+			irs_benchmarkspread2,
+			irs_benchmark1,
+			irs_benchmarkspread1,
+			irs_rate,
+			principal
+		)
+		values
+		(
+			#{epid,jdbcType=NUMERIC}, 
+			#{trddate,jdbcType=CHAR}, 
+			#{trdtime,jdbcType=CHAR},
+			#{execid,jdbcType=VARCHAR},
+			#{trdtype,jdbcType=VARCHAR},
+			#{marketindicator,jdbcType=INTEGER},
+			#{dirction,jdbcType=CHAR},
+			#{iCode,jdbcType=VARCHAR},
+			#{aType,jdbcType=VARCHAR},
+			#{mType,jdbcType=VARCHAR},
+			#{iName,jdbcType=VARCHAR},
+			#{uICode,jdbcType=VARCHAR},
+			#{uAType,jdbcType=VARCHAR},
+			#{uMType,jdbcType=VARCHAR},
+			#{uIName,jdbcType=VARCHAR},
+			#{price,jdbcType=NUMERIC},
+			#{ytm,jdbcType=NUMERIC},
+			#{trdfv,jdbcType=NUMERIC},
+			#{trdcashamt,jdbcType=NUMERIC},
+			#{uClearPrice,jdbcType=NUMERIC},
+			#{uClearPrice2,jdbcType=NUMERIC},
+			#{uYtm,jdbcType=NUMERIC},
+			#{uYtm2,jdbcType=NUMERIC},
+			#{tradelimitdays,jdbcType=INTEGER},
+			#{settlcurramt,jdbcType=NUMERIC},
+			#{settlcurramt2,jdbcType=NUMERIC},
+			#{exectype,jdbcType=VARCHAR},
+			#{fraTradefwddays,jdbcType=INTEGER},
+			#{bndTrdtype,jdbcType=INTEGER},
+			#{irsBenchmark2,jdbcType=VARCHAR},
+			#{irsBenchmarkspread2,jdbcType=NUMERIC},
+			#{irsBenchmark1,jdbcType=VARCHAR},
+			#{irsBenchmarkspread1,jdbcType=NUMERIC},
+			#{irsRate,jdbcType=NUMERIC},
+			#{principal,jdbcType=NUMERIC}
+		)
+	</insert> 
+</mapper>

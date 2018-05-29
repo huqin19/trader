@@ -39,8 +39,12 @@
     <select id="queryFirst" parameterType="java.util.HashMap" resultType="io.renren.modules.wd.entity.CBondFuturesEODPricesEntity">
 			select * from (select * from ${tableName} order by trade_dt desc) where rownum=1 
     </select>
-    
-
+    <select id="queryTotal" parameterType="java.util.HashMap" resultType="int">
+			select count(1) from ${tableName} 
+    </select>
+	<delete id="deleteAll">
+		delete from CBONDFUTURESEODPRICES
+	</delete>
 	<insert id="save" parameterType="io.renren.modules.wd.entity.CBondFuturesEODPricesEntity">
 		insert into CBONDFUTURESEODPRICES
 		(

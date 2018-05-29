@@ -44,4 +44,9 @@ public class CFuturesDescriptionServiceImpl implements CFuturesDescriptionServic
 			cFuturesDescriptionDao.save(cf);
 		}
 	}
+
+	@Override
+	public int queryTotal(Map<String, Object> map) {
+		return cFuturesDescriptionDao.queryTotal();
+	}
 }

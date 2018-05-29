@@ -30,4 +30,9 @@ public interface TBNDService {
 	 * @param list
 	 */
 	void deleteAllThenSave(List<TBNDEntity> list);
+	
+	/**
+	 * 查询总数
+	 */
+	int queryTotal(Map<String, Object> map);
 }

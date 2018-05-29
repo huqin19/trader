@@ -5,14 +5,9 @@
 	<select id="queryAll" parameterType="java.util.HashMap" resultType="io.renren.modules.wd.entity.CBondIssuerRatingEntity" >
 		select * from ${tableName}
 	</select> 	
- 	<select id="queryTotal" parameterType="java.util.HashMap"  resultType="int">
-		select count(1) from ${tableName} 
-		<where>
-			<if test="annDt !=null and annDt.trim() != ''">
-				ann_dt like '%${annDt}%' 
-			</if> 
-		</where>
-	</select>
+    <select id="queryTotal" parameterType="java.util.HashMap" resultType="int">
+			select count(1) from ${tableName} 
+    </select>
 	
 	<delete id="deleteAll">
 		delete from CBONDISSUERRATING

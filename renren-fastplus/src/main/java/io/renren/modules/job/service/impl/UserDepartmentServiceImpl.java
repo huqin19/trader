@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.renren.common.sequence.Sequence;
 import io.renren.modules.job.dao.UserDepartmentDao;
-import io.renren.modules.job.entity.DepartmentEntity;
 import io.renren.modules.job.entity.UserDepartmentEntity;
 import io.renren.modules.job.service.UserDepartmentService;
 
@@ -65,7 +64,6 @@ public class UserDepartmentServiceImpl implements UserDepartmentService{
 	public void deleteThenSave(List<UserDepartmentEntity> list) {
 		userDepartmentDao.deleteAll();
 		for(UserDepartmentEntity userDept : list) {
-			System.out.println(userDept.getDepId()+"========================");
 			Long objectId = sequence.nextId();
 			userDept.setObjectId(objectId);
 			userDept.setCreatedTimestamp(new Date());
