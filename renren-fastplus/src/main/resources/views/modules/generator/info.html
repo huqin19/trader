@@ -16,13 +16,12 @@
 	<script src="../../plugins/jqgrid/jquery.jqGrid.min.js"></script>
 	<script src="../../plugins/ztree/jquery.ztree.all.min.js"></script>
 	<script src="../../js/common.js"></script>
-	
 	<link rel="stylesheet" href="../../css/reset.css">
-	<link rel="stylesheet" href="../../css/info.css">
+    <link rel="stylesheet" href="../../css/info.css">
     <link rel="stylesheet" href="../../css/jedate.css">
 </head>
 <body>
-	<div class="container">
+	<div class="container" id="info">
 		<div class="form">
 			<div class="line1">
 				<div class="check-type">
@@ -40,8 +39,13 @@
 			</div>
 			<div class="line2">
 				<div class="check-date">
-					<label for="">日期/时间：</label>
-					<input id="dateinfo" type="text" placeholder="请选择"  readonly>
+					<label for="">交易时间起：</label>
+					<input class="dateinfo" id="dateinfoS" type="text" placeholder="请选择"  readonly>
+					<div class="icons jebtns" onclick="jeDate('#dateinfo',{trigger:false,format: 'YYYY-MM-DD'})"></div>
+				</div>
+				<div class="check-date">
+					<label for="">交易时间止：</label>
+					<input class="dateinfo" id="dateinfoE" type="text" placeholder="请选择"  readonly>
 					<div class="icons jebtns" onclick="jeDate('#dateinfo',{trigger:false,format: 'YYYY-MM-DD'})"></div>
 				</div>
 				<div class="check-btn">
@@ -60,9 +64,15 @@
 						<th>最新买价%</th>
 						<th>当日加提成当成交价格</th>
 						<th>今日累计成交量（万元）</th>
+						<th>今日累计成交量（万元）</th>
+						<th>今日累计成交量（万元）</th>
+						<th>债券类型</th>
+						<th>债券简称</th>
+						<th>债券代码</th>
+						<th>待偿期（年）</th>
 					</tr>
 				</thead>
-				<tbody>
+			<tbody>
 		  	<tr>
 	          <td>SuZhou</td>
 	          <td>11111</td>
@@ -135,9 +145,55 @@
 	            <td>777</td>
 	            <td>888</td>
 	        </tr>
+	          <tr>
+	            <td>SuZhou</td>
+	            <td>55555</td>
+	            <td>66666</td>
+	            <td>333</td>
+	            <td>666</td>
+	            <td>777</td>
+	            <td>888</td>
+	        </tr>
+	        <tr>
+	            <td>ShangHai</td>
+	            <td>77777</td>
+	            <td>88888</td>
+	            <td>333</td>
+	            <td>666</td>
+	            <td>777</td>
+	            <td>888</td>
+	        </tr>
+	        <tr>
+	            <td>ShangHai</td>
+	            <td>uuuuu</td>
+	            <td>hhhhh</td>
+	            <td>333</td>
+	            <td>666</td>
+	            <td>666</td>
+	            <td>666</td>
+	        </tr>
+	        <tr>
+	            <td>ShangHai</td>
+	            <td>ggggg</td>
+	            <td>ccccc</td>
+	            <td>333</td>
+	            <td>666</td>
+	            <td>777</td>
+	            <td>888</td>
+	            <td>ShangHai</td>
+	            <td>ggggg</td>
+	            <td>ccccc</td>
+	            <td>333</td>
+	            <td>666</td>
+	            <td>777</td>
+	            
+	        </tr>
+
+
 	  		</tbody>
 	  	</table>
 	  </div>
+<!-- 
   <div class="page">
   	<button>首页</button>
   	<button>上一页</button>
@@ -149,6 +205,7 @@
   	<input type="number" >
   	<button>跳转</button>
   </div>
+ -->
 </div>
 </body>
 	<script src="../../js/jquery-1.4.4.min.js"></script>
@@ -161,11 +218,30 @@
 	   		// 合并行 第一个参数tableming，第二个参数需要合并单元格的所在行，第三个参数为指定行中单元格对应的最大列数
             _w_table_colspan("#process-demo-1",1,6);
 
-	        jeDate("#dateinfo",{
-	            format:"YYYY-MM-DD hh:mm:ss",
+	        jeDate("#dateinfoS",{
+	            //format:"YYYY-MM-DD hh:mm:ss",
+	            format:"YYYY-MM-DD",
 	            isTime:false,
-	            minDate:"2014-09-19 00:00:00",
+	            //minDate:"2014-09-19 00:00:00",
+	            //minDate:"2014-09-19",
 	            theme:{ bgcolor:"#00A1CB",color:"#ffffff", pnColor:"#00CCFF"},
+	            minDate: '1976-01-01 23:59:59', //设定最小日期为当前日期
+	            maxDate: function (that) {
+	                return jeDate.valText('#dateinfoE') == "" ? jeDate.nowDate({DD:0}) : jeDate.valText('#dateinfoE');
+	            }, //设定最大日期为当前日期
+	        })
+	        
+	       	jeDate("#dateinfoE",{
+	            //format:"YYYY-MM-DD hh:mm:ss",
+	            format:"YYYY-MM-DD",
+	            isTime:false,
+	            //minDate:"2014-09-19 00:00:00",
+	            //minDate:"2014-09-19",
+	            theme:{ bgcolor:"#00A1CB",color:"#ffffff", pnColor:"#00CCFF"},
+	            minDate: function (that) {
+	                return jeDate.valText('#dateinfoS') == "" ? '1976-01-01 23:59:59' : jeDate.valText('#dateinfoS') ;
+	            }, //设定最小日期为当前日期
+	            maxDate: jeDate.nowDate({DD:0}), //设定最大日期为当前日期
 	        })
 	    })
 	</script>

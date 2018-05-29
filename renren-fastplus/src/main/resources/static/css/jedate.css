@@ -5,13 +5,14 @@
  @官网：http://www.jemui.com/ 或 https://github.com/singod/jeDate
  */
 @font-face {font-family: "jedatefont";
-    src: url('fonts/jedatefont.eot?t=1510763148800'); /* IE9*/
-    src: url('fonts/jedatefont.eot?t=1510763148800#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('fonts/jedatefont.woff?t=1510763148800') format('woff'),
-    url('fonts/jedatefont.ttf?t=1510763148800') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-    url('fonts/jedatefont.svg?t=1510763148800#jedatefont') format('svg'); /* iOS 4.1- */
+    src: url('../fonts/jedatefont.eot?t=1510763148800'); /* IE9*/
+    src: url('../fonts/jedatefont.eot?t=1510763148800#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../fonts/jedatefont.woff?t=1510763148800') format('woff'),
+    url('../fonts/jedatefont.ttf?t=1510763148800') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+    url('../fonts/jedatefont.svg?t=1510763148800#jedatefont') format('svg'); /* iOS 4.1- */
 }
 #dateinfo{background: url("../img/jedate.png") no-repeat right center;}
+.dateinfo{background: url("../img/jedate.png") no-repeat right center;}
 .jedatefont {font-family:"jedatefont" !important;font-style:normal;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;}
 .jedate{height:auto; font-family:'PingFangSC-Light','PingFang SC','Segoe UI','Lucida Grande','NotoSansHans-Light','Microsoft YaHei', '\5FAE\8F6F\96C5\9ED1', STHeiti, 'WenQuanYi Micro Hei', SimSun, sans-serif;font-size:12px; cursor:default;margin: 0;padding: 0;overflow: hidden;position: relative;border-radius:4px;display: inline-block;border: 1px solid #e2e2e2;box-shadow: 0 1px 6px rgba(0,0,0,.15);background-color:#fff;}
 .jedate *{margin: 0;padding: 0;list-style-type:none;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;font-style:normal;font-family:'PingFangSC-Light','PingFang SC','Segoe UI','Lucida Grande','NotoSansHans-Light','Microsoft YaHei', '\5FAE\8F6F\96C5\9ED1', STHeiti, 'WenQuanYi Micro Hei', SimSun, sans-serif;}
