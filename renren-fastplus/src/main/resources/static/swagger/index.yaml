@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   description: renren-fastplus是一个轻量级的Java快速开发平台
   version: 1.0.0
-  title: 人人快速开发平台(企业版)
+  title: 固收日报发布系统
 
 basePath: /renren-fastplus
 
