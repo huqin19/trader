@@ -90,3 +90,226 @@ function _w_table_rowspanTh(_w_table_id, _w_table_colnum) {
     }  
   });  
 }
+
+$(function(){
+	//select change
+	$("#stype").on('change',function(){
+		if($("#stype option:selected").val() == '1'){
+			$("#nameX").text("标的券名称：");
+			$("#labelS").text("委托日期起：");
+			$("#labelE").text("委托日期止：");
+		}else if($("#stype option:selected").val() == '2' || $("#stype option:selected").val() == '3'){
+			$("#nameX").text("合约名称：");
+			$("#labelS").text("交易日期起：");
+			$("#labelE").text("交易日期止：");
+		}
+	});
+	
+	// 合并行 第一个参数table名，第二个参数需要合并的列数
+	_w_table_rowspan("#process-demo-1",1);
+	// 合并行 第一个参数tableming，第二个参数需要合并单元格的所在行，第三个参数为指定行中单元格对应的最大列数
+    _w_table_colspan("#process-demo-1",1,6);
+    
+    jeDate("#dateinfoS",{
+        //format:"YYYY-MM-DD hh:mm:ss",
+        format:"YYYY-MM-DD",
+        isTime:false,
+        //minDate:"2014-09-19 00:00:00",
+        //minDate:"2014-09-19",
+        theme:{ bgcolor:"#00A1CB",color:"#ffffff", pnColor:"#00CCFF"},
+        minDate: '1976-01-01 23:59:59', //设定最小日期为当前日期
+        maxDate: function (that) {
+            return jeDate.valText('#dateinfoE') == "" ? jeDate.nowDate({DD:0}) : jeDate.valText('#dateinfoE');
+        }, //设定最大日期为当前日期
+    })
+    
+   	jeDate("#dateinfoE",{
+        //format:"YYYY-MM-DD hh:mm:ss",
+        format:"YYYY-MM-DD",
+        isTime:false,
+        //minDate:"2014-09-19 00:00:00",
+        //minDate:"2014-09-19",
+        theme:{ bgcolor:"#00A1CB",color:"#ffffff", pnColor:"#00CCFF"},
+        minDate: function (that) {
+            return jeDate.valText('#dateinfoS') == "" ? '1976-01-01 23:59:59' : jeDate.valText('#dateinfoS') ;
+        }, //设定最小日期为当前日期
+        maxDate: jeDate.nowDate({DD:0}), //设定最大日期为当前日期
+    })
+    selData();
+})
+
+//查询
+function selData() {
+	var stype = "1"
+	if($("#stype option:selected").val() != ''){
+		stype = $("#stype option:selected").val();
+	}	
+	
+	var paramswx = {
+			stype: stype, 
+			sname: $("#sname").val(), 
+			dateinfoS: $("#dateinfoS").val(), 
+			dateinfoE: $("#dateinfoE").val()
+	};	
+	//获取数据
+	$.ajax({
+		type: "POST",
+		url: baseURL + "generator/newspaper/list",
+		contentType: "application/json",
+		data: JSON.stringify(paramswx),
+		async: false,
+		success: function(r){
+			if(r.code == 0){
+				$("#stype").val(r.newspaperEntity.stype);
+				$("#sname").val(r.newspaperEntity.sname);
+				$("#dateinfoS").val(r.newspaperEntity.dateinfoS);
+				$("#dateinfoE").val(r.newspaperEntity.dateinfoE);
+				$("#trName").html('');
+				var str = "";
+				var strTd = "";
+				if(r.newspaperEntity.stype == "1"){//银行间每日债券借贷
+					str = "<tr>" +
+							  "<th>委托日期</th>" +
+							  "<th>标的券代码</th>" + 
+							  "<th>标的券名称</th>" + 
+					          "<th>加权平均费率(%)</th>" +
+					          "<th>成交量(亿元)</th>" +
+				          "</tr>";
+					$("#trName").html(str);
+					
+					$("#tdName").html('');
+					$.each(r.newspaperList,function(index, item){   
+					    strTd += "<tr>" +
+						    		"<td>" + item.trddate + "</td>" +
+						    		"<td>" + item.uICode + "</td>" +
+						    		"<td>" + item.bName + "</td>" +
+						    		"<td>" + item.weightedAverageRate + "</td>" +
+						    		"<td>" + item.volume + "</td>" +
+					    		"</tr>";
+					})  
+					$("#tdName").html(strTd);
+					
+					//设置样式
+					$("#info #process-demo-1 th").css("width", "170px");
+					$("#info #process-demo-1 th").css("min-width", "170px");
+					$("#info #process-demo-1 th").css("max-width", "170px");
+					$("#info td").css("width", "170px");
+					$("#info td").css("min-width", "170px");
+					$("#info td").css("max-width", "170px");
+					
+					$("#nameX").text("标的券名称：");
+					$("#labelS").text("委托日期起：");
+					$("#labelE").text("委托日期止：");
+				}else if(r.newspaperEntity.stype == "2"){//国债期货当日结算价
+					str = "<tr>" +
+							  "<th>交易日</th>" +
+							  "<th>合约</th>" + 
+							  "<th>开盘价</th>" + 
+					          "<th>最高价</th>" +
+					          "<th>最低价</th>" +
+					          "<th>收盘价</th>" +
+					          "<th>结算价</th>" +
+					          "<th>成交量</th>" +
+					          "<th>持仓量</th>" +
+					          "<th>涨跌(元)-涨跌幅%</th>" +
+					          "<th>最后交易日期</th>" +
+				          "</tr>";
+					$("#trName").html(str);
+					
+					$("#tdName").html('');
+					$.each(r.newspaperList,function(index, item){   
+					    strTd += "<tr>" +
+						    		"<td>" + item.tradeDt + "</td>" +
+						    		"<td>" + item.sInfoWindcode + "</td>" +
+						    		"<td>" + item.sDqOpen + "</td>" +
+						    		"<td>" + item.sDqHigh + "</td>" +
+						    		"<td>" + item.sDqLow + "</td>" +
+						    		"<td>" + item.sDqClose + "</td>" +
+						    		"<td>" + item.sDqSettle + "</td>" +
+						    		"<td>" + item.sDqVolume + "</td>" +
+						    		"<td>" + item.sDqOi + "</td>" +
+						    		"<td>" + item.sDqChange + "</td>" +
+						    		"<td style='text-align:left;'>" + item.sInfoDelistdate + "</td>" +
+					    		"</tr>";
+					})  
+					$("#tdName").html(strTd);
+					
+					//设置样式
+					$("#info #process-demo-1 th").css("width", "90px");
+					$("#info #process-demo-1 th").css("min-width", "90px");
+					$("#info #process-demo-1 th").css("max-width", "90px");
+					$("#info td").css("width", "90px");
+					$("#info td").css("min-width", "90px");
+					$("#info td").css("max-width", "90px");
+					
+					$("#nameX").text("合约名称：");
+					$("#labelS").text("交易日期起：");
+					$("#labelE").text("交易日期止：");
+				}else if(r.newspaperEntity.stype == "3"){//国债期货品种排名
+					str = "<tr>" +
+							  "<th></th>" +
+							  "<th></th>" +
+							  "<th>成交量排名</th>" + 
+							  "<th>成交量排名</th>" + 
+							  "<th>成交量排名</th>" + 
+							  "<th>成交量排名</th>" + 
+							  "<th>持买量排名</th>" + 
+							  "<th>持买量排名</th>" + 
+							  "<th>持买量排名</th>" + 
+							  "<th>持买量排名</th>" + 
+							  "<th>持卖量排名</th>" + 
+							  "<th>持卖量排名</th>" + 
+							  "<th>持卖量排名</th>" + 
+							  "<th>持卖量排名</th>" + 
+						  "</tr>" +
+						  "<tr>" +
+						  	  "<th>日期</th>" +
+							  "<th>合约</th>" + 
+							  "<th>名次</th>" + 
+							  "<th>会员简称</th>" + 
+							  "<th>成交量</th>" + 
+							  "<th>比上交易日增减</th>" + 
+							  "<th>名次</th>" + 
+							  "<th>会员简称</th>" + 
+							  "<th>持买单量</th>" + 
+							  "<th>比上交易日增减</th>" + 
+							  "<th>名次</th>" + 
+							  "<th>会员简称</th>" + 
+							  "<th>持卖单量</th>" + 
+							  "<th>比上交易日增减</th>" + 
+						  "</tr>";
+					$("#trName").html(str);
+				    //合并列
+					_w_table_colspan("#process-demo-1",1,13);
+					
+					$("#tdName").html('');
+					$.each(r.newspaperList,function(index, item){   
+					    strTd += "<tr>" +
+						    		"<td style='text-align:left;'>" + item.tradeDt + "</td>" +
+						    		"<td>" + item.sInfoWindcode + "</td>" +
+						    		"<td>" + item.fsInfoRank + "</td>" +
+						    		"<td>" + item.cJmem + "</td>" +
+						    		"<td>" + item.cJl + "</td>" +
+						    		"<td>" + item.cJlbh + "</td>" +
+						    		"<td>" + item.fsInfoRank + "</td>" +
+						    		"<td>" + item.cBmem + "</td>" +
+						    		"<td>" + item.cBl + "</td>" +
+						    		"<td>" + item.cBlbh + "</td>" +
+						    		"<td>" + item.fsInfoRank + "</td>" +
+						    		"<td>" + item.cSmem + "</td>" +
+						    		"<td>" + item.cSl + "</td>" +
+						    		"<td>" + item.cSlbh + "</td>" +
+					    		"</tr>";
+					})  
+					$("#tdName").html(strTd);
+					
+					$("#nameX").text("合约名称：");
+					$("#labelS").text("交易日期起：");
+					$("#labelE").text("交易日期止：");
+				}
+			}else{
+				alert(r.msg);
+			}
+		}
+	});
+}

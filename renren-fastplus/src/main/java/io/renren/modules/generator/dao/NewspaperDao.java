@@ -1,7 +1,6 @@
 package io.renren.modules.generator.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -18,10 +17,10 @@ import io.renren.modules.sys.dao.BaseDao;
 @Mapper
 public interface NewspaperDao extends BaseDao<NewspaperEntity> {
 	
-	List<NewspaperEntity> queryZQJDList(Map<String, Object> map);
+	List<NewspaperEntity> queryZQJDList(NewspaperEntity newspaperEntity);
 	
-	List<NewspaperEntity> queryVCBONDFUTURESPOSITIONSDList(Map<String, Object> map);
+	List<NewspaperEntity> queryVCBONDFUTURESPOSITIONSDList(NewspaperEntity newspaperEntity);
 	
-	List<NewspaperEntity> queryVCBONDFUTURESEODPRICESList(Map<String, Object> map);
+	List<NewspaperEntity> queryVCBONDFUTURESEODPRICESList(NewspaperEntity newspaperEntity);
 	
 }

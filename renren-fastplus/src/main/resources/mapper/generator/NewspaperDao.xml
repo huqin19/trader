@@ -3,7 +3,7 @@
 
 <mapper namespace="io.renren.modules.generator.dao.NewspaperDao">
 
-	<select id="queryZQJDList" resultType="io.renren.modules.generator.entity.NewspaperEntity" >
+	<select id="queryZQJDList" parameterType="io.renren.modules.generator.entity.NewspaperEntity" resultType="io.renren.modules.generator.entity.NewspaperEntity" >
 		SELECT 
 			TCE.TRDDATE  AS   trddate,
 	       	TCE.U_I_CODE AS   uICode,
@@ -19,13 +19,22 @@
 		    AND TBND.M_TYPE = 'X_CNBD'
 		WHERE 
 			TCE.MARKETINDICATOR = 8
+			<if test="sname != null and sname.trim() != ''">
+				and TBND.B_NAME like '%' || #{sname} || '%'
+			</if>
+			<if test="dateinfoS != null and dateinfoS.trim() != ''">
+				and TCE.TRDDATE &gt;=  #{dateinfoS}
+			</if>
+			<if test="dateinfoE != null and dateinfoE.trim() != ''">
+				and TCE.TRDDATE &lt;= #{dateinfoE}
+			</if>
 		GROUP BY 
 			TCE.TRDDATE,TCE.U_I_CODE,TBND.B_NAME
 		ORDER BY 
 			TCE.TRDDATE,TCE.U_I_CODE,TBND.B_NAME
 	</select>
 	
-	<select id="queryVCBONDFUTURESPOSITIONSDList" resultType="io.renren.modules.generator.entity.NewspaperEntity" >
+	<select id="queryVCBONDFUTURESPOSITIONSDList" parameterType="io.renren.modules.generator.entity.NewspaperEntity" resultType="io.renren.modules.generator.entity.NewspaperEntity" >
 		SELECT 
 			TRADE_DT AS tradeDt,
 	       	SUBSTR(S_INFO_WINDCODE,0,INSTR(S_INFO_WINDCODE,'.')-1) AS sInfoWindcode,
@@ -41,15 +50,28 @@
 	       	SUM( CASE WHEN FS_INFO_TYPE ='3' THEN S_OI_POSITIONSNUMC ELSE 0 END)    AS cSlbh
 		FROM 
 			CBONDFUTURESPOSITIONS
+		<where>
+			<if test="sname != null and sname.trim() != ''">
+				SUBSTR(S_INFO_WINDCODE,0,INSTR(S_INFO_WINDCODE,'.')-1) like '%' || #{sname} || '%'
+			</if>
+			<if test="dateinfoS != null and dateinfoS.trim() != ''">
+				and TRADE_DT &gt;=  #{dateinfoS}
+			</if>
+			<if test="dateinfoE != null and dateinfoE.trim() != ''">
+				and TRADE_DT &lt;= #{dateinfoE}
+			</if>
+		</where>
 		GROUP BY 
+			TRADE_DT, S_INFO_WINDCODE, FS_INFO_RANK
+		ORDER BY 
 			TRADE_DT, S_INFO_WINDCODE, FS_INFO_RANK
 	</select>
 	
-	<select id="queryVCBONDFUTURESEODPRICESList" resultType="io.renren.modules.generator.entity.NewspaperEntity" >
+	<select id="queryVCBONDFUTURESEODPRICESList" parameterType="io.renren.modules.generator.entity.NewspaperEntity" resultType="io.renren.modules.generator.entity.NewspaperEntity" >
 		SELECT 
 			T1.TRADE_DT    as  tradeDt,
 		    T2.S_INFO_CODE as  sInfoWindcode,
-		    T1.S_DQ_OPEN   as  sInfoWindcode,
+		    T1.S_DQ_OPEN   as  sDqOpen,
 		    T1.S_DQ_HIGH   as  sDqHigh,
 		    T1.S_DQ_LOW    as  sDqLow,
 		    T1.S_DQ_CLOSE  as  sDqClose,
@@ -57,7 +79,7 @@
 		    T1.S_DQ_VOLUME as  sDqVolume,
 		    T1.S_DQ_OI     as  sDqOi,
 		    TO_CHAR(ROUND(T1.S_DQ_CHANGE/T1.S_DQ_PRESETTLE*100,4),'fm990.0099') as sDqChange,
-		    T2.S_INFO_DELISTDATE as sInfoDelistdate
+		    concat(concat(concat(concat(SUBSTR(T2.S_INFO_DELISTDATE,0,4), '-'), SUBSTR(T2.S_INFO_DELISTDATE,5,2)), '-'),SUBSTR(T2.S_INFO_DELISTDATE,7,2))   as sInfoDelistdate
 		FROM 
 			CBONDFUTURESEODPRICES T1 
 		LEFT JOIN
@@ -68,5 +90,14 @@
 			T2.S_INFO_EXCHMARKET='CFFEX' AND T2.FS_INFO_SCCODE IN ('T','TF') 
 			AND T2.FS_INFO_TYPE=1
 			AND T1.S_DQ_VOLUME >= 1000
+			<if test="sname != null and sname.trim() != ''">
+				and T2.S_INFO_CODE like '%' || #{sname} || '%'
+			</if>
+			<if test="dateinfoS != null and dateinfoS.trim() != ''">
+				and T1.TRADE_DT &gt;=  #{dateinfoS}
+			</if>
+			<if test="dateinfoE != null and dateinfoE.trim() != ''">
+				and T1.TRADE_DT &lt;= #{dateinfoE}
+			</if>
 	</select>
 </mapper>

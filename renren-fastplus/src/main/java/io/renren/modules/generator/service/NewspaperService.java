@@ -1,7 +1,6 @@
 package io.renren.modules.generator.service;
 
 import java.util.List;
-import java.util.Map;
 
 import io.renren.modules.generator.entity.NewspaperEntity;
 
@@ -17,16 +16,16 @@ public interface NewspaperService {
 	/**
 	 * 银行间每日借贷 查询
 	 */
-	List<NewspaperEntity> queryZQJDList(Map<String, Object> map);
+	List<NewspaperEntity> queryZQJDList(NewspaperEntity newspaperEntity);
 	
 	/**
 	 * 国债期货品种排名 查询
 	 */
-	List<NewspaperEntity> queryVCBONDFUTURESPOSITIONSDList(Map<String, Object> map);
+	List<NewspaperEntity> queryVCBONDFUTURESPOSITIONSDList(NewspaperEntity newspaperEntity);
 	
 	/**
 	 * 国债期货当日结算价 查询
 	 */
-	List<NewspaperEntity> queryVCBONDFUTURESEODPRICESList(Map<String, Object> map);
+	List<NewspaperEntity> queryVCBONDFUTURESEODPRICESList(NewspaperEntity newspaperEntity);
 }
 

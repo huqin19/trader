@@ -57,22 +57,22 @@
 }
 #info #process-demo-1 th{
 	background-color: #4395FF;
-	width:82px;
+	width:75px;
 	height:40px;
 	vertical-align: middle;
 	border:1px solid #3b3b3b;
-	min-width:82px;
-	max-width:82px;
+	min-width:75px;
+	max-width:75px;
 	text-align:center;
 }
 #info td{
-	width:82px;
+	width:75px;
 	text-align: center;
 	height:30px;
 	line-height: 30px;
 	border:1px solid #3b3b3b;
-	min-width:82px;
-	max-width:82px;
+	min-width:75px;
+	max-width:75px;
 }
 #info .page {
 	text-align: right;

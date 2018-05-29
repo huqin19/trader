@@ -1,15 +1,12 @@
 package io.renren.modules.generator.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.renren.common.utils.R;
@@ -36,11 +33,20 @@ public class NewspaperController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("generator:newspaper:list")
-    public R list(@RequestParam Map<String, Object> params){
-		//Query query = new Query(new HashMap<String, Object>());
-		List<NewspaperEntity> newspaperList = newspaperService.queryZQJDList(new HashMap<String, Object>());
-
-        return R.ok().put("newspaperList", newspaperList);
+    public R list(@RequestBody NewspaperEntity newspaperEntity){
+		List<NewspaperEntity> newspaperList = null;
+		if(null != newspaperEntity && null != newspaperEntity.getStype()) {
+			if("1".equals(newspaperEntity.getStype())) {//银行间每日债券借贷
+				newspaperList = newspaperService.queryZQJDList(newspaperEntity);
+			}
+			if("2".equals(newspaperEntity.getStype())) {//国债期货当日结算价
+				newspaperList = newspaperService.queryVCBONDFUTURESEODPRICESList(newspaperEntity);
+			}
+			if("3".equals(newspaperEntity.getStype())) {//国债期货品种排名 
+				newspaperList = newspaperService.queryVCBONDFUTURESPOSITIONSDList(newspaperEntity);
+			}
+		}
+        return R.ok().put("newspaperList", newspaperList).put("newspaperEntity", newspaperEntity);
     }
 
 

@@ -366,6 +366,44 @@ public class NewspaperEntity implements Serializable {
 		this.sInfoDelistdate = sInfoDelistdate;
 	}
 	
-	
-	
+	//传值
+	private String dateinfoS;
+	private String dateinfoE;
+	//券名称 || 合约名称
+	private String sname;
+	//类型   1 ：银行间每日债券借贷   2：国债期货当日结算价  3：国债期货品种排名
+	private String stype;
+
+	public String getDateinfoS() {
+		return dateinfoS;
+	}
+
+	public void setDateinfoS(String dateinfoS) {
+		this.dateinfoS = dateinfoS;
+	}
+
+	public String getDateinfoE() {
+		return dateinfoE;
+	}
+
+	public void setDateinfoE(String dateinfoE) {
+		this.dateinfoE = dateinfoE;
+	}
+
+	public String getSname() {
+		return sname;
+	}
+
+	public void setSname(String sname) {
+		this.sname = sname;
+	}
+
+	public String getStype() {
+		return stype;
+	}
+
+	public void setStype(String stype) {
+		this.stype = stype;
+	}
+
 }

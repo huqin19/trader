@@ -1,13 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<meta charset="UTF-8">
-	<title>Document</title>
-	<link rel="stylesheet" href="../../css/bootstrap.min.css">
-	<link rel="stylesheet" href="../../css/font-awesome.min.css">
-	<link rel="stylesheet" href="../../plugins/jqgrid/ui.jqgrid-bootstrap.css">
-	<link rel="stylesheet" href="../../plugins/ztree/css/metroStyle/metroStyle.css">
-	<link rel="stylesheet" href="../../css/main.css">
+  <title>固收日报查询</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../css/font-awesome.min.css">
+  <link rel="stylesheet" href="../../plugins/jqgrid/ui.jqgrid-bootstrap.css">
+  <link rel="stylesheet" href="../../plugins/ztree/css/metroStyle/metroStyle.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/reset.css" type="text/css">
+  <link rel="stylesheet" href="../../css/zTreeStyle.css" type="text/css">
+  
+  
+      <script type="text/javascript" src="../../js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="../../js/jquery.ztree.excheck.js"></script>
 	<script src="../../libs/jquery.min.js"></script>
 	<script src="../../plugins/layer/layer.js"></script>
 	<script src="../../libs/bootstrap.min.js"></script>
@@ -15,7 +22,7 @@
 	<script src="../../plugins/jqgrid/grid.locale-cn.js"></script>
 	<script src="../../plugins/jqgrid/jquery.jqGrid.min.js"></script>
 	<script src="../../plugins/ztree/jquery.ztree.all.min.js"></script>
-	<script src="../../js/common.js"></script>
+    <script type="text/javascript" src="../../js/common.js"></script>
 	<link rel="stylesheet" href="../../css/reset.css">
     <link rel="stylesheet" href="../../css/info.css">
     <link rel="stylesheet" href="../../css/jedate.css">
@@ -26,36 +33,36 @@
 			<div class="line1">
 				<div class="check-type">
 					<label for="">类型：</label>
-					<select name="" id="">
+					<select name="stype" id="stype">
 						<option value="1">银行间每日债券借贷</option>
 						<option value="2">国债期货当日结算价</option>
 						<option value="3">国债期货品种排名 </option>
 					</select>
 				</div>
 				<div class="check-name">
-					<label for="">债券名：</label>
-					<input type="text">
+					<label id="nameX" for="">标的券名称：</label>
+					<input type="text" id="sname">
 				</div>
 			</div>
 			<div class="line2">
 				<div class="check-date">
-					<label for="">交易时间起：</label>
+					<label id="labelS" for="">委托时间起：</label>
 					<input class="dateinfo" id="dateinfoS" type="text" placeholder="请选择"  readonly>
 					<div class="icons jebtns" onclick="jeDate('#dateinfo',{trigger:false,format: 'YYYY-MM-DD'})"></div>
 				</div>
 				<div class="check-date">
-					<label for="">交易时间止：</label>
+					<label id="labelE" for="">委托时间止：</label>
 					<input class="dateinfo" id="dateinfoE" type="text" placeholder="请选择"  readonly>
 					<div class="icons jebtns" onclick="jeDate('#dateinfo',{trigger:false,format: 'YYYY-MM-DD'})"></div>
 				</div>
 				<div class="check-btn">
-					<input class="selTable" type="button" value="查询" />
+					<input class="selTable" type="button" onclick="selData();" value="查询" />
 				</div>
 			</div>
 		</div>
 	  <div class="table-content">
 	  	<table id="process-demo-1">
-	  		<thead>
+	  		<thead id="trName">
 					<tr>
 						<th>债券类型</th>
 						<th>债券简称</th>
@@ -72,7 +79,8 @@
 						<th>待偿期（年）</th>
 					</tr>
 				</thead>
-			<tbody>
+			<tbody id="tdName">
+			<!-- 
 		  	<tr>
 	          <td>SuZhou</td>
 	          <td>11111</td>
@@ -188,6 +196,7 @@
 	            <td>777</td>
 	            
 	        </tr>
+	         -->
 
 
 	  		</tbody>
@@ -208,41 +217,6 @@
  -->
 </div>
 </body>
-	<script src="../../js/jquery-1.4.4.min.js"></script>
 	<script src="../../js/table.js"></script>
 	<script src="../../js/jedate.min.js"></script>
-	<script>
-	    $(function(){
-	    	// 合并列 第一个参数table名，第二个参数需要合并的列数
-	   		_w_table_rowspan("#process-demo-1",1);
-	   		// 合并行 第一个参数tableming，第二个参数需要合并单元格的所在行，第三个参数为指定行中单元格对应的最大列数
-            _w_table_colspan("#process-demo-1",1,6);
-
-	        jeDate("#dateinfoS",{
-	            //format:"YYYY-MM-DD hh:mm:ss",
-	            format:"YYYY-MM-DD",
-	            isTime:false,
-	            //minDate:"2014-09-19 00:00:00",
-	            //minDate:"2014-09-19",
-	            theme:{ bgcolor:"#00A1CB",color:"#ffffff", pnColor:"#00CCFF"},
-	            minDate: '1976-01-01 23:59:59', //设定最小日期为当前日期
-	            maxDate: function (that) {
-	                return jeDate.valText('#dateinfoE') == "" ? jeDate.nowDate({DD:0}) : jeDate.valText('#dateinfoE');
-	            }, //设定最大日期为当前日期
-	        })
-	        
-	       	jeDate("#dateinfoE",{
-	            //format:"YYYY-MM-DD hh:mm:ss",
-	            format:"YYYY-MM-DD",
-	            isTime:false,
-	            //minDate:"2014-09-19 00:00:00",
-	            //minDate:"2014-09-19",
-	            theme:{ bgcolor:"#00A1CB",color:"#ffffff", pnColor:"#00CCFF"},
-	            minDate: function (that) {
-	                return jeDate.valText('#dateinfoS') == "" ? '1976-01-01 23:59:59' : jeDate.valText('#dateinfoS') ;
-	            }, //设定最小日期为当前日期
-	            maxDate: jeDate.nowDate({DD:0}), //设定最大日期为当前日期
-	        })
-	    })
-	</script>
 </html>

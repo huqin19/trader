@@ -1,7 +1,6 @@
 package io.renren.modules.generator.service.impl;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,18 +17,18 @@ public class NewspaperServiceImpl implements NewspaperService {
 	private NewspaperDao newspaperDao;
 	
 	@Override
-	public List<NewspaperEntity> queryZQJDList(Map<String, Object> map) {
-		return newspaperDao.queryZQJDList(map);
+	public List<NewspaperEntity> queryZQJDList(NewspaperEntity newspaperEntity) {
+		return newspaperDao.queryZQJDList(newspaperEntity);
 	}
 
 	@Override
-	public List<NewspaperEntity> queryVCBONDFUTURESPOSITIONSDList(Map<String, Object> map) {
-		return newspaperDao.queryVCBONDFUTURESPOSITIONSDList(map);
+	public List<NewspaperEntity> queryVCBONDFUTURESPOSITIONSDList(NewspaperEntity newspaperEntity) {
+		return newspaperDao.queryVCBONDFUTURESPOSITIONSDList(newspaperEntity);
 	}
 
 	@Override
-	public List<NewspaperEntity> queryVCBONDFUTURESEODPRICESList(Map<String, Object> map) {
-		return newspaperDao.queryVCBONDFUTURESEODPRICESList(map);
+	public List<NewspaperEntity> queryVCBONDFUTURESEODPRICESList(NewspaperEntity newspaperEntity) {
+		return newspaperDao.queryVCBONDFUTURESEODPRICESList(newspaperEntity);
 	}
 
 }
