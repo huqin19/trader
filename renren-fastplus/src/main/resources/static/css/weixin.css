@@ -1,16 +1,16 @@
 
-.form1,.form2{
+.form1,.form2, .form3{
 	padding:0 10px;
 }
-.form2,.echart{
+.form2,.echart, .form2{
 	margin-top:30px;
 }
-.form1 h3,.form2 h3{
+.form1 h3,.form2 h3, .form3 h3{
 	line-height:50px;
 	text-align:center;
 	padding:0;
 }
-.form1 th,.form2 th{
+.form1 th,.form2 th, .form3 th{
 	background-color: #4395FF;
 	width:8%;
 	height:40px;
@@ -18,25 +18,12 @@
 	border:1px solid #3b3b3b;
 	text-align:center;
 }
-.form1 td,.form2 td{
+.form1 td,.form2 td,.form3 td{
 	text-align: center;
 	height:30px;
 	line-height: 30px;
 	border:1px solid #3b3b3b;
 }
-.form1 tr td:first-child,.form2 tr td:first-child{
+.form1 tr td:first-child,.form2 tr td:first-child,.form3 tr td:first-child{
 	vertical-align: middle;
-}
-.form2 th:first-child{
-	width:10%;
-}
-.form2 th{
-	background: #fff;
-	width:20%;
-}
-#table2{
-	width:100%;
-}
-.echart1,.echart2{
-	margin-top:30px;
 }

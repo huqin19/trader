@@ -48,6 +48,25 @@ public class NewspaperController {
 		}
         return R.ok().put("newspaperList", newspaperList).put("newspaperEntity", newspaperEntity);
     }
+    
+    
+    
+    /**
+     * 日报-列表
+     */
+//    @AuthIgnore
+//    @RequestMapping("/look")
+//    @RequiresPermissions("generator:newspaper:look")
+//    public R look(@RequestBody NewspaperEntity newspaperEntity){
+//		List<NewspaperEntity> listZQJD = null, listVCBONDFUTURESEODPRICES=null,listVCBONDFUTURESPOSITIONSD=null;
+//		//银行间每日债券借贷
+//		listZQJD = newspaperService.queryZQJDList(newspaperEntity);
+//		//国债期货当日结算价
+//		listVCBONDFUTURESEODPRICES = newspaperService.queryVCBONDFUTURESEODPRICESList(newspaperEntity);
+//		//国债期货品种排名 
+//		listVCBONDFUTURESPOSITIONSD = newspaperService.queryVCBONDFUTURESPOSITIONSDList(newspaperEntity);
+//        return R.ok().put("listZQJD", listZQJD).put("listVCBONDFUTURESEODPRICES", listVCBONDFUTURESEODPRICES).put("listVCBONDFUTURESPOSITIONSD", listVCBONDFUTURESPOSITIONSD).put("newspaperEntity", newspaperEntity);
+//    }
 
 
     /**

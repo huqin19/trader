@@ -28,6 +28,9 @@
 			<if test="dateinfoE != null and dateinfoE.trim() != ''">
 				and TCE.TRDDATE &lt;= #{dateinfoE}
 			</if>
+			<if test="paramdate != null and paramdate.trim() != ''">
+				and TCE.TRDDATE = #{paramdate}
+			</if>
 		GROUP BY 
 			TCE.TRDDATE,TCE.U_I_CODE,TBND.B_NAME
 		ORDER BY 
@@ -59,6 +62,9 @@
 			</if>
 			<if test="dateinfoE != null and dateinfoE.trim() != ''">
 				and TRADE_DT &lt;= #{dateinfoE}
+			</if>
+			<if test="paramdate != null and paramdate.trim() != ''">
+				and TRADE_DT = #{paramdate}
 			</if>
 		</where>
 		GROUP BY 
@@ -98,6 +104,9 @@
 			</if>
 			<if test="dateinfoE != null and dateinfoE.trim() != ''">
 				and T1.TRADE_DT &lt;= #{dateinfoE}
+			</if>
+			<if test="paramdate != null and paramdate.trim() != ''">
+				and T1.TRADE_DT = #{paramdate}
 			</if>
 	</select>
 </mapper>

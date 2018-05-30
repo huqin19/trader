@@ -373,6 +373,8 @@ public class NewspaperEntity implements Serializable {
 	private String sname;
 	//类型   1 ：银行间每日债券借贷   2：国债期货当日结算价  3：国债期货品种排名
 	private String stype;
+	//某天
+	private String paramdate;
 
 	public String getDateinfoS() {
 		return dateinfoS;
@@ -404,6 +406,14 @@ public class NewspaperEntity implements Serializable {
 
 	public void setStype(String stype) {
 		this.stype = stype;
+	}
+
+	public String getParamdate() {
+		return paramdate;
+	}
+
+	public void setParamdate(String paramdate) {
+		this.paramdate = paramdate;
 	}
 
 }

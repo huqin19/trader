@@ -1,13 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Document</title>
+  <title></title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>固收日报发布系统</title>
 	<link rel="stylesheet" href="../../css/bootstrap.min.css">
 	<link rel="stylesheet" href="../../css/font-awesome.min.css">
 	<link rel="stylesheet" href="../../plugins/jqgrid/ui.jqgrid-bootstrap.css">
 	<link rel="stylesheet" href="../../plugins/ztree/css/metroStyle/metroStyle.css">
 	<link rel="stylesheet" href="../../css/main.css">
+	
+	<script type="text/javascript" src="../../js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="../../js/jquery.ztree.excheck.js"></script>
 	<script src="../../libs/jquery.min.js"></script>
 	<script src="../../plugins/layer/layer.js"></script>
 	<script src="../../libs/bootstrap.min.js"></script>
@@ -15,7 +20,7 @@
 	<script src="../../plugins/jqgrid/grid.locale-cn.js"></script>
 	<script src="../../plugins/jqgrid/jquery.jqGrid.min.js"></script>
 	<script src="../../plugins/ztree/jquery.ztree.all.min.js"></script>
-	<script src="../../js/common.js"></script>
+    <!-- <script type="text/javascript" src="../../js/common.js"></script> -->
 	
   <link rel="stylesheet" href="../../css/reset.css">
   <link rel="stylesheet" href="../../css/weixin.css">
@@ -23,9 +28,10 @@
 <body>
   <div class="container">
     <div class="form1">
-      <h3>5月7日部分活跃券点击成交情况</h3>
+      <h3>银行间每日债券借贷</h3>
       <table id="table1">
         <thead>
+          <!-- 
           <tr>
             <th>债券类型</th>
             <th>债券简称</th>
@@ -35,8 +41,10 @@
             <th>当日加提成当成交价格</th>
             <th>今日累计成交量（万元）</th>
           </tr>
+           -->
         </thead>
         <tbody>
+          <!-- 
           <tr>
             <td>SuZhou</td>
             <td>11111</td>
@@ -46,191 +54,354 @@
             <td>777</td>
             <td>888</td>
           </tr>
-          <tr>
-              <td>SuZhou</td>
-              <td>33333</td>
-              <td>44444</td>
-              <td>333</td>
-              <td>666</td>
-              <td>777</td>
-              <td>888</td>
-          </tr>
-          <tr>
-              <td>SuZhou</td>
-              <td>55555</td>
-              <td>66666</td>
-              <td>333</td>
-              <td>666</td>
-              <td>777</td>
-              <td>888</td>
-          </tr>
-          <tr>
-              <td>ShangHai</td>
-              <td>77777</td>
-              <td>88888</td>
-              <td>333</td>
-              <td>666</td>
-              <td>777</td>
-              <td>888</td>
-          </tr>
-          <tr>
-              <td>ShangHai</td>
-              <td>uuuuu</td>
-              <td>hhhhh</td>
-              <td>333</td>
-              <td>666</td>
-              <td>777</td>
-              <td>888</td>
-          </tr>
-          <tr>
-              <td>ShangHai</td>
-              <td>ggggg</td>
-              <td>ccccc</td>
-              <td>333</td>
-              <td>666</td>
-              <td>777</td>
-              <td>888</td>
-          </tr>
-          <tr>
-              <td>GuangZhou</td>
-              <td>ttttt</td>
-              <td>eeeee</td>
-              <td>333</td>
-              <td>666</td>
-              <td>777</td>
-              <td>888</td>
-          </tr>
-          <tr>
-              <td>GuangZhou</td>
-              <td>ppppp</td>
-              <td>qqqqq</td>
-              <td>333</td>
-              <td>666</td>
-              <td>777</td>
-              <td>888</td>
-          </tr>
+           -->
         </tbody>
       </table>
     </div>
+    
     <div class="form2">
-      <h3>5月7日利率互换收盘曲线</h3>
+      <h3>银行间每日债券借贷</h3>
       <table id="table2">
-        <!-- title标题 -->
+        <thead>
+          <!--
           <tr>
-            <th></th>
-            <th>Shibur_3M</th>
-            <th>Shibur_3M</th>
-            <th>FROO7</th>
-            <th>FROO7</th>
+            <th>债券类型</th>
+            <th>债券简称</th>
+            <th>债券代码</th>
+            <th>待偿期（年）</th>
+            <th>最新买价%</th>
+            <th>当日加提成当成交价格</th>
+            <th>今日累计成交量（万元）</th>
           </tr>
+          -->
+        </thead>
+        <tbody>
+          <!-- 
           <tr>
-            <th></th>
-            <th>收盘利率（%）</th>
-            <th>涨跌（BP）</th>
-            <th>收盘利率（%）</th>
-            <th>涨跌（BP）</th>
+            <td>SuZhou</td>
+            <td>11111</td>
+            <td>22222</td>
+            <td>333</td>
+            <td>666</td>
+            <td>777</td>
+            <td>888</td>
           </tr>
-          <!-- 正文内容 -->
-          <tr>
-            <td>1M</td>
-            <td>--</td>
-            <td>--</td>
-            <td>3.0573</td>
-            <td>-5.22</td>
-          </tr>
-          <tr>
-            <td>3M</td>
-            <td>--</td>
-            <td>--</td>
-            <td>3.0850</td>
-            <td>-1.13</td>
-          </tr>
-          <tr>
-            <td>6M</td>
-            <td>4.1425</td>
-            <td>3.81</td>
-            <td>3.1050</td>
-            <td>-0.25</td>
-          </tr>
-          <tr>
-            <td>9M</td>
-            <td>4.2163</td>
-            <td>4.25</td>
-            <td>3.1650</td>
-            <td>0.38</td>
-          </tr>
-          <tr>
-            <td>1Y</td>
-            <td>4.2775</td>
-            <td>6.47</td>
-            <td>3.2063</td>
-            <td>0.85</td>
-          </tr>
-          <tr>
-            <td>2Y</td>
-            <td>4.3663</td>
-            <td>6.58</td>
-            <td>3.3425</td>
-            <td>1.75</td>
-          </tr>
-          <tr>
-            <td>3Y</td>
-            <td>4.3913</td>
-            <td>6.50</td>
-            <td>3.4486</td>
-            <td>2.36</td>
-          </tr>
-          <tr>
-            <td>4Y</td>
-            <td>4.4038</td>
-            <td>5.95</td>
-            <td>3.5438</td>
-            <td>1.88</td>
-          </tr>
-          <tr>
-            <td>5Y</td>
-            <td>4.4188</td>
-            <td>6.60</td>
-            <td>3.6075</td>
-            <td>2.50</td>
-          </tr>
-          <tr>
-            <td>7Y</td>
-            <td>4.4425</td>
-            <td>5.59</td>
-            <td>3.7058</td>
-            <td>4.46</td>
-          </tr>
-          <tr>
-            <td>10Y</td>
-            <td>4.4825</td>
-            <td>5.13</td>
-            <td>3.7825</td>
-            <td>3.00</td>
-          </tr>
+           -->
+        </tbody>
       </table>
     </div>
-    <div class="echart1">
-      <div id="main1" style="height:400px"></div>
-    </div>
-    <div class="echart2">
-      <div id="main2" style="height:400px"></div>
+    
+    <div class="form3">
+      <h3>5月7日部分活跃券点击成交情况</h3>
+      <table id="table3">
+        <thead>
+          <!-- 
+          <tr>
+            <th>债券类型</th>
+            <th>债券简称</th>
+            <th>债券代码</th>
+            <th>待偿期（年）</th>
+            <th>最新买价%</th>
+            <th>当日加提成当成交价格</th>
+            <th>今日累计成交量（万元）</th>
+          </tr>
+           -->
+        </thead>
+        <tbody>
+          <!-- 
+          <tr>
+            <td>SuZhou</td>
+            <td>11111</td>
+            <td>22222</td>
+            <td>333</td>
+            <td>666</td>
+            <td>777</td>
+            <td>888</td>
+          </tr>
+           -->
+        </tbody>
+      </table>
     </div>
 </div>
 </body>
-  <script src="../../js/jquery-1.4.4.min.js"></script>
-  <script src="../../js/table.js"></script>
-  <script src="../../js/echarts.js"></script>
+  <!-- <script src="../../js/echarts.js"></script>  -->
   <script src="../../js/weixin.js"></script>
   <script>
-      $(function(){
-        // 表格1
+//请求前缀
+  var baseURL = "/renren-fastplus/";
+	
+	// 合并列
+	//基于Jquery写法 
+	//函数说明：合并指定表格（表格id为_w_table_id）指定列（列数为_w_table_colnum）的相同文本的相邻单元格  
+	//参数说明：_w_table_id 为需要进行合并单元格的表格的id。如在HTMl中指定表格 id="data" ，此参数应为 #data   
+	//参数说明：_w_table_colnum 为需要合并单元格的所在列。为数字，从最左边第一列为1开始算起。  
+	function _w_table_rowspan(_w_table_id, _w_table_colnum) {  
+	  _w_table_firsttd = "";  
+	  _w_table_currenttd = "";  
+	  _w_table_SpanNum = 0;  
+	  _w_table_Obj = $(_w_table_id + " tr td:nth-child(" + _w_table_colnum + ")");
+	  _w_table_Obj.each(function (i) {
+	    if (i == 0) {  
+	      _w_table_firsttd = $(this);  
+	      _w_table_SpanNum = 1;  
+	    } else {  
+	      _w_table_currenttd = $(this);  
+	      if (_w_table_firsttd.text() == _w_table_currenttd.text()) {//这边注意不是val（）属性，而是text（）属性  
+	          _w_table_SpanNum++;  
+	          _w_table_currenttd.hide(); //remove();  
+	          _w_table_firsttd.attr("rowSpan", _w_table_SpanNum);  
+	      } else {  
+	          _w_table_firsttd = $(this);  
+	          _w_table_SpanNum = 1;  
+	      }  
+	    }  
+	  });  
+	}  
+	// _w_table_rowspan("#subtable",1);
+
+	// 合并行
+	//函数说明：合并指定表格（表格id为_w_table_id）指定行（行数为_w_table_rownum）的相同文本的相邻单元格  
+	//参数说明：_w_table_id 为需要进行合并单元格的表格id。如在HTMl中指定表格 id="data" ，此参数应为 #data   
+	//参数说明：_w_table_rownum 为需要合并单元格的所在行。其参数形式请参考jQuery中nth-child的参数。  
+	//如果为数字，则从最左边第一行为1开始算起。  
+	//"even" 表示偶数行  
+	//"odd" 表示奇数行  
+	//"3n+1" 表示的行数为1、4、7、10.......  
+	//参数说明：_w_table_maxcolnum 为指定行中单元格对应的最大列数，列数大于这个数值的单元格将不进行比较合并。  
+	//此参数可以为空，为空则指定行的所有单元格要进行比较合并。  
+	function _w_table_colspan(_w_table_id, _w_table_rownum, _w_table_maxcolnum) {  
+	  if (_w_table_maxcolnum == void 0) { 
+	    _w_table_maxcolnum = 0; 
+	  }  
+	  _w_table_firsttd = "";  
+	  _w_table_currenttd = "";  
+	  _w_table_SpanNum = 0;  
+	  $(_w_table_id + " tr:nth-child(" + _w_table_rownum + ")").each(function (i) {  
+	      _w_table_Obj = $(this).children();  
+	      _w_table_Obj.each(function (i) {  
+	          if (i == 0) {  
+	              _w_table_firsttd = $(this);  
+	              _w_table_SpanNum = 1;  
+	          } else if ((_w_table_maxcolnum > 0) && (i > _w_table_maxcolnum)) {  
+	              return "";  
+	          } else {  
+	              _w_table_currenttd = $(this);  
+	              if (_w_table_firsttd.text() == _w_table_currenttd.text()) {  
+	                  _w_table_SpanNum++;  
+	                  _w_table_currenttd.hide(); //remove();  
+	                  _w_table_firsttd.attr("colSpan", _w_table_SpanNum);  
+	              } else {  
+	                  _w_table_firsttd = $(this);  
+	                  _w_table_SpanNum = 1;  
+	              }  
+	          }  
+	      });  
+	  });  
+	} 
+	
+	function _w_table_rowspanTh(_w_table_id, _w_table_colnum) {  
+		  _w_table_firsttd = "";  
+		  _w_table_currenttd = "";  
+		  _w_table_SpanNum = 0;  
+		  _w_table_Obj = $(_w_table_id + " tr th:nth-child(" + _w_table_colnum + ")");
+		  _w_table_Obj.each(function (i) {
+		    if (i == 0) {  
+		      _w_table_firsttd = $(this);  
+		      _w_table_SpanNum = 1;  
+		    } else {  
+		      _w_table_currenttd = $(this);  
+		      if (_w_table_firsttd.text() == _w_table_currenttd.text()) {//这边注意不是val（）属性，而是text（）属性  
+		          _w_table_SpanNum++;  
+		          _w_table_currenttd.hide(); //remove();  
+		          _w_table_firsttd.attr("rowSpan", _w_table_SpanNum);  
+		      } else {  
+		          _w_table_firsttd = $(this);  
+		          _w_table_SpanNum = 1;  
+		      }  
+		    }  
+		  });  
+		}
+  
+	$(function(){
+		var	paramdate = getQueryString("dt");
+		//var	paramdate = '2016-06-15';
+		var paramswx = {
+				paramdate: paramdate
+		}
+		console.log(baseURL + "api/look");
+		if(paramdate != null && paramdate !=''){
+			//指定某日的日报
+			$.ajax({
+				type: "POST",
+			    //url: baseURL + "generator/newspaper/look",
+			    url: baseURL + "api/look",
+                contentType: "application/json",
+			    data: JSON.stringify(paramswx),
+			    async: false,
+			    success: function(r){
+					if(r.code == 0){
+						$(".form1 h3").html(r.newspaperEntity.paramdate + "银行间每日债券借贷");
+						$(".form2 h3").html(r.newspaperEntity.paramdate + "国债期货当日结算价");
+						$(".form3 h3").html(r.newspaperEntity.paramdate + "国债期货品种排名");
+						var str = ""; var strTd = "";
+						
+						if(null !=r.listZQJD && r.listZQJD != undefined && r.listZQJD.length > 0){
+							str = "<tr>" +
+									  "<th>委托日期</th>" +
+									  "<th>标的券代码</th>" + 
+									  "<th>标的券名称</th>" + 
+							          "<th>加权平均费率(%)</th>" +
+							          "<th>成交量(亿元)</th>" +
+						          "</tr>";
+							$("#table1 thead").html('');
+							$("#table1 thead").html(str);
+							
+							$.each(r.listZQJD,function(index, item){   
+							    strTd += "<tr>" +
+								    		"<td>" + item.trddate + "</td>" +
+								    		"<td>" + item.uICode + "</td>" +
+								    		"<td>" + item.bName + "</td>" +
+								    		"<td>" + item.weightedAverageRate + "</td>" +
+								    		"<td>" + item.volume + "</td>" +
+							    		"</tr>";
+							})  
+							$("#table1 tbody").html('');
+							$("#table1 tbody").html(strTd);
+						}else{
+							$(".form1 h3").html(r.newspaperEntity.paramdate + "银行间每日债券借贷 无数据");
+						}
+						
+						if(null !=r.listVCBONDFUTURESEODPRICES && r.listVCBONDFUTURESEODPRICES != undefined && r.listVCBONDFUTURESEODPRICES.length > 0){
+							str = ""; strTd = "";
+							str = "<tr>" +
+									  "<th>交易日</th>" +
+									  "<th>合约</th>" + 
+									  "<th>开盘价</th>" + 
+							          "<th>最高价</th>" +
+							          "<th>最低价</th>" +
+							          "<th>收盘价</th>" +
+							          "<th>结算价</th>" +
+							          "<th>成交量</th>" +
+							          "<th>持仓量</th>" +
+							          "<th>涨跌(元)-涨跌幅%</th>" +
+							          "<th>最后交易日期</th>" +
+						          "</tr>";
+							$("#table2 thead").html('');
+							$("#table2 thead").html(str);
+							
+							$.each(r.listVCBONDFUTURESEODPRICES,function(index, item){   
+							    strTd += "<tr>" +
+								    		"<td>" + item.tradeDt + "</td>" +
+								    		"<td>" + item.sInfoWindcode + "</td>" +
+								    		"<td>" + item.sDqOpen + "</td>" +
+								    		"<td>" + item.sDqHigh + "</td>" +
+								    		"<td>" + item.sDqLow + "</td>" +
+								    		"<td>" + item.sDqClose + "</td>" +
+								    		"<td>" + item.sDqSettle + "</td>" +
+								    		"<td>" + item.sDqVolume + "</td>" +
+								    		"<td>" + item.sDqOi + "</td>" +
+								    		"<td>" + item.sDqChange + "</td>" +
+								    		"<td style='text-align:left;'>" + item.sInfoDelistdate + "</td>" +
+							    		"</tr>";
+							})  
+							$("#table2 tbody").html('');
+							$("#table2 tbody").html(strTd);
+						}else{
+							$(".form2 h3").html(r.newspaperEntity.paramdate + "国债期货当日结算价 无数据");
+						}
+						
+						if(null != r.listVCBONDFUTURESPOSITIONSD && r.listVCBONDFUTURESPOSITIONSD != undefined && r.listVCBONDFUTURESPOSITIONSD.length > 0){
+							str = ""; strTd = "";
+							str = "<tr>" +
+									  "<th></th>" +
+									  "<th></th>" +
+									  "<th>成交量排名</th>" + 
+									  "<th>成交量排名</th>" + 
+									  "<th>成交量排名</th>" + 
+									  "<th>成交量排名</th>" + 
+									  "<th>持买量排名</th>" + 
+									  "<th>持买量排名</th>" + 
+									  "<th>持买量排名</th>" + 
+									  "<th>持买量排名</th>" + 
+									  "<th>持卖量排名</th>" + 
+									  "<th>持卖量排名</th>" + 
+									  "<th>持卖量排名</th>" + 
+									  "<th>持卖量排名</th>" + 
+								  "</tr>" +
+								  "<tr>" +
+								  	  "<th>日期</th>" +
+									  "<th>合约</th>" + 
+									  "<th>名次</th>" + 
+									  "<th>会员简称</th>" + 
+									  "<th>成交量</th>" + 
+									  "<th>比上交易日增减</th>" + 
+									  "<th>名次</th>" + 
+									  "<th>会员简称</th>" + 
+									  "<th>持买单量</th>" + 
+									  "<th>比上交易日增减</th>" + 
+									  "<th>名次</th>" + 
+									  "<th>会员简称</th>" + 
+									  "<th>持卖单量</th>" + 
+									  "<th>比上交易日增减</th>" + 
+								  "</tr>";
+							$("#table3 thead").html('');
+							$("#table3 thead").html(str);
+						    //合并列
+							_w_table_colspan("#table3",1,13);
+							
+							$("#tdName").html('');
+							$.each(r.listVCBONDFUTURESPOSITIONSD,function(index, item){   
+							    strTd += "<tr>" +
+								    		"<td style='text-align:left;'>" + item.tradeDt + "</td>" +
+								    		"<td>" + item.sInfoWindcode + "</td>" +
+								    		"<td>" + item.fsInfoRank + "</td>" +
+								    		"<td>" + item.cJmem + "</td>" +
+								    		"<td>" + item.cJl + "</td>" +
+								    		"<td>" + item.cJlbh + "</td>" +
+								    		"<td>" + item.fsInfoRank + "</td>" +
+								    		"<td>" + item.cBmem + "</td>" +
+								    		"<td>" + item.cBl + "</td>" +
+								    		"<td>" + item.cBlbh + "</td>" +
+								    		"<td>" + item.fsInfoRank + "</td>" +
+								    		"<td>" + item.cSmem + "</td>" +
+								    		"<td>" + item.cSl + "</td>" +
+								    		"<td>" + item.cSlbh + "</td>" +
+							    		"</tr>";
+							})  
+							$("#table3 tbody").html('');
+							$("#table3 tbody").html(strTd);
+						}else{
+							$(".form3 h3").html(r.newspaperEntity.paramdate + "国债期货品种排名 无数据");
+						}
+				
+					}else{
+						alert(r.msg);
+					}
+				}
+			});
+		}else{
+			alert("非法请求");
+		}
+		
+		
+		
+		
+		
+    	// 表格1
         _w_table_rowspan("#table1",1);
         _w_table_colspan("#table1",1,6);
         // 表格2
         _w_table_rowspanTh("#table2",1);
         _w_table_rowspan("#table2",1);
         _w_table_colspan("#table2",1,6);
-    })
+	});
+	
+	function getQueryString(name) {  
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");  
+		var r = window.location.search.substr(1).match(reg);  
+		if (r != null) return unescape(r[2]);  
+		return null;  
+	}  
+
   </script>
 </html>
