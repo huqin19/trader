@@ -137,7 +137,7 @@ $("button").click(function(){
 		async: false,
 		success: function(r){
 			if(r.code == 0){
-				 
+				alert("发送成功");
 			}else{
 				alert(r.msg);
 			}

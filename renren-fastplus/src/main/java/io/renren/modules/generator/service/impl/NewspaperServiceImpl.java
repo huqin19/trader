@@ -31,4 +31,14 @@ public class NewspaperServiceImpl implements NewspaperService {
 		return newspaperDao.queryVCBONDFUTURESEODPRICESList(newspaperEntity);
 	}
 
+	@Override
+	public List<String> queryHYNameOfVCBONDFUTURESPOSITIONSD(NewspaperEntity newspaperEntity) {
+		return newspaperDao.queryHYNameOfVCBONDFUTURESPOSITIONSD(newspaperEntity);
+	}
+
+	@Override
+	public List<String> queryHYNameOfVCBONDFUTURESEODPRICES(NewspaperEntity newspaperEntity) {
+		return newspaperDao.queryHYNameOfVCBONDFUTURESEODPRICES(newspaperEntity);
+	}
+
 }

@@ -2,6 +2,7 @@ package io.renren.modules.generator.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 固收日报查询
@@ -375,6 +376,11 @@ public class NewspaperEntity implements Serializable {
 	private String stype;
 	//某天
 	private String paramdate;
+	
+	/*
+	 * 合约 S_INFO_WINDCODE集合
+	 */
+	private List<String> sInfoWindcodes;
 
 	public String getDateinfoS() {
 		return dateinfoS;
@@ -414,6 +420,14 @@ public class NewspaperEntity implements Serializable {
 
 	public void setParamdate(String paramdate) {
 		this.paramdate = paramdate;
+	}
+
+	public List<String> getsInfoWindcodes() {
+		return sInfoWindcodes;
+	}
+
+	public void setsInfoWindcodes(List<String> sInfoWindcodes) {
+		this.sInfoWindcodes = sInfoWindcodes;
 	}
 
 }

@@ -109,4 +109,60 @@
 				and T1.TRADE_DT = #{paramdate}
 			</if>
 	</select>
+	
+	
+	<select id="queryHYNameOfVCBONDFUTURESPOSITIONSD" parameterType="io.renren.modules.generator.entity.NewspaperEntity" resultType="java.lang.String" >
+		select 
+			distinct x.sInfoWindcode
+		from
+		(
+		SELECT 
+	       	distinct SUBSTR(S_INFO_WINDCODE,0,INSTR(S_INFO_WINDCODE,'.')-1) AS sInfoWindcode
+		FROM 
+			CBONDFUTURESPOSITIONS
+		<where>
+			<if test="sname != null and sname.trim() != ''">
+				SUBSTR(S_INFO_WINDCODE,0,INSTR(S_INFO_WINDCODE,'.')-1) like '%' || #{sname} || '%'
+			</if>
+			<if test="dateinfoS != null and dateinfoS.trim() != ''">
+				and TRADE_DT &gt;=  #{dateinfoS}
+			</if>
+			<if test="dateinfoE != null and dateinfoE.trim() != ''">
+				and TRADE_DT &lt;= #{dateinfoE}
+			</if>
+			<if test="paramdate != null and paramdate.trim() != ''">
+				and TRADE_DT = #{paramdate}
+			</if>
+		</where>
+		ORDER BY 
+			TRADE_DT, S_INFO_WINDCODE, FS_INFO_RANK
+		)x
+	</select>
+	
+	<select id="queryHYNameOfVCBONDFUTURESEODPRICES" parameterType="io.renren.modules.generator.entity.NewspaperEntity" resultType="java.lang.String" >
+		SELECT 
+		    distinct T2.S_INFO_CODE as  sInfoWindcode
+		FROM 
+			CBONDFUTURESEODPRICES T1 
+		LEFT JOIN
+			CFUTURESDESCRIPTION T2 
+		ON 
+			T2.S_INFO_WINDCODE = T1.S_INFO_WINDCODE
+		WHERE 
+			T2.S_INFO_EXCHMARKET='CFFEX' AND T2.FS_INFO_SCCODE IN ('T','TF') 
+			AND T2.FS_INFO_TYPE=1
+			AND T1.S_DQ_VOLUME >= 1000
+			<if test="sname != null and sname.trim() != ''">
+				and T2.S_INFO_CODE like '%' || #{sname} || '%'
+			</if>
+			<if test="dateinfoS != null and dateinfoS.trim() != ''">
+				and T1.TRADE_DT &gt;=  #{dateinfoS}
+			</if>
+			<if test="dateinfoE != null and dateinfoE.trim() != ''">
+				and T1.TRADE_DT &lt;= #{dateinfoE}
+			</if>
+			<if test="paramdate != null and paramdate.trim() != ''">
+				and T1.TRADE_DT = #{paramdate}
+			</if>
+	</select>
 </mapper>

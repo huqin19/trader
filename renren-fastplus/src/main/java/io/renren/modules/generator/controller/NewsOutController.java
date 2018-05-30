@@ -1,5 +1,6 @@
 package io.renren.modules.generator.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ public class NewsOutController {
     //@RequiresPermissions("generator:newspaper:look")
     public R look(@RequestBody NewspaperEntity newspaperEntity){
 		List<NewspaperEntity> listZQJD = null, listVCBONDFUTURESEODPRICES=null,listVCBONDFUTURESPOSITIONSD=null;
+		List<String> sInfoWindcodes = new ArrayList<String>();
 		if(newspaperEntity.getStype() != null && newspaperEntity.getStype().equals("1")) {
 			//银行间每日债券借贷
 			listZQJD = newspaperService.queryZQJDList(newspaperEntity);
@@ -42,10 +44,15 @@ public class NewsOutController {
 		if(newspaperEntity.getStype() != null && newspaperEntity.getStype().equals("2")) {
 			//国债期货当日结算价
 			listVCBONDFUTURESEODPRICES = newspaperService.queryVCBONDFUTURESEODPRICESList(newspaperEntity);
+			sInfoWindcodes = newspaperService.queryHYNameOfVCBONDFUTURESEODPRICES(newspaperEntity);
 		}
 		if(newspaperEntity.getStype() != null && newspaperEntity.getStype().equals("3")) {
 			//国债期货品种排名 
 			listVCBONDFUTURESPOSITIONSD = newspaperService.queryVCBONDFUTURESPOSITIONSDList(newspaperEntity);
+			sInfoWindcodes = newspaperService.queryHYNameOfVCBONDFUTURESPOSITIONSD(newspaperEntity);
+		}
+		if(null != newspaperEntity) {
+			newspaperEntity.setsInfoWindcodes(sInfoWindcodes);
 		}
         return R.ok().put("listZQJD", listZQJD).put("listVCBONDFUTURESEODPRICES", listVCBONDFUTURESEODPRICES).put("listVCBONDFUTURESPOSITIONSD", listVCBONDFUTURESPOSITIONSD).put("newspaperEntity", newspaperEntity);
     }

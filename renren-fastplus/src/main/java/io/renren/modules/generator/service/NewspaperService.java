@@ -27,5 +27,15 @@ public interface NewspaperService {
 	 * 国债期货当日结算价 查询
 	 */
 	List<NewspaperEntity> queryVCBONDFUTURESEODPRICESList(NewspaperEntity newspaperEntity);
+	
+	/**
+	 * 获取 国债期货品种排名 合约名称 
+	 */
+	List<String> queryHYNameOfVCBONDFUTURESPOSITIONSD(NewspaperEntity newspaperEntity);
+	
+	/**
+	 * 获取 国债期货当日结算价 合约名称 
+	 */
+	List<String> queryHYNameOfVCBONDFUTURESEODPRICES(NewspaperEntity newspaperEntity);
 }
 
