@@ -224,9 +224,11 @@
   
 	$(function(){
 		var	paramdate = getQueryString("dt");
+		var	stype = getQueryString("stype");
 		//var	paramdate = '2016-06-15';
 		var paramswx = {
-				paramdate: paramdate
+				paramdate: paramdate,
+				stype: stype
 		}
 		console.log(baseURL + "api/look");
 		if(paramdate != null && paramdate !=''){
@@ -244,134 +246,145 @@
 						$(".form2 h3").html(r.newspaperEntity.paramdate + "国债期货当日结算价");
 						$(".form3 h3").html(r.newspaperEntity.paramdate + "国债期货品种排名");
 						var str = ""; var strTd = "";
-						
-						if(null !=r.listZQJD && r.listZQJD != undefined && r.listZQJD.length > 0){
-							str = "<tr>" +
-									  "<th>委托日期</th>" +
-									  "<th>标的券代码</th>" + 
-									  "<th>标的券名称</th>" + 
-							          "<th>加权平均费率(%)</th>" +
-							          "<th>成交量(亿元)</th>" +
-						          "</tr>";
-							$("#table1 thead").html('');
-							$("#table1 thead").html(str);
-							
-							$.each(r.listZQJD,function(index, item){   
-							    strTd += "<tr>" +
-								    		"<td>" + item.trddate + "</td>" +
-								    		"<td>" + item.uICode + "</td>" +
-								    		"<td>" + item.bName + "</td>" +
-								    		"<td>" + item.weightedAverageRate + "</td>" +
-								    		"<td>" + item.volume + "</td>" +
-							    		"</tr>";
-							})  
-							$("#table1 tbody").html('');
-							$("#table1 tbody").html(strTd);
+						if(r.newspaperEntity.stype == '1'){
+							if(null !=r.listZQJD && r.listZQJD != undefined && r.listZQJD.length > 0){
+								str = "<tr>" +
+										  "<th>委托日期</th>" +
+										  "<th>标的券代码</th>" + 
+										  "<th>标的券名称</th>" + 
+								          "<th>加权平均费率(%)</th>" +
+								          "<th>成交量(亿元)</th>" +
+							          "</tr>";
+								$("#table1 thead").html('');
+								$("#table1 thead").html(str);
+								
+								$.each(r.listZQJD,function(index, item){   
+								    strTd += "<tr>" +
+									    		"<td>" + item.trddate + "</td>" +
+									    		"<td>" + item.uICode + "</td>" +
+									    		"<td>" + item.bName + "</td>" +
+									    		"<td>" + item.weightedAverageRate + "</td>" +
+									    		"<td>" + item.volume + "</td>" +
+								    		"</tr>";
+								})  
+								$("#table1 tbody").html('');
+								$("#table1 tbody").html(strTd);
+							}else{
+								$(".form1 h3").html(r.newspaperEntity.paramdate + "银行间每日债券借贷 无数据");
+							}
 						}else{
-							$(".form1 h3").html(r.newspaperEntity.paramdate + "银行间每日债券借贷 无数据");
+							$(".form1 h3").html('');
 						}
 						
-						if(null !=r.listVCBONDFUTURESEODPRICES && r.listVCBONDFUTURESEODPRICES != undefined && r.listVCBONDFUTURESEODPRICES.length > 0){
-							str = ""; strTd = "";
-							str = "<tr>" +
-									  "<th>交易日</th>" +
-									  "<th>合约</th>" + 
-									  "<th>开盘价</th>" + 
-							          "<th>最高价</th>" +
-							          "<th>最低价</th>" +
-							          "<th>收盘价</th>" +
-							          "<th>结算价</th>" +
-							          "<th>成交量</th>" +
-							          "<th>持仓量</th>" +
-							          "<th>涨跌(元)-涨跌幅%</th>" +
-							          "<th>最后交易日期</th>" +
-						          "</tr>";
-							$("#table2 thead").html('');
-							$("#table2 thead").html(str);
-							
-							$.each(r.listVCBONDFUTURESEODPRICES,function(index, item){   
-							    strTd += "<tr>" +
-								    		"<td>" + item.tradeDt + "</td>" +
-								    		"<td>" + item.sInfoWindcode + "</td>" +
-								    		"<td>" + item.sDqOpen + "</td>" +
-								    		"<td>" + item.sDqHigh + "</td>" +
-								    		"<td>" + item.sDqLow + "</td>" +
-								    		"<td>" + item.sDqClose + "</td>" +
-								    		"<td>" + item.sDqSettle + "</td>" +
-								    		"<td>" + item.sDqVolume + "</td>" +
-								    		"<td>" + item.sDqOi + "</td>" +
-								    		"<td>" + item.sDqChange + "</td>" +
-								    		"<td style='text-align:left;'>" + item.sInfoDelistdate + "</td>" +
-							    		"</tr>";
-							})  
-							$("#table2 tbody").html('');
-							$("#table2 tbody").html(strTd);
+						if(r.newspaperEntity.stype == '2'){
+							if(null !=r.listVCBONDFUTURESEODPRICES && r.listVCBONDFUTURESEODPRICES != undefined && r.listVCBONDFUTURESEODPRICES.length > 0){
+								str = ""; strTd = "";
+								str = "<tr>" +
+										  "<th>交易日</th>" +
+										  "<th>合约</th>" + 
+										  "<th>开盘价</th>" + 
+								          "<th>最高价</th>" +
+								          "<th>最低价</th>" +
+								          "<th>收盘价</th>" +
+								          "<th>结算价</th>" +
+								          "<th>成交量</th>" +
+								          "<th>持仓量</th>" +
+								          "<th>涨跌(元)-涨跌幅%</th>" +
+								          "<th>最后交易日期</th>" +
+							          "</tr>";
+								$("#table2 thead").html('');
+								$("#table2 thead").html(str);
+								
+								$.each(r.listVCBONDFUTURESEODPRICES,function(index, item){   
+								    strTd += "<tr>" +
+									    		"<td>" + item.tradeDt + "</td>" +
+									    		"<td>" + item.sInfoWindcode + "</td>" +
+									    		"<td>" + item.sDqOpen + "</td>" +
+									    		"<td>" + item.sDqHigh + "</td>" +
+									    		"<td>" + item.sDqLow + "</td>" +
+									    		"<td>" + item.sDqClose + "</td>" +
+									    		"<td>" + item.sDqSettle + "</td>" +
+									    		"<td>" + item.sDqVolume + "</td>" +
+									    		"<td>" + item.sDqOi + "</td>" +
+									    		"<td>" + item.sDqChange + "</td>" +
+									    		"<td style='text-align:left;'>" + item.sInfoDelistdate + "</td>" +
+								    		"</tr>";
+								})  
+								$("#table2 tbody").html('');
+								$("#table2 tbody").html(strTd);
+							}else{
+								$(".form2 h3").html(r.newspaperEntity.paramdate + "国债期货当日结算价 无数据");
+							}
 						}else{
-							$(".form2 h3").html(r.newspaperEntity.paramdate + "国债期货当日结算价 无数据");
+							$(".form2 h3").html('');
 						}
 						
-						if(null != r.listVCBONDFUTURESPOSITIONSD && r.listVCBONDFUTURESPOSITIONSD != undefined && r.listVCBONDFUTURESPOSITIONSD.length > 0){
-							str = ""; strTd = "";
-							str = "<tr>" +
-									  "<th></th>" +
-									  "<th></th>" +
-									  "<th>成交量排名</th>" + 
-									  "<th>成交量排名</th>" + 
-									  "<th>成交量排名</th>" + 
-									  "<th>成交量排名</th>" + 
-									  "<th>持买量排名</th>" + 
-									  "<th>持买量排名</th>" + 
-									  "<th>持买量排名</th>" + 
-									  "<th>持买量排名</th>" + 
-									  "<th>持卖量排名</th>" + 
-									  "<th>持卖量排名</th>" + 
-									  "<th>持卖量排名</th>" + 
-									  "<th>持卖量排名</th>" + 
-								  "</tr>" +
-								  "<tr>" +
-								  	  "<th>日期</th>" +
-									  "<th>合约</th>" + 
-									  "<th>名次</th>" + 
-									  "<th>会员简称</th>" + 
-									  "<th>成交量</th>" + 
-									  "<th>比上交易日增减</th>" + 
-									  "<th>名次</th>" + 
-									  "<th>会员简称</th>" + 
-									  "<th>持买单量</th>" + 
-									  "<th>比上交易日增减</th>" + 
-									  "<th>名次</th>" + 
-									  "<th>会员简称</th>" + 
-									  "<th>持卖单量</th>" + 
-									  "<th>比上交易日增减</th>" + 
-								  "</tr>";
-							$("#table3 thead").html('');
-							$("#table3 thead").html(str);
-						    //合并列
-							_w_table_colspan("#table3",1,13);
-							
-							$("#tdName").html('');
-							$.each(r.listVCBONDFUTURESPOSITIONSD,function(index, item){   
-							    strTd += "<tr>" +
-								    		"<td style='text-align:left;'>" + item.tradeDt + "</td>" +
-								    		"<td>" + item.sInfoWindcode + "</td>" +
-								    		"<td>" + item.fsInfoRank + "</td>" +
-								    		"<td>" + item.cJmem + "</td>" +
-								    		"<td>" + item.cJl + "</td>" +
-								    		"<td>" + item.cJlbh + "</td>" +
-								    		"<td>" + item.fsInfoRank + "</td>" +
-								    		"<td>" + item.cBmem + "</td>" +
-								    		"<td>" + item.cBl + "</td>" +
-								    		"<td>" + item.cBlbh + "</td>" +
-								    		"<td>" + item.fsInfoRank + "</td>" +
-								    		"<td>" + item.cSmem + "</td>" +
-								    		"<td>" + item.cSl + "</td>" +
-								    		"<td>" + item.cSlbh + "</td>" +
-							    		"</tr>";
-							})  
-							$("#table3 tbody").html('');
-							$("#table3 tbody").html(strTd);
+						if(r.newspaperEntity.stype == '3'){
+							if(null != r.listVCBONDFUTURESPOSITIONSD && r.listVCBONDFUTURESPOSITIONSD != undefined && r.listVCBONDFUTURESPOSITIONSD.length > 0){
+								str = ""; strTd = "";
+								str = "<tr>" +
+										  "<th></th>" +
+										  "<th></th>" +
+										  "<th>成交量排名</th>" + 
+										  "<th>成交量排名</th>" + 
+										  "<th>成交量排名</th>" + 
+										  "<th>成交量排名</th>" + 
+										  "<th>持买量排名</th>" + 
+										  "<th>持买量排名</th>" + 
+										  "<th>持买量排名</th>" + 
+										  "<th>持买量排名</th>" + 
+										  "<th>持卖量排名</th>" + 
+										  "<th>持卖量排名</th>" + 
+										  "<th>持卖量排名</th>" + 
+										  "<th>持卖量排名</th>" + 
+									  "</tr>" +
+									  "<tr>" +
+									  	  "<th>日期</th>" +
+										  "<th>合约</th>" + 
+										  "<th>名次</th>" + 
+										  "<th>会员简称</th>" + 
+										  "<th>成交量</th>" + 
+										  "<th>比上交易日增减</th>" + 
+										  "<th>名次</th>" + 
+										  "<th>会员简称</th>" + 
+										  "<th>持买单量</th>" + 
+										  "<th>比上交易日增减</th>" + 
+										  "<th>名次</th>" + 
+										  "<th>会员简称</th>" + 
+										  "<th>持卖单量</th>" + 
+										  "<th>比上交易日增减</th>" + 
+									  "</tr>";
+								$("#table3 thead").html('');
+								$("#table3 thead").html(str);
+							    //合并列
+								_w_table_colspan("#table3",1,13);
+								
+								$("#tdName").html('');
+								$.each(r.listVCBONDFUTURESPOSITIONSD,function(index, item){   
+								    strTd += "<tr>" +
+									    		"<td style='text-align:left;'>" + item.tradeDt + "</td>" +
+									    		"<td>" + item.sInfoWindcode + "</td>" +
+									    		"<td>" + item.fsInfoRank + "</td>" +
+									    		"<td>" + item.cJmem + "</td>" +
+									    		"<td>" + item.cJl + "</td>" +
+									    		"<td>" + item.cJlbh + "</td>" +
+									    		"<td>" + item.fsInfoRank + "</td>" +
+									    		"<td>" + item.cBmem + "</td>" +
+									    		"<td>" + item.cBl + "</td>" +
+									    		"<td>" + item.cBlbh + "</td>" +
+									    		"<td>" + item.fsInfoRank + "</td>" +
+									    		"<td>" + item.cSmem + "</td>" +
+									    		"<td>" + item.cSl + "</td>" +
+									    		"<td>" + item.cSlbh + "</td>" +
+								    		"</tr>";
+								})  
+								$("#table3 tbody").html('');
+								$("#table3 tbody").html(strTd);
+							}else{
+								$(".form3 h3").html(r.newspaperEntity.paramdate + "国债期货品种排名 无数据");
+							}
 						}else{
-							$(".form3 h3").html(r.newspaperEntity.paramdate + "国债期货品种排名 无数据");
+							$(".form3 h3").html('');
 						}
 				
 					}else{
