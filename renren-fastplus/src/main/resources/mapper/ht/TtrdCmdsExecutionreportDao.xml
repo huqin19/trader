@@ -17,14 +17,14 @@
         		<where>
              		<if test="latestDate !=null and latestDate.trim() != ''">
                         <![CDATA[  and TO_DATE(trddate , 'syyyy-mm-dd') >
-                        and TO_DATE(#{latestDate} , 'syyyy-mm-dd')    ]]>
+                         	TO_DATE(#{latestDate} , 'syyyy-mm-dd')    ]]>
                		</if>
         		</where>    
          	) 
                 <where>
                     <if test="latestTime !=null and latestTime.trim() != ''">
                         <![CDATA[  and TO_DATE(trdtime , 'hh24:mi:ss') >
-                        and TO_DATE(#{latestTime} , 'hh24:mi:ss')    ]]>
+                        	 TO_DATE(#{latestTime} , 'hh24:mi:ss')    ]]>
                     </if>
                 </where>    
      </select>

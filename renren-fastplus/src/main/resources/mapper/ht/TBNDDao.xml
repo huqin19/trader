@@ -15,7 +15,8 @@
         select * from ${tableName} 
                 <where>
                     <if test="latest !=null and latest.trim() != ''">
-                       IMP_TIME > #{latest}
+                          <![CDATA[  and TO_DATE(IMP_TIME , 'syyyy-mm-dd hh24:mi:ss') >
+                         TO_DATE(#{latest} , 'syyyy-mm-dd hh24:mi:ss')    ]]>
                     </if>
                 </where>    
      </select>
