@@ -1,9 +1,13 @@
 package io.renren.modules.job.task;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.apache.commons.lang.StringUtils;
@@ -11,7 +15,9 @@ import io.renren.common.utils.SpringContextUtils;
 import io.renren.modules.job.entity.InvalidEntity;
 import io.renren.modules.job.entity.ResultEntity;
 import io.renren.modules.job.entity.SyncPushLogEntity;
+import io.renren.modules.job.entity.UsersEntity;
 import io.renren.modules.job.service.SyncPushLogService;
+import io.renren.modules.job.service.UsersService;
 import io.renren.common.utils.GsonUtils;
 import io.renren.common.utils.HttpClientUtils;
 
@@ -32,6 +38,8 @@ public class SendMessageTask {
 	// 参数名
 	@Value("${api.send-message.param-name}")
 	private String paramName;
+	@Autowired
+	private UsersService usersService;
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	// 获取spring bean
 	SyncPushLogService syncPushLogService = (SyncPushLogService) SpringContextUtils.getBean("syncPushLogService");
@@ -48,12 +56,13 @@ public class SendMessageTask {
 	 * 2.3,invaliduser不为空invalidparty为空，有部门获取消息失败
 	 * 2.3,invaliduser和invalidparty都为空，获取消息都成功 3，返回结果不为空，返回的obj为空时，获取消息失败
 	 */
-	public void sendPushdMessage(String param) {
+	public Map<String, Object>  sendPushdMessage(String param) {
 		logger.info("我是带参数的senPushdMessage方法，正在被执行，参数为：" + param);
 		String strResult = HttpClientUtils.doPost(url, param, true);
 		// 测试
-		//String strResult = "{\"cause\":null,\"obj\":{\"invaliduser\":\"fsdfdfgf|gdfhgfer\",\"invalidparty\":null,\"invalidtag\":null},\"code\":0,\"msg\":\"成功！\"}";
-		//System.out.println(strResult + "---------------------");
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		StringBuilder back = new StringBuilder();
+		//String strResult = "{\"cause\":null,\"obj\":{\"invaliduser\":\"\",\"invalidparty\":null,\"invalidtag\":null},\"code\":0,\"msg\":\"成功！\"}";
 		// Json解析成实体类
 		ResultEntity<InvalidEntity> result = GsonUtils.fromJsonObject(strResult, InvalidEntity.class);
 		// 数据库保存执行记录
@@ -67,7 +76,8 @@ public class SendMessageTask {
 		log.setWay(-1);
 		if (result == null) {
 			log.setResult(-1);
-			log.setResultDesc("推送消息失败,接收数据为空！");
+			log.setResultDesc("消息推送失败,接收数据为空！");
+			back.append("消息推送失败,接收数据为空！");
 		} else {
 			log.setCode(result.getCode().toString());
 			// 返回的obj不为空
@@ -75,6 +85,14 @@ public class SendMessageTask {
 				InvalidEntity inv = (InvalidEntity) result.getObj();
 				if (StringUtils.isNotBlank(inv.getInvaliduser()) || StringUtils.isNotBlank(inv.getInvalidparty())) {
 					String m = "成功！".equals(result.getMsg()) ? "" : result.getMsg();
+					String  users[] = inv.getInvaliduser().split("\\|");
+					back.append("失败："+users.length+"条，成员：");
+					for(String user : users) {
+						back.append(usersService.queryObject(user).getName()+",");
+					}
+					back.deleteCharAt(back.length()-1);
+					back.append("接收消息失败!");
+					resultMap.put("faildNum", users.length);
 					String udf =inv.getInvaliduser() + "成员接收消息失败!" +";"+ inv.getInvalidparty() + "部门接收消息失败! " + m;
 					String uf = inv.getInvaliduser() + "成员接收消息失败!  " + m;
 					String df = inv.getInvalidparty() + "部门接收消息失败!  " + m;
@@ -83,14 +101,25 @@ public class SendMessageTask {
 							: (StringUtils.isNotBlank(inv.getInvalidparty()) ? df : udf));
 				} else if( result.getCode() == 0) {
 					log.setResult(1);
-					log.setResultDesc("所有成员和部门接收消息成功！");
+					log.setResultDesc("所有成员或部门推送成功！");
+					back.append("所有成员推送成功！");
+					resultMap.put("faildNum", 0);
 				}
 			} else {
 				log.setResult(0);
-				log.setResultDesc("code:" + result.getCode() + "失败！" + result.getMsg());
+				log.setResultDesc("错误信息编号:"+result.getCode() + ";" + result.getMsg());
+				back.append("错误信息编号:"+result.getCode() + ";" + result.getMsg());
+				resultMap.put("faildNum", -1);
 			}
 		}
 		log.setRemark("remark");
 		syncPushLogService.save(log);
+		
+		resultMap.put("resultStr", back.toString());
+		return resultMap;
+	}
+	public void saveThenPush() {
+		String prams = "";
+		sendPushdMessage(prams);
 	}
 }

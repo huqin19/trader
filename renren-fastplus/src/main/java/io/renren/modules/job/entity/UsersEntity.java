@@ -83,6 +83,5 @@ public class UsersEntity implements Serializable{
 	public void setModifiedTimestamp(Date modifiedTimestamp) {
 		this.modifiedTimestamp = modifiedTimestamp;
 	}
-	
 		
 }
