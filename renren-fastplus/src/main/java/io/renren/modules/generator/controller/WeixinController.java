@@ -22,7 +22,6 @@ import io.renren.modules.generator.service.WeixinService;
 import io.renren.modules.job.entity.Content;
 import io.renren.modules.job.entity.MessageEntity;
 import io.renren.modules.job.task.SendMessageTask;
-import io.renren.modules.sys.entity.SysRoleEntity;
 
 /**
  * 微信推送
@@ -46,6 +45,7 @@ public class WeixinController {
 	@RequiresPermissions("generator:weixin:list")
 	public R list(@RequestParam Map<String, Object> params) {
 		// Query query = new Query(new HashMap<String, Object>());
+		//String JOB_SENDWX = ReadYml.getMl("JOB_SEND_WX");
 		List<WeixinEntity> weixinList = weixinService.queryList(new HashMap<String, Object>());
 
 		return R.ok().put("weixinList", weixinList);
