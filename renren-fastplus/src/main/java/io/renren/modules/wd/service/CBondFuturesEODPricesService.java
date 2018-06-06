@@ -18,7 +18,7 @@ public interface CBondFuturesEODPricesService {
 	 */
 	CBondFuturesEODPricesEntity queryFirst(Map<String, Object> map);
 	/**
-	 * 通过交易日期区间查询
+	 * 分页查询
 	 * @return
 	 */
 	List<CBondFuturesEODPricesEntity> queryList(Map<String, Object> map);

@@ -36,29 +36,9 @@ public class TestTask {
 	private String url;
 	@Value("${api.send-message.param-name}")
 	private String paramName;
-	public void test(String params){
-
-		MessageEntity msg = new MessageEntity();
-		Content con = new Content();
-		List<String> content = new ArrayList<String>();
-		con.setDescription("2015年5月14日，北京，天安门广场的华灯上悬挂起中印两国国旗，欢迎印度总理莫迪访华");
-		con.setTitle("天安门广场悬挂起中印国旗 欢迎莫迪来访");
-		con.setPicurl("http://101.231.210.71:30066/dfzq-wxitpm/images01/2.jpg");
-		con.setUrl("http://101.231.210.71:30066/dfzq-wxitpm/wxitpm.do?xcase=vbondfutures&time=2017-09-18");	
-		String contstr = GsonUtils.gsonString(con);
-		content.add(contstr);
-		msg.setTouser("xinzhi_test");
-		msg.setToparty("");
-		msg.setNo("b21aa97019ac42658af0f107bc5a379f");
-		msg.setMsgtype("news");
-		//msg.setContent(content);
-		msg.setSendType("0");
-		msg.setSafe("0");
-		String gsonString = GsonUtils.gsonString(msg);
-		System.out.println(gsonString+"=====");
-		logger.info("我是带参数的test方法，正在被执行，参数为：" + params);
-		String strResult = HttpClientUtils.doPost(url, params, true);
-		System.out.println(strResult+"======================");
+	public void test(String params, Long jobid){
+		System.out.println(params + "=============" + jobid+"----------------------");
+		System.out.println();
 	}
 	
 	

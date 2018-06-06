@@ -52,7 +52,7 @@ public class ScheduleJob extends QuartzJobBean {
             //执行任务
         	logger.info("任务准备执行，任务ID：" + scheduleJob.getJobId());
             ScheduleRunnable task = new ScheduleRunnable(scheduleJob.getBeanName(), 
-            		scheduleJob.getMethodName(), scheduleJob.getParams());
+            		scheduleJob.getMethodName(), scheduleJob.getParams(),scheduleJob.getJobId());
             Future<?> future = service.submit(task);
             
 			future.get();

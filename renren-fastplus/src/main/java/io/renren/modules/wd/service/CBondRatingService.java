@@ -3,6 +3,7 @@ package io.renren.modules.wd.service;
 import java.util.List;
 import java.util.Map;
 
+import io.renren.modules.wd.entity.CBondIssuerRatingEntity;
 import io.renren.modules.wd.entity.CBondRatingEntity;
 /**
  * 万德数据库CBONDRATING表
@@ -46,4 +47,9 @@ public interface CBondRatingService {
 	 * @return
 	 */
 	List<CBondRatingEntity> queryLatest(Map<String, Object> map);
+	/**
+	 * 分页查询
+	 * @return
+	 */
+	List<CBondRatingEntity> queryList(Map<String, Object> map);
 }

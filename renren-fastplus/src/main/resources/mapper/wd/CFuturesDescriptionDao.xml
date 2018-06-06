@@ -8,6 +8,28 @@
 	<select id="queryTotal" parameterType="java.util.HashMap" resultType="int">
 			select count(1) from ${tableName} 
     </select>
+    <select id="queryList" parameterType="java.util.HashMap" resultType="io.renren.modules.wd.entity.CFuturesDescriptionEntity">
+		select 
+			* 
+		from 
+		( 
+			select 
+				rownum rowx, x.* 
+			from 
+				${tableName} x
+			<where>
+				<if test="offset != null and limit != null ">
+					rownum &lt;= ${offset} + ${limit}
+				</if>
+			</where>
+			order by 
+				object_id desc 
+		)
+		<if test="offset != null ">
+			where 
+				rowx &gt; ${offset}
+		</if>
+    </select>
 	<delete id="deleteAll">
 		delete from CFUTURESDESCRIPTION
 	</delete>

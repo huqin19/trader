@@ -59,4 +59,9 @@ public class CFuturesDescriptionServiceImpl implements CFuturesDescriptionServic
 	public List<CFuturesDescriptionEntity> queryLatest(Map<String, Object> map) {
 		return cFuturesDescriptionDao.queryLatest(map);
 	}
+
+	@Override
+	public List<CFuturesDescriptionEntity> queryList(Map<String, Object> map) {
+		return cFuturesDescriptionDao.queryList(map);
+	}
 }

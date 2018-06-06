@@ -172,41 +172,73 @@ public class HtdbTask {
 		log.setReason("用以更新本地恒泰TTRD_CMDS_EXECUTIONREPORT数据库表！");			
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 		int before = ttrdCmdsExecutionreportService.queryTotal();
-		System.out.println(before+"=================");
 		TtrdCmdsExecutionreportEntity tce = null;
+		List<TtrdCmdsExecutionreportEntity> list = null;
 		if(before > 0) {
 			tce = ttrdCmdsExecutionreportService.queryFirst(zqMap);			
 			String latestDate = tce.getTrddate();
 			String latestTime = tce.getTrdtime();
 			htMap.put("latestDate", latestDate);
 			htMap.put("latestTime", latestTime);
+			DynamicDataSource.setDataSource(DataSourceNames.HTDB_SOURCE);
+			list = ttrdCmdsExecutionreportService.queryLatest(htMap);
+			DynamicDataSource.clearDataSource();
+		}else {
+			DynamicDataSource.clearDataSource();
+			DynamicDataSource.setDataSource(DataSourceNames.HTDB_SOURCE);
+			Integer total = ttrdCmdsExecutionreportService.queryTotal();
+			DynamicDataSource.clearDataSource();
+			Integer offset = 0;
+			Integer limit = 10000;
+			htMap.put("limit", limit);
+			do {
+				htMap.put("offset", offset);
+				DynamicDataSource.setDataSource(DataSourceNames.HTDB_SOURCE);
+				list = ttrdCmdsExecutionreportService.queryList(htMap);
+				DynamicDataSource.clearDataSource();
+				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
+				 	if (list != null && list.size() > 0) {
+			            int pointsDataLimit = 200;//限制条数
+			            Integer size = list.size();
+			            if (pointsDataLimit < size) {//判断是否有必要分批
+			                int part = size / pointsDataLimit;//分批数
+			                for (int i = 0; i < part; i++) {
+			                    List<TtrdCmdsExecutionreportEntity> listPage = list.subList(0, pointsDataLimit);
+			                    ttrdCmdsExecutionreportService.saveBatch(listPage);
+			                    list.subList(0, pointsDataLimit).clear();
+			                }
+			                if (!list.isEmpty()) {
+			                	ttrdCmdsExecutionreportService.saveBatch(list);//最后剩下的数据
+			                }
+			            } else {
+			            	ttrdCmdsExecutionreportService.saveBatch(list);
+			            }
+			        } else {
+			            System.out.println("没有数据!!!");
+			        }
+				 	DynamicDataSource.clearDataSource();
+				 	list.clear();
+				 	offset = offset + limit;
+			}while(offset < total);
 		}
 		DynamicDataSource.clearDataSource();
-		DynamicDataSource.setDataSource(DataSourceNames.HTDB_SOURCE);
-		List<TtrdCmdsExecutionreportEntity> list = ttrdCmdsExecutionreportService.queryLatest(htMap);
-		int total = ttrdCmdsExecutionreportService.queryTotal();
+		DynamicDataSource.setDataSource(DataSourceNames.HTDB_SOURCE);		
+		Integer total = ttrdCmdsExecutionreportService.queryTotal();
 		DynamicDataSource.clearDataSource();
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
-		if(list != null && list.size() != 0) {
-			for(TtrdCmdsExecutionreportEntity tt : list) {
-				ttrdCmdsExecutionreportService.save(tt);
-			}
-			int after = ttrdCmdsExecutionreportService.queryTotal();
-			int success = after - before;
-			int failed = list.size() - success;
-			if(before > 0) {
-				log.setResult(1);
-				log.setResultDesc("成功："+success+"，失败："+failed+"。非首次更新本地恒泰数据库表TTRD_CMDS_EXECUTIONREPORT！");
-			}else {
-				log.setResult(1);
-				log.setResultDesc("成功："+success+"，失败："+failed+"。首次更新本地恒泰数据库表TTRD_CMDS_EXECUTIONREPORT！");
-			}			
-		}else if (before == total){
-			log.setResult(0);
-			log.setResultDesc("更新0条数据，本地和恒泰数据库表TTRD_CMDS_EXECUTIONREPORT一致！");
+		int after = ttrdCmdsExecutionreportService.queryTotal();
+		int success = after - before;
+		int failed = list.size() - success;
+		if(before > 0) {
+			log.setResult(1);
+			log.setResultDesc("成功："+success+"，失败："+failed+"。非首次更新本地恒泰数据库表TTRD_CMDS_EXECUTIONREPORT！");
 		}else {
-			log.setResult(0);
-			log.setResultDesc("没有查询到数据，更新本地恒泰数据库表TTRD_CMDS_EXECUTIONREPORT失败！");
+			log.setResult(1);
+			log.setResultDesc("成功："+success+"，失败："+failed+"。首次更新本地恒泰数据库表TTRD_CMDS_EXECUTIONREPORT！");
+		}			
+		if (before == total){
+		log.setResult(0);
+		log.setResultDesc("更新0条数据，本地和恒泰数据库表TTRD_CMDS_EXECUTIONREPORT一致！");
 		}
 		log.setRemark("remark");
 		syncPushLogService.save(log);

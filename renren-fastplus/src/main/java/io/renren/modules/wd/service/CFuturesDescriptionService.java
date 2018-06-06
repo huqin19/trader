@@ -3,6 +3,7 @@ package io.renren.modules.wd.service;
 import java.util.List;
 import java.util.Map;
 
+import io.renren.modules.wd.entity.CBondRatingEntity;
 import io.renren.modules.wd.entity.CFuturesDescriptionEntity;
 
 /**
@@ -47,4 +48,9 @@ public interface CFuturesDescriptionService {
 	 * @return
 	 */
 	List<CFuturesDescriptionEntity> queryLatest(Map<String, Object> map);
+	/**
+	 * 分页查询
+	 * @return
+	 */
+	List<CFuturesDescriptionEntity> queryList(Map<String, Object> map);
 }

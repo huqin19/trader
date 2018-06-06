@@ -1,6 +1,7 @@
 package io.renren.common.utils;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -17,12 +18,24 @@ public class DateUtils {
 	public final static String DATE_PATTERN = "yyyy-MM-dd";
 	/** 时间格式(yyyy-MM-dd HH:mm:ss) */
 	public final static String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
-	
+	public final static String NUM_PATTERN = "yyyyMMdd";
 	public final static String DATE_JOB = "yyyy/MM/dd HH:mm:ss";
 	public static String format(Date date) {
         return format(date, DATE_PATTERN);
     }
-
+	public static String format(String dateStr,String pattern) {
+		if(dateStr != null && dateStr.trim() != ""){
+			Date date =null;
+			SimpleDateFormat df = new SimpleDateFormat(pattern);
+			try {
+				date = df.parse(dateStr);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			return df.format(date);
+		}			
+		return null;		
+	}
     public static String format(Date date, String pattern) {
         if(date != null){
             SimpleDateFormat df = new SimpleDateFormat(pattern);

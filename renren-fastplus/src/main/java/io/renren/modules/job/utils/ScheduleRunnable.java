@@ -18,15 +18,17 @@ public class ScheduleRunnable implements Runnable {
 	private Object target;
 	private Method method;
 	private String params;
+	private Long jobId;
 	
-	public ScheduleRunnable(String beanName, String methodName, String params) throws NoSuchMethodException, SecurityException {
+	public ScheduleRunnable(String beanName, String methodName, String params, Long jobId) throws NoSuchMethodException, SecurityException {
 		this.target = SpringContextUtils.getBean(beanName);
 		this.params = params;
+		this.jobId = jobId;
 		
 		if(StringUtils.isNotBlank(params)){
-			this.method = target.getClass().getDeclaredMethod(methodName, String.class);
+			this.method = target.getClass().getDeclaredMethod(methodName, String.class, Long.class);
 		}else{
-			this.method = target.getClass().getDeclaredMethod(methodName);
+			this.method = target.getClass().getDeclaredMethod(methodName, Long.class);
 		}
 	}
 
@@ -35,9 +37,9 @@ public class ScheduleRunnable implements Runnable {
 		try {
 			ReflectionUtils.makeAccessible(method);
 			if(StringUtils.isNotBlank(params)){
-				method.invoke(target, params);
+				method.invoke(target, params, jobId);
 			}else{
-				method.invoke(target);
+				method.invoke(target, jobId);
 			}
 		}catch (Exception e) {
 			throw new RRException("执行定时任务失败", e);

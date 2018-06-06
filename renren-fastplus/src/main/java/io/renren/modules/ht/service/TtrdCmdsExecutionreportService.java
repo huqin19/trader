@@ -46,4 +46,16 @@ public interface TtrdCmdsExecutionreportService {
 	 * @return
 	 */
 	List<TtrdCmdsExecutionreportEntity> queryLatest(Map<String, Object> map);
+	/**
+	 * 分页查询
+	 * @param map
+	 * @return
+	 */
+	List<TtrdCmdsExecutionreportEntity> queryList(Map<String, Object> map);
+	
+	/**
+	 * 批量插入
+	 * @param list
+	 */
+	void saveBatch(List<TtrdCmdsExecutionreportEntity> list);
 }

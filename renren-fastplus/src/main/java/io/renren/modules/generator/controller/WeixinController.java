@@ -81,7 +81,7 @@ public class WeixinController {
 					String date = DateUtils.format(new Date());
 					String type = x.trim().equals("银行间每日债券借贷") ? "1" : (x.trim().equals("国债期货当日结算价") ? "2" : "3");
 					con.setDescription(x);
-					con.setTitle(x + "[" + date + "]");
+					con.setTitle(x + "[" + DateUtils.format(date, DateUtils.DATE_PATTERN) + "]");
 					con.setPicurl("https://img.alicdn.com/tfs/TB1e58ksHSYBuNjSspiXXXNzpXa-290-130.gif");
 					con.setUrl("http://localhost:8080/renren-fastplus/modules/generator/weixin.html" + "?dt=" + date
 							+ "&stype=" + type);

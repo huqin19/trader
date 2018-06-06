@@ -2,8 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="io.renren.modules.ht.dao.TtrdCmdsExecutionreportDao">
-	<select id="queryAll" resultType="io.renren.modules.ht.entity.TtrdCmdsExecutionreportEntity" >
-		select * from TTRD_CMDS_EXECUTIONREPORT
+	<select id="queryList" parameterType="java.util.HashMap" resultType="io.renren.modules.ht.entity.TtrdCmdsExecutionreportEntity" >
+		select 
+			* 
+		from 
+		( 
+			select 
+				rownum rowx, x.* 
+			from 
+				TTRD_CMDS_EXECUTIONREPORT x
+			<where>
+				<if test="offset != null and limit != null ">
+					rownum &lt;= ${offset} + ${limit}
+				</if>
+			</where>
+			order by 
+				epid desc 
+		)
+		<if test="offset != null ">
+			where 
+				rowx &gt; ${offset}
+		</if>
 	</select>
 	<delete id="deleteAll">
 		delete from TTRD_CMDS_EXECUTIONREPORT
@@ -108,5 +127,86 @@
 			#{irsRate,jdbcType=NUMERIC},
 			#{principal,jdbcType=NUMERIC}
 		)
+	</insert> 
+	<insert id="saveBatch" parameterType="java.util.List">
+		insert into TTRD_CMDS_EXECUTIONREPORT
+		(
+			epid,
+			trddate, 
+			trdtime, 
+			execid,
+			trdtype,
+			marketindicator,
+			dirction,
+			i_code,
+			a_type,
+			m_type,
+			i_name,
+			u_i_code,
+			u_a_type,
+			u_m_type,
+			u_i_name,
+			price,
+			ytm,
+			trdfv,
+			trdcashamt,
+			u_clear_price,
+			u_clear_price2,
+			u_ytm,
+			u_ytm2,
+			tradelimitdays,
+			settlcurramt,
+			settlcurramt2,
+			exectype,
+			fra_tradefwddays,
+			bnd_trdtype,
+			irs_benchmark2,
+			irs_benchmarkspread2,
+			irs_benchmark1,
+			irs_benchmarkspread1,
+			irs_rate,
+			principal
+		)
+	<foreach item="item" collection="list" index="index" separator="union all" >
+		(
+			select
+			#{item.epid,jdbcType=NUMERIC}, 
+			#{item.trddate,jdbcType=CHAR}, 
+			#{item.trdtime,jdbcType=CHAR},
+			#{item.execid,jdbcType=VARCHAR},
+			#{item.trdtype,jdbcType=VARCHAR},
+			#{item.marketindicator,jdbcType=INTEGER},
+			#{item.dirction,jdbcType=CHAR},
+			#{item.iCode,jdbcType=VARCHAR},
+			#{item.aType,jdbcType=VARCHAR},
+			#{item.mType,jdbcType=VARCHAR},
+			#{item.iName,jdbcType=VARCHAR},
+			#{item.uICode,jdbcType=VARCHAR},
+			#{item.uAType,jdbcType=VARCHAR},
+			#{item.uMType,jdbcType=VARCHAR},
+			#{item.uIName,jdbcType=VARCHAR},
+			#{item.price,jdbcType=NUMERIC},
+			#{item.ytm,jdbcType=NUMERIC},
+			#{item.trdfv,jdbcType=NUMERIC},
+			#{item.trdcashamt,jdbcType=NUMERIC},
+			#{item.uClearPrice,jdbcType=NUMERIC},
+			#{item.uClearPrice2,jdbcType=NUMERIC},
+			#{item.uYtm,jdbcType=NUMERIC},
+			#{item.uYtm2,jdbcType=NUMERIC},
+			#{item.tradelimitdays,jdbcType=INTEGER},
+			#{item.settlcurramt,jdbcType=NUMERIC},
+			#{item.settlcurramt2,jdbcType=NUMERIC},
+			#{item.exectype,jdbcType=VARCHAR},
+			#{item.fraTradefwddays,jdbcType=INTEGER},
+			#{item.bndTrdtype,jdbcType=INTEGER},
+			#{item.irsBenchmark2,jdbcType=VARCHAR},
+			#{item.irsBenchmarkspread2,jdbcType=NUMERIC},
+			#{item.irsBenchmark1,jdbcType=VARCHAR},
+			#{item.irsBenchmarkspread1,jdbcType=NUMERIC},
+			#{item.irsRate,jdbcType=NUMERIC},
+			#{item.principal,jdbcType=NUMERIC}
+			from dual
+			)
+		</foreach>
 	</insert> 
 </mapper>

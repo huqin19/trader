@@ -59,5 +59,10 @@ public class CBondIssuerRatingServiceImpl implements CBondIssuerRatingService{
 	public List<CBondIssuerRatingEntity> queryLatest(Map<String, Object> map) {
 		return cBondIssuerRatingDao.queryLatest(map);
 	}
+
+	@Override
+	public List<CBondIssuerRatingEntity> queryList(Map<String, Object> map) {
+		return cBondIssuerRatingDao.queryList(map);
+	}
 	
 }

@@ -61,5 +61,16 @@ public class TtrdCmdsExecutionreportServiceImpl implements TtrdCmdsExecutionrepo
 	public List<TtrdCmdsExecutionreportEntity> queryLatest(Map<String, Object> map) {
 		return ttrdCmdsExecutionreportDao.queryLatest(map);
 	}
+
+	@Override
+	public List<TtrdCmdsExecutionreportEntity> queryList(Map<String, Object> map) {
+		return ttrdCmdsExecutionreportDao.queryList(map);
+	}
+
+	@Override
+	@Transactional
+	public void saveBatch(List<TtrdCmdsExecutionreportEntity> list) {
+		ttrdCmdsExecutionreportDao.saveBatch(list);
+	}
 	
 }
