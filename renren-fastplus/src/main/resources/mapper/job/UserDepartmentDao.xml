@@ -23,6 +23,21 @@
     <delete id="deleteAll">
 		delete from zq_user_department
 	</delete>
+	
+	<select id="queryTotal" resultType="int">
+		select count(*) from zq_user_department
+			   <where>
+             		<if test="status !=null ">
+						status = #{status}
+               		</if>
+        		</where> 
+    </select>
+     <update id="updateStatus"> 
+		update zq_user_department set status = case when status = 1 then 0 when status = 0 then 1 end
+	</update>
+	<delete id="deleteStatus">
+		delete from zq_user_department where status = 0 
+	</delete>
 	<insert id="save" parameterType="io.renren.modules.job.entity.UserDepartmentEntity" >
 		insert into zq_user_department
 			(

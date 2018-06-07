@@ -44,6 +44,12 @@
 	<delete id="deleteAll">
 		delete from CBONDISSUERRATING
 	</delete>
+	<update id="updateStatus"> 
+		update CBONDISSUERRATING set status = case when status = 1 then 0 when status = 0 then 1 end
+	</update>
+	<delete id="deleteStatus">
+		delete from CBONDISSUERRATING where status = 0 
+	</delete>
 	
 	<insert id="save" parameterType="io.renren.modules.wd.entity.CBondIssuerRatingEntity">
 		insert into CBONDISSUERRATING
@@ -64,7 +70,8 @@
 			opdate,
 			opmode,
 			imp_date,
-			imp_time
+			imp_time,
+			status
 		)
 		values
 		(
@@ -84,7 +91,56 @@
 			#{opdate,jdbcType=TIMESTAMP},
 			#{opmode,jdbcType=VARCHAR},
 			#{impDate,jdbcType=CHAR},
-			#{impTime,jdbcType=CHAR}		
+			#{impTime,jdbcType=CHAR},
+			#{status,jdbcType=INTEGER}			
 		)
 	</insert>
+	
+	<insert id="saveBatch" parameterType="java.util.List">
+		insert into CBONDISSUERRATING
+		(
+			object_id, 
+			s_info_compname, 
+			ann_dt, 
+			b_rate_style,
+			b_info_creditrating,
+			b_rate_ratingoutlook, 
+			b_info_creditratingagency,
+			s_info_compcode,
+			b_info_creditratingexplain,
+			b_info_precreditrating,
+			b_creditrating_change,
+			b_info_issuerratetype,
+			ann_dt2,
+			opdate,
+			opmode,
+			imp_date,
+			imp_time,
+			status
+		)
+	<foreach item="item" collection="list" index="index" separator="union all" >
+		(
+			select
+			#{item.objectId,jdbcType=VARCHAR}, 
+			#{item.sInfoCompname,jdbcType=VARCHAR}, 
+			#{item.annDt,jdbcType=VARCHAR}, 
+			#{item.bRateStyle,jdbcType=VARCHAR}, 
+			#{item.bInfoCreditrating,jdbcType=VARCHAR},
+			#{item.bRateRatingoutlook,jdbcType=NUMERIC},
+			#{item.bInfoCreditratingagency,jdbcType=VARCHAR},
+			#{item.sInfoCompcode,jdbcType=VARCHAR},
+			#{item.bInfoCreditratingexplain,jdbcType=VARCHAR},
+			#{item.bInfoPrecreditrating,jdbcType=VARCHAR},
+			#{item.bCreditratingChange,jdbcType=VARCHAR},
+			#{item.bInfoIssuerratetype,jdbcType=NUMERIC},
+			#{item.annDt2,jdbcType=VARCHAR},
+			#{item.opdate,jdbcType=TIMESTAMP},
+			#{item.opmode,jdbcType=VARCHAR},
+			#{item.impDate,jdbcType=CHAR},
+			#{item.impTime,jdbcType=CHAR},
+			#{item.status,jdbcType=INTEGER}	
+			from dual
+			)
+		</foreach>
+	</insert> 
 </mapper>

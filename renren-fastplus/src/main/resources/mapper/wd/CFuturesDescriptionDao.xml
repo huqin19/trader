@@ -44,6 +44,13 @@
     <select id="queryFirst" parameterType="java.util.HashMap" resultType="io.renren.modules.wd.entity.CFuturesDescriptionEntity">
 			select * from (select * from ${tableName} order by opdate desc) where rownum=1 
     </select>
+    
+    <update id="updateStatus"> 
+		update CFUTURESDESCRIPTION set status = case when status = 1 then 0 when status = 0 then 1 end
+	</update>
+	<delete id="deleteStatus">
+		delete from CFUTURESDESCRIPTION where status = 0 
+	</delete>
 	<insert id="save" parameterType="io.renren.modules.wd.entity.CFuturesDescriptionEntity">
 		insert into CFUTURESDESCRIPTION
 		(
@@ -64,7 +71,8 @@
 			opdate,
 			opmode,
 			imp_date,
-			imp_time
+			imp_time,
+			status
 		)
 		values
 		(
@@ -85,7 +93,57 @@
 			#{opdate,jdbcType=TIMESTAMP},
 			#{opmode,jdbcType=VARCHAR},
 			#{impDate,jdbcType=CHAR},
-			#{impTime,jdbcType=CHAR}	
+			#{impTime,jdbcType=CHAR},
+			#{status,jdbcType=INTEGER}	
 		)
 	</insert>
+		<insert id="saveBatch" parameterType="java.util.List">
+		insert into CFUTURESDESCRIPTION
+		(
+			object_id, 
+			s_info_windcode, 
+			s_info_code, 
+			s_info_name,
+			s_info_ename,
+			fs_info_sccode, 
+			fs_info_type,
+			fs_info_cctype,
+			s_info_exchmarket,
+			s_info_listdate,
+			s_info_delistdate,
+			fs_info_dlmonth,
+			fs_info_lprice,
+			fs_info_ltdldate,
+			opdate,
+			opmode,
+			imp_date,
+			imp_time,
+			status
+		)
+	<foreach item="item" collection="list" index="index" separator="union all" >
+		(
+			select
+		  	#{item.objectId,jdbcType=VARCHAR}, 
+			#{item.sInfoWindcode,jdbcType=VARCHAR}, 
+			#{item.sInfoCode,jdbcType=VARCHAR}, 
+			#{item.sInfoName,jdbcType=VARCHAR}, 
+			#{item.sInfoEname,jdbcType=VARCHAR},
+			#{item.fsInfoSccode,jdbcType=VARCHAR},
+			#{item.fsInfoType,jdbcType=NUMERIC},
+			#{item.fsInfoCctype,jdbcType=NUMERIC},
+			#{item.sInfoExchmarket,jdbcType=VARCHAR},
+			#{item.sInfoListdate,jdbcType=VARCHAR},
+			#{item.sInfoDelistdate,jdbcType=VARCHAR},
+			#{item.fsInfoDlmonth,jdbcType=VARCHAR},
+			#{item.fsInfoLprice,jdbcType=NUMERIC},
+			#{item.fsInfoLtdldate,jdbcType=VARCHAR},
+			#{item.opdate,jdbcType=TIMESTAMP},
+			#{item.opmode,jdbcType=VARCHAR},
+			#{item.impDate,jdbcType=CHAR},
+			#{item.impTime,jdbcType=CHAR},
+			#{item.status,jdbcType=INTEGER}	
+			from dual
+			)
+		</foreach>
+	</insert> 
 </mapper>

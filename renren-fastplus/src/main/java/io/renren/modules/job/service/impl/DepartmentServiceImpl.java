@@ -24,6 +24,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 		for(DepartmentEntity department : list) {
 			Long objectId = sequence.nextId();
 			department.setObjectId(objectId);
+			department.setStatus(0);
 			department.setCreatedTimestamp(new Date());
 		}
 		departmentDao.saveBatch(list);
@@ -63,6 +64,31 @@ public class DepartmentServiceImpl implements DepartmentService{
 			departmentDao.save(department);
 		}
 		
+	}
+	@Override
+	@Transactional
+	public void updateStatus() {
+		departmentDao.updateStatus();
+	}
+	@Override
+	@Transactional
+	public void deleteStatus() {
+		departmentDao.deleteStatus();
+	}
+	@Override
+	@Transactional
+	public void firstSaveBatch(List<DepartmentEntity> list) {
+		for(DepartmentEntity department : list) {
+			Long objectId = sequence.nextId();
+			department.setObjectId(objectId);
+			department.setStatus(1);
+			department.setCreatedTimestamp(new Date());
+		}
+		departmentDao.saveBatch(list);
+	}
+	@Override
+	public int queryTotal(Map<String, Object> map) {
+		return departmentDao.queryTotal(map);
 	}
 
 }

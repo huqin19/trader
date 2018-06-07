@@ -13,4 +13,6 @@ public interface UsersDao extends BaseDao<UsersEntity>{
 	List<UsersEntity> queryAllUsers();
 	List<UsersEntity> queryByTime(Map<String, Object> map);
 	void deleteAll();
+	void updateStatus();
+	void deleteStatus();
 }

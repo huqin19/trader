@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.renren.modules.ht.entity.TBNDEntity;
+import io.renren.modules.wd.entity.CBondFuturesEODPricesEntity;
 
 /**
 *@author DHB
@@ -47,4 +48,27 @@ public interface TBNDService {
 	 * @return
 	 */
 	List<TBNDEntity> queryLatest(Map<String, Object> map);
+	/**
+	 * 批量插入
+	 * @param list
+	 */
+	void saveBatch(List<TBNDEntity> list);
+	/**
+	 * 批量更新状态
+	 */
+	void updateStatus();
+	/**
+	 * 删除无效状态
+	 */
+	void deleteStatus();
+	/**
+	 * 批量插入
+	 * @param list
+	 */
+	void firstSaveBatch(List<TBNDEntity> list);
+	/**
+	 * 分页查询
+	 * @return
+	 */
+	List<TBNDEntity> queryList(Map<String, Object> map);
 }

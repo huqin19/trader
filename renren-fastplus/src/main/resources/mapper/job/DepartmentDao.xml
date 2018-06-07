@@ -9,6 +9,14 @@
 	<select id="queryAllDepartment" resultType="io.renren.modules.job.entity.DepartmentEntity" >
 		select * from zq_department
 	</select>
+	<select id="queryTotal" parameterType="java.util.HashMap" resultType="int">
+		select count(*) from zq_department
+			   <where>
+             		<if test="status !=null ">
+						status = #{status}
+               		</if>
+        		</where> 
+    </select>
 	<select id="queryByTime" parameterType="java.util.HashMap" resultType="java.util.HashMap">
         select * from zq_department 
                 <where>
@@ -27,7 +35,12 @@
     <delete id="deleteAll">
 		delete from zq_department
 	</delete>
-    
+        <update id="updateStatus"> 
+		update zq_department set status = case when status = 1 then 0 when status = 0 then 1 end
+	</update>
+	<delete id="deleteStatus">
+		delete from zq_department where status = 0 
+	</delete>
 	<insert id="saveBatch" parameterType="java.util.List">
 		insert into zq_department(
 			object_id,

@@ -14,4 +14,6 @@ public interface CBondIssuerRatingDao extends BaseDao<CBondIssuerRatingEntity>{
 	List<CBondIssuerRatingEntity> queryAll(Map<String, Object> map);
 	CBondIssuerRatingEntity queryFirst(Map<String, Object> map);
 	List<CBondIssuerRatingEntity> queryLatest(Map<String, Object> map);
+	void updateStatus();
+	void deleteStatus();
 }

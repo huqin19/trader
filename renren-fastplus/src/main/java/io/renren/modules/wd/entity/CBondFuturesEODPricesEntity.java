@@ -45,6 +45,8 @@ public class CBondFuturesEODPricesEntity implements Serializable{
 	private String impDate;
 	//imp_time
 	private String impTime;
+	private Integer status;
+	
 	public String getObjectId() {
 		return objectId;
 	}
@@ -147,6 +149,12 @@ public class CBondFuturesEODPricesEntity implements Serializable{
 	}
 	public void setOpdate(Date opdate) {
 		this.opdate = opdate;
+	}
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 }

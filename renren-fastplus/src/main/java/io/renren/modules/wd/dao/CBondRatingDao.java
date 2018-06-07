@@ -19,4 +19,6 @@ public interface CBondRatingDao extends BaseDao<CBondRatingEntity>{
 	List<CBondRatingEntity> queryAll(Map<String, Object> map);
 	CBondRatingEntity queryFirst(Map<String, Object> map);
 	List<CBondRatingEntity> queryLatest(Map<String, Object> map);
+	void updateStatus();
+	void deleteStatus();
 }

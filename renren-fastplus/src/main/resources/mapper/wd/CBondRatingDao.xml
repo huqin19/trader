@@ -44,6 +44,13 @@
 	<delete id="deleteAll">
 		delete from CBONDRATING
 	</delete>
+	 <update id="updateStatus"> 
+		update CBONDRATING set status = case when status = 1 then 0 when status = 0 then 1 end
+	</update>
+	<delete id="deleteStatus">
+		delete from CBONDRATING where status = 0 
+	</delete>
+	
 	<insert id="save" parameterType="io.renren.modules.wd.entity.CBondRatingEntity">
 		insert into CBONDRATING
 		(
@@ -60,7 +67,8 @@
 			opdate,
 			opmode,
 			imp_date,
-			imp_time
+			imp_time,
+			status
 		)
 		values
 		(
@@ -77,7 +85,49 @@
 			#{opdate,jdbcType=TIMESTAMP},
 			#{opmode,jdbcType=VARCHAR},
 			#{impDate,jdbcType=CHAR},
-			#{impTime,jdbcType=CHAR}	
+			#{impTime,jdbcType=CHAR},
+			#{status,jdbcType=INTEGER}	
 		)
 	</insert>
+	<insert id="saveBatch" parameterType="java.util.List">
+		insert into CBONDRATING
+		(
+			object_id, 
+			s_info_windcode, 
+			ann_dt, 
+			b_rate_style,
+			b_info_creditrating,
+			b_info_creditratingagency, 
+			b_info_creditratingexplain,
+			b_info_precreditrating,
+			b_creditrating_change,
+			ann_dt2,
+			opdate,
+			opmode,
+			imp_date,
+			imp_time,
+			status
+		)
+	<foreach item="item" collection="list" index="index" separator="union all" >
+		(
+			select
+			#{item.objectId,jdbcType=VARCHAR}, 
+			#{item.sInfoWindcode,jdbcType=VARCHAR}, 
+			#{item.annDt,jdbcType=VARCHAR}, 
+			#{item.bRateStyle,jdbcType=VARCHAR}, 
+			#{item.bInfoCreditrating,jdbcType=VARCHAR},
+			#{item.bInfoCreditratingagency,jdbcType=VARCHAR},
+			#{item.bInfoCreditratingexplain,jdbcType=VARCHAR},
+			#{item.bInfoPrecreditrating,jdbcType=VARCHAR},
+			#{item.bCreditratingChange,jdbcType=VARCHAR},
+			#{item.annDt2,jdbcType=VARCHAR},
+			#{item.opdate,jdbcType=TIMESTAMP},
+			#{item.opmode,jdbcType=VARCHAR},
+			#{item.impDate,jdbcType=CHAR},
+			#{item.impTime,jdbcType=CHAR},
+			#{item.status,jdbcType=INTEGER}	
+			from dual
+			)
+		</foreach>
+	</insert> 
 </mapper>

@@ -56,5 +56,34 @@ public class TCalendarDatesServiceImpl implements TCalendarDatesService{
 		return tCalendarDatesDao.queryTotal(map);
 	}
 
+	@Override
+	@Transactional
+	public void saveBatch(List<TCalendarDatesEntity> list) {
+		for(TCalendarDatesEntity t : list) {
+			t.setStatus(0);
+		}
+		tCalendarDatesDao.saveBatch(list);
+	}
+
+	@Override
+	@Transactional
+	public void updateStatus() {
+		tCalendarDatesDao.updateStatus();
+	}
+
+	@Override
+	@Transactional
+	public void deleteStatus() {
+		tCalendarDatesDao.deleteStatus();
+	}
+
+	@Override
+	@Transactional
+	public void firstSaveBatch(List<TCalendarDatesEntity> list) {
+		for(TCalendarDatesEntity t : list) {
+			t.setStatus(1);
+		}
+		tCalendarDatesDao.saveBatch(list);
+	}
 
 }

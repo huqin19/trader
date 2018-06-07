@@ -14,4 +14,6 @@ public interface CFuturesDescriptionDao extends BaseDao<CFuturesDescriptionEntit
 	List<CFuturesDescriptionEntity> queryAll(Map<String, Object> map);
 	CFuturesDescriptionEntity queryFirst(Map<String, Object> map);
 	List<CFuturesDescriptionEntity> queryLatest(Map<String, Object> map);
+	void updateStatus();
+	void deleteStatus();
 }

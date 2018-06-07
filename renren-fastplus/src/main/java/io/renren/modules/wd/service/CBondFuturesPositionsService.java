@@ -2,6 +2,8 @@ package io.renren.modules.wd.service;
 
 import java.util.List;
 import java.util.Map;
+
+import io.renren.modules.wd.entity.CBondFuturesEODPricesEntity;
 import io.renren.modules.wd.entity.CBondFuturesPositionsEntity;
 /**
  * 万德数据库CBONDFUTURESPOSITIONS表
@@ -56,4 +58,22 @@ public interface CBondFuturesPositionsService {
 	 * @param list
 	 */
 	void deleteAllThenSave(List<CBondFuturesPositionsEntity> list);
+	/**
+	 * 批量插入
+	 * @param list
+	 */
+	void saveBatch(List<CBondFuturesPositionsEntity> list);
+	/**
+	 * 批量更新状态
+	 */
+	void updateStatus();
+	/**
+	 * 删除无效状态
+	 */
+	void deleteStatus();
+	/**
+	 * 批量插入
+	 * @param list
+	 */
+	void firstSaveBatch(List<CBondFuturesPositionsEntity> list);
 }

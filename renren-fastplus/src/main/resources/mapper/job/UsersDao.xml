@@ -9,7 +9,20 @@
 	<select id="queryObject" resultMap= "usersMap" resultType="io.renren.modules.job.entity.UsersEntity" >
 		select * from zq_user where user_id = #{userid}
 	</select> 
-	
+	<select id="queryTotal" resultType="int">
+		select count(*) from zq_user
+			   <where>
+             		<if test="status !=null ">
+						status = #{status}
+               		</if>
+        		</where> 
+    </select>
+     <update id="updateStatus"> 
+		update zq_user set status = case when status = 1 then 0 when status = 0 then 1 end
+	</update>
+	<delete id="deleteStatus">
+		delete from zq_user where status = 0 
+	</delete>
 	<select id="queryAllUsers" resultType="io.renren.modules.job.entity.UsersEntity" >
 		select * from zq_user
 	</select>

@@ -20,4 +20,6 @@ public interface CBondFuturesEODPricesDao extends BaseDao<CBondFuturesEODPricesE
 	List<CBondFuturesEODPricesEntity> queryAll(Map<String, Object> map);
 	List<CBondFuturesEODPricesEntity> queryLatest(Map<String, Object> map);
 	void deleteAll();
+	void updateStatus();
+	void deleteStatus();
 }

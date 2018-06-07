@@ -53,6 +53,13 @@
     <delete id="deleteAll">
 		delete from CBONDFUTURESPOSITIONS
 	</delete>
+	
+	<update id="updateStatus"> 
+		update CBONDFUTURESPOSITIONS set status = case when status = 1 then 0 when status = 0 then 1 end
+	</update>
+	<delete id="deleteStatus">
+		delete from CBONDFUTURESPOSITIONS where status = 0 
+	</delete>
 	<insert id="save" parameterType="io.renren.modules.wd.entity.CBondFuturesPositionsEntity">
 		insert into CBONDFUTURESPOSITIONS
 		(
@@ -67,7 +74,8 @@
 			opdate,
 			opmode,
 			imp_date,
-			imp_time
+			imp_time,
+			status
 		)
 		values
 		(
@@ -82,7 +90,45 @@
 			#{opdate,jdbcType=DATE},
 			#{opmode,jdbcType=VARCHAR},
 			#{impDate,jdbcType=CHAR},
-			#{impTime,jdbcType=CHAR}	
+			#{impTime,jdbcType=CHAR},
+			#{status,jdbcType=INTEGER}	
 		)
 	</insert>
+	<insert id="saveBatch" parameterType="java.util.List">
+		insert into CBONDFUTURESPOSITIONS
+		(
+			object_id, 
+			s_info_windcode, 
+			trade_dt, 
+			fs_info_membername,
+			fs_info_type,
+			fs_info_positionsnum, 
+			fs_info_rank,
+			s_oi_positionsnumc,
+			opdate,
+			opmode,
+			imp_date,
+			imp_time,
+			status
+		)
+	<foreach item="item" collection="list" index="index" separator="union all" >
+		(
+			select
+			#{item.objectId,jdbcType=VARCHAR}, 
+			#{item.sInfoWindcode,jdbcType=VARCHAR}, 
+			#{item.tradeDt,jdbcType=VARCHAR}, 
+			#{item.fsInfoMembername,jdbcType=VARCHAR}, 
+			#{item.fsInfoType,jdbcType=VARCHAR},
+			#{item.fsInfoPositionsnum,jdbcType=NUMERIC},
+			#{item.fsInfoRank,jdbcType=NUMERIC},
+			#{item.sOiPositionsnumc,jdbcType=NUMERIC},
+			#{item.opdate,jdbcType=DATE},
+			#{item.opmode,jdbcType=VARCHAR},
+			#{item.impDate,jdbcType=CHAR},
+			#{item.impTime,jdbcType=CHAR},
+			#{item.status,jdbcType=INTEGER}	
+			from dual
+			)
+		</foreach>
+	</insert> 
 </mapper>

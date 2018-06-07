@@ -49,6 +49,7 @@ public class UserDepartmentServiceImpl implements UserDepartmentService{
 		for(UserDepartmentEntity userDept : list) {
 			Long objectId = sequence.nextId();
 			userDept.setObjectId(objectId);
+			userDept.setStatus(0);
 			userDept.setCreatedTimestamp(new Date());
 		}
 		userDepartmentDao.saveBatch(list);
@@ -70,6 +71,35 @@ public class UserDepartmentServiceImpl implements UserDepartmentService{
 			userDepartmentDao.save(userDept);
 		}
 		
+	}
+
+	@Override
+	@Transactional
+	public void updateStatus() {
+		userDepartmentDao.updateStatus();
+	}
+
+	@Override
+	@Transactional
+	public void deleteStatus() {
+		userDepartmentDao.deleteStatus();
+	}
+
+	@Override
+	@Transactional
+	public void firstSaveBatch(List<UserDepartmentEntity> list) {
+		for(UserDepartmentEntity userDept : list) {
+			Long objectId = sequence.nextId();
+			userDept.setObjectId(objectId);
+			userDept.setStatus(1);
+			userDept.setCreatedTimestamp(new Date());
+		}
+		userDepartmentDao.saveBatch(list);
+	}
+
+	@Override
+	public int queryTotal(Map<String, Object> map) {
+		return userDepartmentDao.queryTotal(map);
 	}
 	
 }

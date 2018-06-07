@@ -3,10 +3,11 @@ package io.renren.modules.wd.service;
 import java.util.List;
 import java.util.Map;
 
+import io.renren.modules.wd.entity.CBondFuturesEODPricesEntity;
 import io.renren.modules.wd.entity.CBondIssuerRatingEntity;
 import io.renren.modules.wd.entity.CBondRatingEntity;
 /**
- * 万德数据库CBONDRATING表
+ * 万得数据库CBONDRATING表
  * Service
  * @author DHB
  * @date 2018/5/15
@@ -52,4 +53,22 @@ public interface CBondRatingService {
 	 * @return
 	 */
 	List<CBondRatingEntity> queryList(Map<String, Object> map);
+	/**
+	 * 批量插入
+	 * @param list
+	 */
+	void saveBatch(List<CBondRatingEntity> list);
+	/**
+	 * 批量更新状态
+	 */
+	void updateStatus();
+	/**
+	 * 删除无效状态
+	 */
+	void deleteStatus();
+	/**
+	 * 批量插入
+	 * @param list
+	 */
+	void firstSaveBatch(List<CBondRatingEntity> list);
 }

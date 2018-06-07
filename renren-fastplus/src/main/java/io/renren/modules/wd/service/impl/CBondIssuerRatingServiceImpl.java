@@ -11,7 +11,7 @@ import io.renren.modules.wd.dao.CBondIssuerRatingDao;
 import io.renren.modules.wd.entity.CBondIssuerRatingEntity;
 import io.renren.modules.wd.service.CBondIssuerRatingService;
 /**
- * 万德数据库表CBONDISSUERRATING
+ * 万得数据库表CBONDISSUERRATING
  * @author DHB
  * @date 2018年5月18日上午11:03:35
  */
@@ -64,5 +64,33 @@ public class CBondIssuerRatingServiceImpl implements CBondIssuerRatingService{
 	public List<CBondIssuerRatingEntity> queryList(Map<String, Object> map) {
 		return cBondIssuerRatingDao.queryList(map);
 	}
-	
+	@Override
+	@Transactional
+	public void saveBatch(List<CBondIssuerRatingEntity> list) {
+		for(CBondIssuerRatingEntity c : list) {
+			c.setStatus(0);
+		}
+		cBondIssuerRatingDao.saveBatch(list);
+	}
+
+	@Override
+	@Transactional
+	public void updateStatus() {
+		cBondIssuerRatingDao.updateStatus();
+	}
+
+	@Override
+	@Transactional
+	public void deleteStatus() {
+		cBondIssuerRatingDao.deleteStatus();
+	}
+
+	@Override
+	@Transactional
+	public void firstSaveBatch(List<CBondIssuerRatingEntity> list) {
+		for(CBondIssuerRatingEntity c : list) {
+			c.setStatus(1);
+		}
+		cBondIssuerRatingDao.saveBatch(list);
+	}
 }

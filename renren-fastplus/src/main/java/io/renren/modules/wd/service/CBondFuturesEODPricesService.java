@@ -3,9 +3,10 @@ package io.renren.modules.wd.service;
 import java.util.List;
 import java.util.Map;
 
+import io.renren.modules.ht.entity.TtrdCmdsExecutionreportEntity;
 import io.renren.modules.wd.entity.CBondFuturesEODPricesEntity;
 /**
- * 万德数据库CBONDFUTURESEODPRICES表
+ * 万得数据库CBONDFUTURESEODPRICES表
  * service
  * @author DHB
  * @date 2018/5/14
@@ -57,4 +58,23 @@ public interface CBondFuturesEODPricesService {
 	 * 删除所有
 	 */
 	void deleteAll();
+	
+	/**
+	 * 批量插入
+	 * @param list
+	 */
+	void saveBatch(List<CBondFuturesEODPricesEntity> list);
+	/**
+	 * 批量更新状态
+	 */
+	void updateStatus();
+	/**
+	 * 删除无效状态
+	 */
+	void deleteStatus();
+	/**
+	 * 批量插入
+	 * @param list
+	 */
+	void firstSaveBatch(List<CBondFuturesEODPricesEntity> list);
 }

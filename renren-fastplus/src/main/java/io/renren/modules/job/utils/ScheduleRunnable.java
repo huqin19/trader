@@ -1,6 +1,7 @@
 package io.renren.modules.job.utils;
 
 import io.renren.common.exception.RRException;
+import io.renren.common.utils.ReadYml;
 import io.renren.common.utils.SpringContextUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.ReflectionUtils;
@@ -26,9 +27,13 @@ public class ScheduleRunnable implements Runnable {
 		this.jobId = jobId;
 		
 		if(StringUtils.isNotBlank(params)){
-			this.method = target.getClass().getDeclaredMethod(methodName, String.class, Long.class);
+			if(params.equals(ReadYml.getMl("JOB_SEND_WX")) || params.equals(ReadYml.getMl("JOB_SEND_WX_TRADE_DAY"))) {
+				this.method = target.getClass().getDeclaredMethod(methodName, String.class, Long.class);
+			}else {
+				this.method = target.getClass().getDeclaredMethod(methodName, String.class);
+			}
 		}else{
-			this.method = target.getClass().getDeclaredMethod(methodName, Long.class);
+			this.method = target.getClass().getDeclaredMethod(methodName);
 		}
 	}
 
@@ -37,7 +42,11 @@ public class ScheduleRunnable implements Runnable {
 		try {
 			ReflectionUtils.makeAccessible(method);
 			if(StringUtils.isNotBlank(params)){
-				method.invoke(target, params, jobId);
+				if(params.equals(ReadYml.getMl("JOB_SEND_WX")) || params.equals(ReadYml.getMl("JOB_SEND_WX_TRADE_DAY"))) {
+					method.invoke(target, params, jobId);
+				}else {
+					method.invoke(target, params);
+				}
 			}else{
 				method.invoke(target, jobId);
 			}

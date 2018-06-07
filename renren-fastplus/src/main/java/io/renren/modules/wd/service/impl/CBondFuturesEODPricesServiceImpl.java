@@ -8,13 +8,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.renren.common.utils.DateUtils;
+import io.renren.modules.ht.entity.TtrdCmdsExecutionreportEntity;
 import io.renren.modules.wd.dao.CBondFuturesEODPricesDao;
 import io.renren.modules.wd.entity.CBondFuturesEODPricesEntity;
 import io.renren.modules.wd.entity.CFuturesDescriptionEntity;
 import io.renren.modules.wd.service.CBondFuturesEODPricesService;
 
 /**
- * 万德数据库CBONDFUTURESEODPRICES表
+ * 万得数据库CBONDFUTURESEODPRICES表
  * @author DHB
  * @date 2018/5/14
  */
@@ -71,6 +72,36 @@ public class CBondFuturesEODPricesServiceImpl implements CBondFuturesEODPricesSe
 	@Override
 	public void deleteAll() {
 		cBondFuturesEODPricesDao.deleteAll();
+	}
+
+	@Override
+	@Transactional
+	public void saveBatch(List<CBondFuturesEODPricesEntity> list) {
+		for(CBondFuturesEODPricesEntity c : list) {
+			c.setStatus(0);
+		}
+		cBondFuturesEODPricesDao.saveBatch(list);
+	}
+
+	@Override
+	@Transactional
+	public void updateStatus() {
+		cBondFuturesEODPricesDao.updateStatus();
+	}
+
+	@Override
+	@Transactional
+	public void deleteStatus() {
+		cBondFuturesEODPricesDao.deleteStatus();
+	}
+
+	@Override
+	@Transactional
+	public void firstSaveBatch(List<CBondFuturesEODPricesEntity> list) {
+		for(CBondFuturesEODPricesEntity c : list) {
+			c.setStatus(1);
+		}
+		cBondFuturesEODPricesDao.saveBatch(list);
 	}
 	
 }

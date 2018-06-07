@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.renren.modules.ht.entity.TCalendarDatesEntity;
+import io.renren.modules.wd.entity.CBondFuturesEODPricesEntity;
 /**
  * 恒泰数据库TCALENDAR_DATES表
  * @author DHB
@@ -17,8 +18,7 @@ public interface TCalendarDatesService {
 	 */
 	List<TCalendarDatesEntity> queryCode(Map<String, Object> map);
 	/**
-	 * 通过日期查询
-	 * @param 
+	 * 分页查询
 	 * @return
 	 */
 	List<TCalendarDatesEntity> queryList(Map<String, Object> map);
@@ -47,4 +47,22 @@ public interface TCalendarDatesService {
 	 * 查询总数
 	 */
 	int queryTotal(Map<String, Object> map);
+	/**
+	 * 批量插入
+	 * @param list
+	 */
+	void saveBatch(List<TCalendarDatesEntity> list);
+	/**
+	 * 批量更新状态
+	 */
+	void updateStatus();
+	/**
+	 * 删除无效状态
+	 */
+	void deleteStatus();
+	/**
+	 * 批量插入
+	 * @param list
+	 */
+	void firstSaveBatch(List<TCalendarDatesEntity> list);
 }

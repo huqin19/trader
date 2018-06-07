@@ -29,6 +29,7 @@ public class CFuturesDescriptionEntity implements Serializable{
 	private String opmode ;
 	private String impDate;
 	private String impTime;
+	private Integer status;
 	public String getObjectId() {
 		return objectId;
 	}
@@ -137,15 +138,11 @@ public class CFuturesDescriptionEntity implements Serializable{
 	public void setImpTime(String impTime) {
 		this.impTime = impTime;
 	}
-	@Override
-	public String toString() {
-		return "CFuturesDescriptionEntity [objectId=" + objectId + ", sInfoWindcode=" + sInfoWindcode + ", sInfoCode="
-				+ sInfoCode + ", sInfoName=" + sInfoName + ", sInfoEname=" + sInfoEname + ", fsInfoSccode="
-				+ fsInfoSccode + ", fsInfoType=" + fsInfoType + ", fsInfoCctype=" + fsInfoCctype + ", sInfoExchmarket="
-				+ sInfoExchmarket + ", sInfoListdate=" + sInfoListdate + ", sInfoDelistdate=" + sInfoDelistdate
-				+ ", fsInfoDlmonth=" + fsInfoDlmonth + ", fsInfoLprice=" + fsInfoLprice + ", fsInfoLtdldate="
-				+ fsInfoLtdldate + ", opdate=" + opdate + ", opmode=" + opmode + ", impDate=" + impDate + ", impTime="
-				+ impTime + "]";
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 	
 }

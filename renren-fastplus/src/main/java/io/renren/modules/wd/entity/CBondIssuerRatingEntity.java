@@ -28,6 +28,7 @@ public class CBondIssuerRatingEntity implements Serializable{
 	private String opmode;
 	private String impDate;
 	private String impTime;
+	private Integer status;
 	public String getObjectId() {
 		return objectId;
 	}
@@ -130,15 +131,11 @@ public class CBondIssuerRatingEntity implements Serializable{
 	public void setImpTime(String impTime) {
 		this.impTime = impTime;
 	}
-	@Override
-	public String toString() {
-		return "CBondIssuerRatingEntity [objectId=" + objectId + ", sInfoCompname=" + sInfoCompname + ", annDt=" + annDt
-				+ ", bRateStyle=" + bRateStyle + ", bInfoCreditrating=" + bInfoCreditrating + ", bRateRatingoutlook="
-				+ bRateRatingoutlook + ", bInfoCreditratingagency=" + bInfoCreditratingagency + ", sInfoCompcode="
-				+ sInfoCompcode + ", bInfoCreditratingexplain=" + bInfoCreditratingexplain + ", bInfoPrecreditrating="
-				+ bInfoPrecreditrating + ", bCreditratingChange=" + bCreditratingChange + ", bInfoIssuerratetype="
-				+ bInfoIssuerratetype + ", annDt2=" + annDt2 + ", opdate=" + opdate + ", opmode=" + opmode
-				+ ", impDate=" + impDate + ", impTime=" + impTime + "]";
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 	
 }

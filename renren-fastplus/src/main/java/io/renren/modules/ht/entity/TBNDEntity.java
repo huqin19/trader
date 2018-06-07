@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 /**
 *@author DHB
 *@version 2018年5月18日上午11:13:07
-*恒泰TBND表
+*衡泰TBND表
 */
 public class TBNDEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -74,6 +74,7 @@ public class TBNDEntity implements Serializable{
 	private String trustenhancingType;
 	private String thirdpartyGuarantees;
 	private String cbgsName;
+	private Integer status;
 	public String getiCode() {
 		return iCode;
 	}
@@ -457,6 +458,12 @@ public class TBNDEntity implements Serializable{
 	}
 	public void setCbgsName(String cbgsName) {
 		this.cbgsName = cbgsName;
+	}
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 	
 }

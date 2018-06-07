@@ -5,6 +5,7 @@ import java.util.Map;
 
 import io.renren.modules.job.entity.DepartmentEntity;
 import io.renren.modules.job.entity.UserDepartmentEntity;
+import io.renren.modules.job.entity.UsersEntity;
 
 /**
  * @author DHB
@@ -44,4 +45,21 @@ public interface UserDepartmentService {
 	 * @param list
 	 */
 	void deleteThenSave(List<UserDepartmentEntity> list);
+	/**
+	 * 批量更新状态
+	 */
+	void updateStatus();
+	/**
+	 * 删除无效状态
+	 */
+	void deleteStatus();
+	/**
+	 * 批量插入
+	 * @param list
+	 */
+	void firstSaveBatch(List<UserDepartmentEntity> list);
+	/**
+	 * 查询总数
+	 */
+	int queryTotal(Map<String, Object> map);
 }

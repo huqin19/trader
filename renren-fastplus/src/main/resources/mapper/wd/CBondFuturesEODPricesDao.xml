@@ -51,6 +51,14 @@
 	<delete id="deleteAll">
 		delete from CBONDFUTURESEODPRICES
 	</delete>
+	
+	 <update id="updateStatus"> 
+		update CBONDFUTURESEODPRICES set status = case when status = 1 then 0 when status = 0 then 1 end
+	</update>
+	<delete id="deleteStatus">
+		delete from CBONDFUTURESEODPRICES where status = 0 
+	</delete>
+	
 	<insert id="save" parameterType="io.renren.modules.wd.entity.CBondFuturesEODPricesEntity">
 		insert into CBONDFUTURESEODPRICES
 		(
@@ -70,7 +78,8 @@
 			opdate,
 			opmode,
 			imp_date,
-			imp_time
+			imp_time,
+			status
 		)
 		values
 		(
@@ -90,7 +99,55 @@
 			#{opdate,jdbcType=DATE},
 			#{opmode,jdbcType=VARCHAR},
 			#{impDate,jdbcType=CHAR},
-			#{impTime,jdbcType=CHAR}		
+			#{impTime,jdbcType=CHAR},
+			#{status,jdbcType=INTEGER}		
 		)
 	</insert>
+	<insert id="saveBatch" parameterType="java.util.List">
+		insert into CBONDFUTURESEODPRICES
+		(
+			object_id, 
+			s_info_windcode, 
+			trade_dt, 
+			s_dq_presettle,
+			s_dq_open,
+			s_dq_high, 
+			s_dq_low,
+			s_dq_close,
+			s_dq_settle,
+			s_dq_volume,
+			s_dq_amount,
+			s_dq_oi,
+			s_dq_change,
+			opdate,
+			opmode,
+			imp_date,
+			imp_time,
+			status
+		)
+	<foreach item="item" collection="list" index="index" separator="union all" >
+		(
+			select
+			#{item.objectId,jdbcType=VARCHAR}, 
+			#{item.sInfoWindcode,jdbcType=VARCHAR}, 
+			#{item.tradeDt,jdbcType=VARCHAR}, 
+			#{item.dDqPresettle,jdbcType=NUMERIC}, 
+			#{item.sDqOpen,jdbcType=NUMERIC},
+			#{item.sDqHigh,jdbcType=NUMERIC},
+			#{item.sDqLow,jdbcType=NUMERIC},
+			#{item.sDqClose,jdbcType=NUMERIC},
+			#{item.sDqSettle,jdbcType=NUMERIC},
+			#{item.sDqVolume,jdbcType=NUMERIC},
+			#{item.sDqAmount,jdbcType=NUMERIC},
+			#{item.sDqOi,jdbcType=NUMERIC},
+			#{item.sDqChange,jdbcType=NUMERIC},
+			#{item.opdate,jdbcType=DATE},
+			#{item.opmode,jdbcType=VARCHAR},
+			#{item.impDate,jdbcType=CHAR},
+			#{item.impTime,jdbcType=CHAR},
+			#{item.status,jdbcType=INTEGER}
+			from dual
+			)
+		</foreach>
+	</insert> 
 </mapper>

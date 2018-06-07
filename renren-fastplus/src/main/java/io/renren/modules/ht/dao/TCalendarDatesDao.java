@@ -17,4 +17,6 @@ public interface TCalendarDatesDao extends BaseDao<TCalendarDatesEntity>{
 	List<TCalendarDatesEntity> queryCode(Map<String, Object> map);
 	void deleteAll();
 	List<TCalendarDatesEntity> queryAll(Map<String, Object> map);
+	void updateStatus();
+	void deleteStatus();
 }

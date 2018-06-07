@@ -15,4 +15,6 @@ public interface CBondFuturesPositionsDao extends BaseDao<CBondFuturesPositionsE
 	List<CBondFuturesPositionsEntity> queryAll(Map<String, Object> map);
 	List<CBondFuturesPositionsEntity> queryLatest(Map<String, Object> map);
 	void deleteAll();
+	void updateStatus();
+	void deleteStatus();
 }

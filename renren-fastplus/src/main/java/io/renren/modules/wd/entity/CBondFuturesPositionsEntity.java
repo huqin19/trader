@@ -22,6 +22,7 @@ public class CBondFuturesPositionsEntity implements Serializable{
 	private String opmode;
 	private String impDate;
 	private String impTime;
+	private Integer status;
 	public String getObjectId() {
 		return objectId;
 	}
@@ -89,19 +90,17 @@ public class CBondFuturesPositionsEntity implements Serializable{
 	public void setImpTime(String impTime) {
 		this.impTime = impTime;
 	}
-	@Override
-	public String toString() {
-		return "CBondFuturesPositions [objectId=" + objectId + ", sInfoWindcode=" + sInfoWindcode + ", tradeDt="
-				+ tradeDt + ", fsInfoMembername=" + fsInfoMembername + ", fsInfoType=" + fsInfoType
-				+ ", fsInfoPositionsnum=" + fsInfoPositionsnum + ", fsInfoRank=" + fsInfoRank + ", sOiPositionsnumc="
-				+ sOiPositionsnumc + ", opdate=" + opdate + ", opmode=" + opmode + ", impDate=" + impDate + ", impTime="
-				+ impTime + "]";
-	}
 	public Date getOpdate() {
 		return opdate;
 	}
 	public void setOpdate(Date opdate) {
 		this.opdate = opdate;
 	}
-
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+	
 }

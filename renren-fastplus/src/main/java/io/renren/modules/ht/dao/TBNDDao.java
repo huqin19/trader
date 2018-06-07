@@ -21,5 +21,7 @@ public interface TBNDDao extends BaseDao<TBNDEntity>{
 	List<TBNDEntity> queryAll(Map<String, Object> map);
 	TBNDEntity queryFirst(Map<String, Object> map);
 	List<TBNDEntity> queryLatest(Map<String, Object> map);
+	void updateStatus();
+	void deleteStatus();
 	
 }

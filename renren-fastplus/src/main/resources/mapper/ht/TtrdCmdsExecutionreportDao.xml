@@ -29,6 +29,11 @@
 	</delete>
 	<select id="queryTotal" resultType="int">
 		select count(1) from TTRD_CMDS_EXECUTIONREPORT
+			   <where>
+             		<if test="status !=null ">
+						status = #{status}
+               		</if>
+        		</where> 
     </select>
     <select id="queryLatest" parameterType="java.util.HashMap" resultType="io.renren.modules.ht.entity.TtrdCmdsExecutionreportEntity">
         select * from 
@@ -50,6 +55,12 @@
     <select id="queryFirst" parameterType="java.util.HashMap" resultType="io.renren.modules.ht.entity.TtrdCmdsExecutionreportEntity">
 			select * from (select * from ${tableName} order by trddate desc,trdtime desc) where rownum=1 
     </select>
+    <update id="updateStatus"> 
+		update TTRD_CMDS_EXECUTIONREPORT set status = case when status = 1 then 0 when status = 0 then 1 end
+	</update>
+	<delete id="deleteStatus">
+		delete from TTRD_CMDS_EXECUTIONREPORT where status = 0 
+	</delete>
 	<insert id="save" parameterType="io.renren.modules.ht.entity.TtrdCmdsExecutionreportEntity">
 		insert into TTRD_CMDS_EXECUTIONREPORT
 		(
@@ -87,7 +98,8 @@
 			irs_benchmark1,
 			irs_benchmarkspread1,
 			irs_rate,
-			principal
+			principal,
+			status
 		)
 		values
 		(
@@ -125,7 +137,8 @@
 			#{irsBenchmark1,jdbcType=VARCHAR},
 			#{irsBenchmarkspread1,jdbcType=NUMERIC},
 			#{irsRate,jdbcType=NUMERIC},
-			#{principal,jdbcType=NUMERIC}
+			#{principal,jdbcType=NUMERIC},
+			#{status,jdbcType=INTEGER}
 		)
 	</insert> 
 	<insert id="saveBatch" parameterType="java.util.List">
@@ -165,7 +178,8 @@
 			irs_benchmark1,
 			irs_benchmarkspread1,
 			irs_rate,
-			principal
+			principal,
+			status
 		)
 	<foreach item="item" collection="list" index="index" separator="union all" >
 		(
@@ -204,7 +218,8 @@
 			#{item.irsBenchmark1,jdbcType=VARCHAR},
 			#{item.irsBenchmarkspread1,jdbcType=NUMERIC},
 			#{item.irsRate,jdbcType=NUMERIC},
-			#{item.principal,jdbcType=NUMERIC}
+			#{item.principal,jdbcType=NUMERIC},
+			#{item.status,jdbcType=INTEGER}
 			from dual
 			)
 		</foreach>

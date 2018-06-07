@@ -39,6 +39,7 @@ public class UsersServiceImpl implements UsersService{
 		for(UsersEntity user : list) {
 			Long objectId = sequence.nextId();
 			user.setObjectId(objectId);
+			user.setStatus(0);
 			user.setCreatedTimestamp(new Date());
 		}
 		usersDao.saveBatch(list);
@@ -70,5 +71,34 @@ public class UsersServiceImpl implements UsersService{
 			usersDao.save(user);
 		}
 		
+	}
+
+	@Override
+	@Transactional
+	public void updateStatus() {
+		usersDao.updateStatus();
+	}
+
+	@Override
+	@Transactional
+	public void deleteStatus() {
+		usersDao.deleteStatus();
+	}
+
+	@Override
+	@Transactional
+	public void firstSaveBatch(List<UsersEntity> list) {
+		for(UsersEntity user : list) {
+			Long objectId = sequence.nextId();
+			user.setObjectId(objectId);
+			user.setStatus(1);
+			user.setCreatedTimestamp(new Date());
+		}
+		usersDao.saveBatch(list);
+	}
+
+	@Override
+	public int queryTotal(Map<String, Object> map) {
+		return usersDao.queryTotal(map);
 	}
 }

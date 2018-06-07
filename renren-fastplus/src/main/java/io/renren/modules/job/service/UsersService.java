@@ -3,6 +3,7 @@ package io.renren.modules.job.service;
 import java.util.List;
 import java.util.Map;
 
+import io.renren.modules.ht.entity.TtrdCmdsExecutionreportEntity;
 import io.renren.modules.job.entity.UsersEntity;
 /**
  * @date 2018/5/22
@@ -47,4 +48,21 @@ public interface UsersService {
 	 * @param list
 	 */
 	void deleteThenSave(List<UsersEntity> list);
+	/**
+	 * 批量更新状态
+	 */
+	void updateStatus();
+	/**
+	 * 删除无效状态
+	 */
+	void deleteStatus();
+	/**
+	 * 批量插入
+	 * @param list
+	 */
+	void firstSaveBatch(List<UsersEntity> list);
+	/**
+	 * 查询总数
+	 */
+	int queryTotal(Map<String, Object> map);
 }

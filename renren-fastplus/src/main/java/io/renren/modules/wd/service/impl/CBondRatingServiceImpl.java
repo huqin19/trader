@@ -12,7 +12,7 @@ import io.renren.modules.wd.entity.CBondRatingEntity;
 import io.renren.modules.wd.service.CBondRatingService;
 
 /**
- * 万德数据库CBONDRATING表
+ * 万得数据库CBONDRATING表
  * @author DHB
  * @date 2018/5/15
  */
@@ -65,5 +65,33 @@ public class CBondRatingServiceImpl implements CBondRatingService{
 	public List<CBondRatingEntity> queryList(Map<String, Object> map) {
 		return cBondRatingDao.queryList(map);
 	}
-	
+	@Override
+	@Transactional
+	public void saveBatch(List<CBondRatingEntity> list) {
+		for(CBondRatingEntity c : list) {
+			c.setStatus(0);
+		}
+		cBondRatingDao.saveBatch(list);
+	}
+
+	@Override
+	@Transactional
+	public void updateStatus() {
+		cBondRatingDao.updateStatus();
+	}
+
+	@Override
+	@Transactional
+	public void deleteStatus() {
+		cBondRatingDao.deleteStatus();
+	}
+
+	@Override
+	@Transactional
+	public void firstSaveBatch(List<CBondRatingEntity> list) {
+		for(CBondRatingEntity c : list) {
+			c.setStatus(1);
+		}
+		cBondRatingDao.saveBatch(list);
+	}
 }

@@ -48,8 +48,8 @@ public class TtrdCmdsExecutionreportServiceImpl implements TtrdCmdsExecutionrepo
 	}
 
 	@Override
-	public int queryTotal() {
-		return ttrdCmdsExecutionreportDao.queryTotal();
+	public int queryTotal(Map<String, Object> map) {
+		return ttrdCmdsExecutionreportDao.queryTotal(map);
 	}
 
 	@Override
@@ -70,7 +70,31 @@ public class TtrdCmdsExecutionreportServiceImpl implements TtrdCmdsExecutionrepo
 	@Override
 	@Transactional
 	public void saveBatch(List<TtrdCmdsExecutionreportEntity> list) {
+		for(TtrdCmdsExecutionreportEntity t : list) {
+			t.setStatus(0);
+		}
 		ttrdCmdsExecutionreportDao.saveBatch(list);
 	}
+
+	@Override
+	@Transactional
+	public void updateStatus() {
+		ttrdCmdsExecutionreportDao.updateStatus();
+	}
+
+	@Override
+	@Transactional
+	public void deleteStatus() {
+		ttrdCmdsExecutionreportDao.deleteStatus();
+	}
+
+	@Override
+	public void firstSaveBatch(List<TtrdCmdsExecutionreportEntity> list) {
+		for(TtrdCmdsExecutionreportEntity t : list) {
+			t.setStatus(1);
+		}
+		ttrdCmdsExecutionreportDao.saveBatch(list);
+	}
+
 	
 }

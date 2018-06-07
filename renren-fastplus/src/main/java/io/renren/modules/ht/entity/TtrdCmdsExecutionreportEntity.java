@@ -46,6 +46,7 @@ public class TtrdCmdsExecutionreportEntity implements Serializable {
 	private BigDecimal irsBenchmarkspread1;
 	private BigDecimal irsRate;
 	private BigDecimal principal;
+	private Integer status;
 	
 	public BigDecimal getEpid() {
 		return epid;
@@ -257,4 +258,12 @@ public class TtrdCmdsExecutionreportEntity implements Serializable {
 	public void setPrincipal(BigDecimal principal) {
 		this.principal = principal;
 	}
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	
 }

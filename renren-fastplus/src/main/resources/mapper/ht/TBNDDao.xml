@@ -23,6 +23,37 @@
     <select id="queryFirst" parameterType="java.util.HashMap" resultType="io.renren.modules.ht.entity.TBNDEntity">
 			select * from (select * from ${tableName} order by IMP_TIME desc) where rownum=1 
     </select>
+    
+   	<select id="queryList" parameterType="java.util.HashMap" resultType="io.renren.modules.ht.entity.TBNDEntity">
+		select 
+			* 
+		from 
+		( 
+			select 
+				rownum rowx, x.* 
+			from 
+				${tableName} x
+			<where>
+				<if test="offset != null and limit != null ">
+					rownum &lt;= ${offset} + ${limit}
+				</if>
+			</where>
+			order by 
+				I_CODE,YH_CODE  desc 
+		)
+		<if test="offset != null ">
+			where 
+				rowx &gt; ${offset}
+		</if>
+    </select>
+    
+    <update id="updateStatus"> 
+		update TBND set status = case when status = 1 then 0 when status = 0 then 1 end
+	</update>
+	<delete id="deleteStatus">
+		delete from TBND where status = 0 
+	</delete>
+    
 	<insert id="save" parameterType="io.renren.modules.ht.entity.TBNDEntity">
 		insert into TBND
 		(
@@ -89,7 +120,8 @@
 			B_EXERCISE_STYLE,
 			TRUSTENHANCING_TYPE,
 			THIRDPARTY_GUARANTEES,
-			CBGS_NAME
+			CBGS_NAME,
+			STATUS
 		)
 		values
 		(
@@ -156,7 +188,150 @@
 			#{bExerciseStyle,jdbcType=CHAR},
 			#{trustenhancingType,jdbcType=VARCHAR},
 			#{thirdpartyGuarantees,jdbcType=VARCHAR},
-			#{cbgsName,jdbcType=VARCHAR}	
+			#{cbgsName,jdbcType=VARCHAR},
+			#{status,jdbcType=INTEGER}	
 		)
+	</insert> 
+	<insert id="saveBatch" parameterType="java.util.List">
+	begin
+    <foreach collection="list" item="item" index="index" separator=";">
+		insert into TBND
+		(
+			I_CODE,
+			A_TYPE, 
+			M_TYPE, 
+			SH_CODE,
+			SZ_CODE,
+			YH_CODE,
+			CURRENCY,
+			COUNTRY,
+			Q_TYPE,
+			B_NAME,
+			P_CLASS,
+			B_PAR_VALUE,
+			B_ISSUE_PRICE,
+			B_ISSUE_DATE,
+			B_LIST_DATE,
+			B_START_DATE,
+			B_MTR_DATE,
+			B_TERM,
+			B_DAYCOUNT,
+			I_CODE_BENCH,
+			A_TYPE_BENCH,
+			M_TYPE_BENCH,
+			B_ISSUE_MODE,
+			B_COUPON_TYPE,
+			B_CASH_TIMES,
+			B_EMBOPT_TYPE,
+			B_AMORTIZING,
+			B_AS_TYPE,
+			B_ISSUER,
+			B_WARRANTOR,
+			B_SENIORITY,
+			B_FPML,
+			IMP_DATE,
+			PIPE_ID,
+			B_COUPON,
+			B_NAME_FULL,
+			B_ACTUAL_MTR_DATE,
+			D_CODE,
+			B_EXT_RATING,
+			B_EXT_RATING_INSTITUTION,
+			B_P_CLASS,
+			B_ISSUER_EXT_RATING,
+			B_ISSUER_EXT_R_INSTITUTION,
+			B_ACTUAL_ISSUE_AMOUNT,
+			HOST_MARKET,
+			BJ_MARKET,
+			IMP_TIME,
+			UPDATE_USER,
+			UPDATE_TIME,
+			B_EXERCISE_EXPECTED_DATE,
+			I_CODE_CBGS,
+			B_DELIST_DATE,
+			WIND_CLASS1,
+			WIND_CLASS2,
+			PUBLIC_ISSUE,
+			PERPETUAL,
+			REMARK,
+			TAXRATEDISCOUNT,
+			B_NAME_FULL2,
+			B_EXTEND_TYPE,
+			B_EXERCISE_STYLE,
+			TRUSTENHANCING_TYPE,
+			THIRDPARTY_GUARANTEES,
+			CBGS_NAME,
+			STATUS
+		)
+		values
+		(
+			#{item.iCode,jdbcType=VARCHAR}, 
+			#{item.aType,jdbcType=VARCHAR}, 
+			#{item.mType,jdbcType=VARCHAR},
+			#{item.shCode,jdbcType=VARCHAR},
+			#{item.szCode,jdbcType=VARCHAR},
+			#{item.yhCode,jdbcType=VARCHAR},
+			#{item.currency,jdbcType=CHAR},
+			#{item.country,jdbcType=CHAR},
+			#{item.qType,jdbcType=CHAR},
+			#{item.bName,jdbcType=VARCHAR},
+			#{item.pClass,jdbcType=VARCHAR},
+			#{item.bParValue,jdbcType=NUMERIC},
+			#{item.bIssuePrice,jdbcType=NUMERIC},
+			#{item.bIssueDate,jdbcType=CHAR},
+			#{item.bListDate,jdbcType=CHAR},
+			#{item.bStartDate,jdbcType=CHAR},
+			#{item.bMtrDate,jdbcType=CHAR},
+			#{item.bTerm,jdbcType=VARCHAR},
+			#{item.bDaycount,jdbcType=VARCHAR},
+			#{item.iCodeBench,jdbcType=VARCHAR},
+			#{item.aTypeBench,jdbcType=VARCHAR},
+			#{item.mTypeBench,jdbcType=VARCHAR},
+			#{item.bIssueMode,jdbcType=CHAR},
+			#{item.bCouponType,jdbcType=CHAR},
+			#{item.bCashTimes,jdbcType=NUMERIC},
+			#{item.bEmboptType,jdbcType=VARCHAR},
+			#{item.bAmortizing,jdbcType=CHAR},
+			#{item.bAsType,jdbcType=VARCHAR},
+			#{item.bIssuer,jdbcType=VARCHAR},
+			#{item.bWarrantor,jdbcType=VARCHAR},
+			#{item.bSeniority,jdbcType=VARCHAR},
+			#{item.bFpml,jdbcType=CLOB},
+			#{item.impDate,jdbcType=CHAR},
+			#{item.pipeId,jdbcType=NUMERIC},
+			#{item.bCoupon,jdbcType=NUMERIC},
+			#{item.bNameFull,jdbcType=VARCHAR},
+			#{item.bActualMtrDate,jdbcType=CHAR},
+			#{item.dCode,jdbcType=VARCHAR},
+			#{item.bExtRating,jdbcType=VARCHAR},
+			#{item.bExtRatingInstitution,jdbcType=VARCHAR},
+			#{item.bPClass,jdbcType=VARCHAR},
+			#{item.bIssuerExtRating,jdbcType=VARCHAR},
+			#{item.bIssuerExtRInstitution,jdbcType=VARCHAR},
+			#{item.bActualIssueAmount,jdbcType=NUMERIC},
+			#{item.hostMarket,jdbcType=VARCHAR},
+			#{item.bjMarket,jdbcType=VARCHAR},
+			#{item.impTime,jdbcType=VARCHAR},
+			#{item.updateUser,jdbcType=VARCHAR},
+			#{item.updateTime,jdbcType=CHAR},
+			#{item.bExerciseExpectedDate,jdbcType=CHAR},
+			#{item.iCodeCbgs,jdbcType=VARCHAR},
+			#{item.bDelistDate,jdbcType=CHAR},
+			#{item.windClass1,jdbcType=VARCHAR},
+			#{item.windClass2,jdbcType=VARCHAR},
+			#{item.publicIssue,jdbcType=CHAR},
+			#{item.perpetual,jdbcType=CHAR},
+			#{item.remark,jdbcType=VARCHAR},
+			#{item.taxratediscount,jdbcType=NUMERIC},
+			#{item.bNameFull2,jdbcType=VARCHAR},
+			#{item.bExtendType,jdbcType=VARCHAR},
+			#{item.bExerciseStyle,jdbcType=CHAR},
+			#{item.trustenhancingType,jdbcType=VARCHAR},
+			#{item.thirdpartyGuarantees,jdbcType=VARCHAR},
+			#{item.cbgsName,jdbcType=VARCHAR},
+			#{item.status,jdbcType=INTEGER}
+			)
+		</foreach>
+		;end;
 	</insert> 
 </mapper>

@@ -3,6 +3,7 @@ package io.renren.modules.wd.service;
 import java.util.List;
 import java.util.Map;
 
+import io.renren.modules.wd.entity.CBondFuturesEODPricesEntity;
 import io.renren.modules.wd.entity.CBondRatingEntity;
 import io.renren.modules.wd.entity.CFuturesDescriptionEntity;
 
@@ -53,4 +54,22 @@ public interface CFuturesDescriptionService {
 	 * @return
 	 */
 	List<CFuturesDescriptionEntity> queryList(Map<String, Object> map);
+	/**
+	 * 批量插入
+	 * @param list
+	 */
+	void saveBatch(List<CFuturesDescriptionEntity> list);
+	/**
+	 * 批量更新状态
+	 */
+	void updateStatus();
+	/**
+	 * 删除无效状态
+	 */
+	void deleteStatus();
+	/**
+	 * 批量插入
+	 * @param list
+	 */
+	void firstSaveBatch(List<CFuturesDescriptionEntity> list);
 }

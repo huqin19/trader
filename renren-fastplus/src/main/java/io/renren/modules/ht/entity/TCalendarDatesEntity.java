@@ -3,7 +3,7 @@ package io.renren.modules.ht.entity;
 import java.io.Serializable;
 
 /**
- * 恒泰数据库TCALENDAR_DATES表
+ * 衡泰数据库TCALENDAR_DATES表
  * @author DHB
  * @date 2018/5/15
  */
@@ -12,6 +12,7 @@ public class TCalendarDatesEntity implements Serializable{
 	private String calCode;
 	private String 	calDay;
 	private Integer calFlag;
+	private Integer status;
 	public String getCalCode() {
 		return calCode;
 	}
@@ -30,9 +31,11 @@ public class TCalendarDatesEntity implements Serializable{
 	public void setCalFlag(Integer calFlag) {
 		this.calFlag = calFlag;
 	}
-	@Override
-	public String toString() {
-		return "TCalendarDates [calCode=" + calCode + ", calDay=" + calDay + ", calFlag=" + calFlag + "]";
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 	
 }

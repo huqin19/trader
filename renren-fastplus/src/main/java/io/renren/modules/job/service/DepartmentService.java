@@ -46,5 +46,22 @@ public interface DepartmentService {
 	 * @param list
 	 */
 	void deleteThenSave(List<DepartmentEntity> list);
-	
+	/**
+	 * 批量更新状态
+	 */
+	void updateStatus();
+	/**
+	 * 删除无效状态
+	 */
+	void deleteStatus();
+	/**
+	 * 批量插入
+	 * @param list
+	 */
+	void firstSaveBatch(List<DepartmentEntity> list);
+	/**
+	 * 查询数量
+	 * @return
+	 */
+	int queryTotal(Map<String, Object> map);
 }

@@ -27,21 +27,15 @@ public class TBNDServiceImpl implements TBNDService{
 		tBNDao.save(tBNDEntity);
 	}
 
-
-
 	@Override
 	public List<TBNDEntity> queryAll(Map<String, Object> map) {
 		return tBNDao.queryAll(map);
 	}
 
-
-
 	@Override
 	public void deleteAll() {
 		tBNDao.deleteAll();
 	}
-
-
 
 	@Override
 	@Transactional
@@ -49,27 +43,53 @@ public class TBNDServiceImpl implements TBNDService{
 		tBNDao.deleteAll();
 		for(TBNDEntity tb : list) {
 			tBNDao.save(tb);
+			
 		}
 	}
-
-
-
 	@Override
 	public int queryTotal(Map<String, Object> map) {
 		return tBNDao.queryTotal(map);
 	}
-
-
-
 	@Override
 	public TBNDEntity queryFirst(Map<String, Object> map) {
 		return tBNDao.queryFirst(map);
 	}
-
-
-
 	@Override
 	public List<TBNDEntity> queryLatest(Map<String, Object> map) {
 		return tBNDao.queryLatest(map);
+	}
+
+	@Override
+	@Transactional
+	public void saveBatch(List<TBNDEntity> list) {
+		for(TBNDEntity t : list) {
+			t.setStatus(0);
+		}
+		tBNDao.saveBatch(list);
+	}
+
+	@Override
+	@Transactional
+	public void updateStatus() {
+		tBNDao.updateStatus();
+	}
+
+	@Override
+	@Transactional
+	public void deleteStatus() {
+		tBNDao.deleteStatus();
+	}
+
+	@Override
+	@Transactional
+	public void firstSaveBatch(List<TBNDEntity> list) {
+		for(TBNDEntity t : list) {
+			t.setStatus(1);
+		}
+		tBNDao.saveBatch(list);
+	}
+	@Override
+	public List<TBNDEntity> queryList(Map<String, Object> map) {
+		return tBNDao.queryList(map);
 	}
 }

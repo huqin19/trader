@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.renren.modules.wd.dao.CFuturesDescriptionDao;
+import io.renren.modules.wd.entity.CBondFuturesEODPricesEntity;
 import io.renren.modules.wd.entity.CFuturesDescriptionEntity;
 import io.renren.modules.wd.service.CFuturesDescriptionService;
 /**
@@ -63,5 +64,34 @@ public class CFuturesDescriptionServiceImpl implements CFuturesDescriptionServic
 	@Override
 	public List<CFuturesDescriptionEntity> queryList(Map<String, Object> map) {
 		return cFuturesDescriptionDao.queryList(map);
+	}
+	@Override
+	@Transactional
+	public void saveBatch(List<CFuturesDescriptionEntity> list) {
+		for(CFuturesDescriptionEntity c : list) {
+			c.setStatus(0);
+		}
+		cFuturesDescriptionDao.saveBatch(list);
+	}
+
+	@Override
+	@Transactional
+	public void updateStatus() {
+		cFuturesDescriptionDao.updateStatus();
+	}
+
+	@Override
+	@Transactional
+	public void deleteStatus() {
+		cFuturesDescriptionDao.deleteStatus();
+	}
+
+	@Override
+	@Transactional
+	public void firstSaveBatch(List<CFuturesDescriptionEntity> list) {
+		for(CFuturesDescriptionEntity c : list) {
+			c.setStatus(1);
+		}
+		cFuturesDescriptionDao.saveBatch(list);
 	}
 }

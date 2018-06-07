@@ -33,7 +33,7 @@ public interface TtrdCmdsExecutionreportService {
 	/**
 	 * 查询总数
 	 */
-	int queryTotal();
+	int queryTotal(Map<String, Object> map);
 	/**
 	 * 查询最近一条数据
 	 * @param map
@@ -58,4 +58,17 @@ public interface TtrdCmdsExecutionreportService {
 	 * @param list
 	 */
 	void saveBatch(List<TtrdCmdsExecutionreportEntity> list);
+	/**
+	 * 批量更新状态
+	 */
+	void updateStatus();
+	/**
+	 * 删除无效状态
+	 */
+	void deleteStatus();
+	/**
+	 * 批量插入
+	 * @param list
+	 */
+	void firstSaveBatch(List<TtrdCmdsExecutionreportEntity> list);
 }

@@ -14,6 +14,7 @@ public class UserDepartmentEntity implements Serializable{
 	private String depId;
 	private String userId;
 	private Date  createdTimestamp;
+	private Integer status;
 	public Long getObjectId() {
 		return objectId;
 	}
@@ -38,6 +39,10 @@ public class UserDepartmentEntity implements Serializable{
 	public void setCreatedTimestamp(Date createdTimestamp) {
 		this.createdTimestamp = createdTimestamp;
 	}
-	
-	
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
+	}	
 }

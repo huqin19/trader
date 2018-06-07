@@ -1,9 +1,12 @@
 package io.renren.modules.job.utils;
 
 import com.google.gson.Gson;
+
+import io.renren.modules.ht.service.TCalendarDatesService;
 import io.renren.modules.job.entity.ScheduleJobEntity;
 import io.renren.modules.job.entity.ScheduleJobLogEntity;
 import io.renren.modules.job.service.ScheduleJobLogService;
+import io.renren.common.utils.ReadYml;
 import io.renren.common.utils.SpringContextUtils;
 import org.apache.commons.lang.StringUtils;
 import org.quartz.JobExecutionContext;
@@ -33,7 +36,11 @@ public class ScheduleJob extends QuartzJobBean {
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		String jsonJob = context.getMergedJobDataMap().getString(ScheduleJobEntity.JOB_PARAM_KEY);
 		ScheduleJobEntity scheduleJob = new Gson().fromJson(jsonJob, ScheduleJobEntity.class);
-
+		TCalendarDatesService tCalendarDatesService = (TCalendarDatesService) SpringContextUtils.getBean("tCalendarDatesService");
+		//待修改
+		if(scheduleJob.getParams().equals(ReadYml.getMl("JOB_SEND_WX_TRADE_DAY"))) {
+			
+		}
 		//获取spring bean
         ScheduleJobLogService scheduleJobLogService = (ScheduleJobLogService) SpringContextUtils.getBean("scheduleJobLogService");
         
@@ -52,7 +59,7 @@ public class ScheduleJob extends QuartzJobBean {
             //执行任务
         	logger.info("任务准备执行，任务ID：" + scheduleJob.getJobId());
             ScheduleRunnable task = new ScheduleRunnable(scheduleJob.getBeanName(), 
-            		scheduleJob.getMethodName(), scheduleJob.getParams(),scheduleJob.getJobId());
+            		scheduleJob.getMethodName(), scheduleJob.getParams(), scheduleJob.getJobId());
             Future<?> future = service.submit(task);
             
 			future.get();

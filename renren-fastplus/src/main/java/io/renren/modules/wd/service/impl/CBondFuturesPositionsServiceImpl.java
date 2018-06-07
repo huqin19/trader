@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.renren.modules.wd.dao.CBondFuturesPositionsDao;
+import io.renren.modules.wd.entity.CBondFuturesEODPricesEntity;
 import io.renren.modules.wd.entity.CBondFuturesPositionsEntity;
 import io.renren.modules.wd.entity.CFuturesDescriptionEntity;
 import io.renren.modules.wd.service.CBondFuturesPositionsService;
@@ -69,6 +70,36 @@ public class CBondFuturesPositionsServiceImpl implements CBondFuturesPositionsSe
 		for(CBondFuturesPositionsEntity cd : list) {
 			cBondFuturesPositionsDao.save(cd);
 		}
+	}
+	
+	@Override
+	@Transactional
+	public void saveBatch(List<CBondFuturesPositionsEntity> list) {
+		for(CBondFuturesPositionsEntity c : list) {
+			c.setStatus(0);
+		}
+		cBondFuturesPositionsDao.saveBatch(list);
+	}
+
+	@Override
+	@Transactional
+	public void updateStatus() {
+		cBondFuturesPositionsDao.updateStatus();
+	}
+
+	@Override
+	@Transactional
+	public void deleteStatus() {
+		cBondFuturesPositionsDao.deleteStatus();
+	}
+
+	@Override
+	@Transactional
+	public void firstSaveBatch(List<CBondFuturesPositionsEntity> list) {
+		for(CBondFuturesPositionsEntity c : list) {
+			c.setStatus(1);
+		}
+		cBondFuturesPositionsDao.saveBatch(list);
 	}
 
 

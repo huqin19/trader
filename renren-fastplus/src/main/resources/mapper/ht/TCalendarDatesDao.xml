@@ -14,14 +14,28 @@
 		select * from ${tableName}
 	</select>
 
-	<select id="queryList" parameterType="java.util.HashMap" resultType="io.renren.modules.ht.entity.TCalendarDatesEntity" >
-		select * from ${tableName} 
-		<where>
-			<if test="calDay !=null and calDay.trim() != ''">
-				where cal_day like '%${calDay}%'
-			</if> 
-		</where>
-	</select>
+	<select id="queryList" parameterType="java.util.HashMap" resultType="io.renren.modules.ht.entity.TCalendarDatesEntity">
+		select 
+			* 
+		from 
+		( 
+			select 
+				rownum rowx, x.* 
+			from 
+				${tableName} x
+			<where>
+				<if test="offset != null and limit != null ">
+					rownum &lt;= ${offset} + ${limit}
+				</if>
+			</where>
+			order by 
+				cal_day,cal_code desc 
+		)
+		<if test="offset != null ">
+			where 
+				rowx &gt; ${offset}
+		</if>
+    </select>
 	
     <select id="queryTotal" parameterType="java.util.HashMap" resultType="int">
 			select count(1) from ${tableName} 
@@ -30,19 +44,45 @@
 	<delete id="deleteAll">
 		delete from TCALENDAR_DATES
 	</delete>
-	
+	<update id="updateStatus"> 
+		update TCALENDAR_DATES set status = case when status = 1 then 0 when status = 0 then 1 end
+	</update>
+	<delete id="deleteStatus">
+		delete from TCALENDAR_DATES where status = 0 
+	</delete>
 	<insert id="save" parameterType="io.renren.modules.ht.entity.TCalendarDatesEntity">
 		insert into TCALENDAR_DATES
 		(
 			cal_code, 
 			cal_day, 
-			cal_flag
+			cal_flag,
+			status
 		)
 		values
 		(
 			#{calCode,jdbcType=VARCHAR}, 
 			#{calDay,jdbcType=CHAR}, 
-			#{calFlag,jdbcType=INTEGER} 	
+			#{calFlag,jdbcType=INTEGER}, 
+			#{status,jdbcType=INTEGER} 	
 		)
 	</insert>
+	<insert id="saveBatch" parameterType="java.util.List">
+		insert into TCALENDAR_DATES
+		(
+			cal_code, 
+			cal_day, 
+			cal_flag,
+			status
+		)
+	<foreach item="item" collection="list" index="index" separator="union all" >
+		(
+			select
+			#{item.calCode,jdbcType=VARCHAR}, 
+			#{item.calDay,jdbcType=CHAR}, 
+			#{item.calFlag,jdbcType=INTEGER}, 
+			#{item.status,jdbcType=INTEGER} 	
+			from dual
+			)
+		</foreach>
+	</insert> 
 </mapper>

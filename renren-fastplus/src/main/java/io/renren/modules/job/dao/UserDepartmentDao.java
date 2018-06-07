@@ -17,4 +17,6 @@ public interface UserDepartmentDao extends BaseDao<UserDepartmentEntity>{
 	List<UserDepartmentEntity> queryAllUserDept();
 	List<UserDepartmentEntity> queryByTime(Map<String, Object> map);
 	void deleteAll();
+	void updateStatus();
+	void deleteStatus();
 }

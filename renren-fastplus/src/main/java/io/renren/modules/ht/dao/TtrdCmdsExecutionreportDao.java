@@ -20,4 +20,6 @@ public interface TtrdCmdsExecutionreportDao extends BaseDao<TtrdCmdsExecutionrep
 	List<TtrdCmdsExecutionreportEntity> queryAll();
 	TtrdCmdsExecutionreportEntity queryFirst(Map<String, Object> map);
 	List<TtrdCmdsExecutionreportEntity> queryLatest(Map<String, Object> map);
+	void updateStatus();
+	void deleteStatus();
 }
