@@ -7,6 +7,16 @@ email:		hunter.z@263.net
 website:	http://code.google.com/p/jquerytree/
 
 -------------------------------------*/
+div.content_wrap {width: 340px;height:380px;}
+div.content_wrap div.left{float: left;width: 250px;}
+div.content_wrap div.right{float: right;width: 340px;}
+div.zTreeDemoBackground {width:250px;height:362px;text-align:left;}
+
+ul.ztree {border-radius: 6px;box-shadow:0 0 20px #ddd;background: #fff;width:310px;height:360px;overflow-y:scroll;overflow-x:auto;}
+ul.log {border: 1px solid #617775;background: #f0f6e4;width:300px;height:170px;overflow: hidden;}
+ul.log.small {height:45px;}
+ul.log li {color: #666666;list-style: none;padding-left: 10px;}
+ul.log li.dark {background-color: #E3E3E3;}
 
 .ztree * {padding:0; margin:0; font-size:12px; font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif}
 .ztree {margin:0; padding:5px; color:#333}
@@ -71,11 +81,15 @@ website:	http://code.google.com/p/jquerytree/
 .ztree li span.button.noline_docu{ background:none;}
 
 .ztree li span.button.ico_open{margin-right:2px; background-position:-110px -16px; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.ico_open{background:url("../img/icon1.png");}
 .ztree li span.button.ico_close{margin-right:2px; background-position:-110px 0; vertical-align:top; *vertical-align:middle}
 .ztree li span.button.ico_docu{margin-right:2px; background-position:-110px -32px; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.ico_docu{background:url("../img/icon4.png");}
 .ztree li span.button.edit {margin-right:2px; background-position:-110px -48px; vertical-align:top; *vertical-align:middle}
 .ztree li span.button.remove {margin-right:2px; background-position:-110px -64px; vertical-align:top; *vertical-align:middle}
 
+#treeDemo2 li span.button.ico_open{background:url("../img/icon3.png");}
+#treeDemo2 li span.button.ico_docu{background:url("../img/icon2.png");}
 .ztree li span.button.ico_loading{margin-right:2px; background:url(../img/loading.gif) no-repeat scroll 0 0 transparent; vertical-align:top; *vertical-align:middle}
 
 ul.tmpTargetzTree {background-color:#FFE6B0; opacity:0.8; filter:alpha(opacity=80)}
@@ -98,8 +112,8 @@ ul.ztree.zTreeDragUL {margin:0; padding:0; position:absolute; width:auto; height
 
 .z-container{
 	display: inline-block;
-    padding: 20px 0 0 50px;
-    width: 862px;
+    padding-left:50px;
+    /*width: 880px;*/
 }
 .left,.content_wrap{
 	display: inline-block;
@@ -125,11 +139,124 @@ ul.ztree.zTreeDragUL {margin:0; padding:0; position:absolute; width:auto; height
 .active{
 	background-position:146px 0px;
 }
-.send-message {
-	margin:20px 0 40px 240px;
-	
-}
 .send-message button{
 	width:80px;
 	height:30px;
+}
+.z-container h3{
+	line-height: 40px;
+}
+.content{
+	height:2000px !important;
+}
+.form1{
+	margin:20px 0;
+}
+.form1 label{
+	color: #222222;
+	font-size:14px;
+	padding-right: 5px;
+}
+.form1 input{
+	border:1px solid #ccc;
+	border-radius:4px;
+	width:230px;
+	height:35px;
+}
+.z-container .right-container{
+	width:310px;
+	height:360px;
+	display: inline-block;
+	box-shadow: 0 0 20px #ddd;
+	vertical-align: top;
+	margin-top:45px;
+	border-radius:6px;
+	font-size: 12px;
+	position: relative;
+}
+.z-container .right-container .type{
+	background:#F1EFEF;
+}
+.z-container .right-container .type .inner{
+	padding:26px 0 26px 10px;
+}
+.z-container .right-container .type .type-name{
+	display: inline-block;
+	padding: 2.5px 10px;
+	margin-bottom:5px;
+}
+.z-container .right-container .type .type-name:hover{
+	cursor: pointer;
+}
+.z-container .right-container .type .type-name.active{
+	background:#fff;
+	border-radius:6px;
+}
+.z-container .right-container .type .type-name span,.z-container .right-container .personnel .inner .personnel-name span{
+	width: 20px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: middle;
+	background: url(../img/delete.png);
+}
+.z-container .right-container .personnel .inner{
+	padding-top:20px;
+	padding-left:15px;
+}
+.z-container .right-container .personnel .inner .personnel-name{
+	padding:3px 14px;
+	display: inline-block;
+	margin-bottom:5px;
+}
+.z-container .right-container .personnel .inner .personnel-name:hover{
+	cursor: pointer;
+}
+.z-container .right-container .personnel .inner .personnel-name.active{
+	background:#FDF2F2;
+}
+.right-container .btn{
+	width:100%;
+	position: absolute;
+	left:0;
+	bottom:20px;
+}
+.right-container .common-btn{
+	width:120px;
+	height:36px;
+	border:1px solid #E31F26;
+	font-size:14px;
+	color:#E31F26;
+	text-align: center;
+	line-height: 36px;
+	border-radius:6px;
+	display: inline-block;
+}
+.right-container .common-btn.send-message{
+	background:#E31F26;
+	color:#fff;
+	margin-left:20px;
+}
+.form2{
+	margin-top:20px;
+}
+.form2 label{
+	width:100px;
+	text-align: right;
+	color:#222222;
+	padding-right: 5px;
+}
+.form2 .line{
+	margin-bottom:15px;
+}
+.form2 input{
+	border: 1px solid #ccc;
+    border-radius: 4px;
+    height:35px;
+    padding-left: 5px;
+}
+.form2 input.input2{
+	width:200px;
+}
+.form2 input.input1,.form2 input.input3,.form2 input.input4{
+	width:400px;
 }

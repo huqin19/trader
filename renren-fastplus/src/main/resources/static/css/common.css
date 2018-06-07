@@ -1,0 +1,38 @@
+.main-sidebar,.skin-blue .content-header{
+	box-shadow: 0 0 20px #ddd;
+}
+.skin-blue .main-header .navbar{
+	background:#e31f27;
+}
+.skin-blue .main-header .logo{
+	background:#fff;
+	color:#3b3b3b;
+}
+.skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side{
+	background:#fff;
+}
+.skin-blue .sidebar-menu>li:hover>a, .skin-blue .sidebar-menu>li.active>a{
+	background:#FDF2F2;
+	color:#e31f27;
+	border-right:3px solid #E31F27;
+	border-left:0;
+}
+.skin-blue .sidebar-menu>li>.treeview-menu{
+	background:#fff;
+}
+
+.sidebar-menu .treeview-menu>li:hover a,.sidebar-menu .treeview-menu>li.active a{
+	background:#FDF2F2;
+	color:#e31f27;
+	border-right:3px solid #E31F27;
+}
+.skin-blue .treeview-menu>li>a{
+	color:#626262;
+}
+.skin-blue .content-header,.content-header>.breadcrumb{
+	background:#f5f5f5;
+}
+
+
+
+

@@ -2,77 +2,96 @@
 	display: inline-block;
     padding-left:0;
     margin-top:10px;
+    width:auto;
 }
 #info .form{
-	width:100%;
+	min-width:1060px;
 }
-#info .line1, #info .line2{
-	min-width: 720px;
+.check-date input{
+	width:180px;
 }
-
 #info .check-type, #info .check-name, #info .check-date{
-	width: 300px;
 	display: inline-block;
 }
 #info .check-btn{
 	display:inline-block;
 }
-#info label{
-	width:100px;
-	display: inline-block;
+#info .form input{
+	height: 35px;
+	border-radius: 4px;
+	border:1px solid #ccc;
 }
-
-#info .check-type select, #info .check-name input, #info .check-date input{
-	width:60%;
-	height: 36px;
-	border-radius: 3px;
-	border:1px solid #ddd;
+#info .check-type select, #info .check-name input{
+	width:180px;
+	height: 35px;
 	display: inline-block;
+	border-radius:4px;
+	margin-right:15px;
 }
 #info .check-name input{
-	padding-left: 5px
+	padding-left: 5px;
 }
-#info .check-date{
-	margin-top:20px;
+input::-webkit-input-placeholder{ 
+	color: #999;
+	padding-left:10px;
 }
-#info .check-btn input[type="button"]{
-	width: 80px;
+#info .check-btn{
+	width: 120px;
 	height:36px;
 	border-radius:3px;
-	background: #4395FF;
+	background: #e31f26;
 	color:#fff;
+	text-align: center;
+	line-height: 36px;
+}
+#info .check-btn img{
+	width:20px;
+	height:20px;
+	vertical-align: middle;
+	display:inline-block;
 }
 #info .table-content{
 	padding-top:20px;
-	padding-right:20px;
+	padding-right:0px;
 }
+#info #process-demo-1{
+	width:100%;
+	border:1px solid #e6e6e6;
+} 
 #info #process-demo-1 thead{
-	  display:block;
+	display:table;
+	width:100%;
+	table-layout:fixed;
+	width: calc( 100% - 17px )
+}
+#info #process-demo-1 tbody tr{
+	display:table;
+	width:100%;
+	table-layout:fixed;
 }
 #info #process-demo-1 tbody{
 	overflow-y: auto;
-    height: 320px;
+    height: 400px;
     display:block;
-    overflow-x:hidden;
+    overflow-x: hidden;
+}
+#info #process-demo-1 tbody tr{
+	width:100%;
 }
 #info #process-demo-1 th{
-	background-color: #4395FF;
-	width:75px;
+	background-color: #fafafa;
 	height:40px;
 	vertical-align: middle;
-	border:1px solid #3b3b3b;
-	min-width:75px;
-	max-width:75px;
+	border-right:1px solid #e6e6e6;
+	border-bottom:1px solid #e6e6e6;
 	text-align:center;
 }
 #info td{
-	width:75px;
 	text-align: center;
 	height:30px;
 	line-height: 30px;
-	border:1px solid #3b3b3b;
-	min-width:75px;
-	max-width:75px;
+	border-top:1px solid #e6e6e6;
+	border-right:1px solid #e6e6e6;
 }
 #info .page {
 	text-align: right;

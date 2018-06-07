@@ -16,8 +16,10 @@ function _w_table_rowspan(_w_table_id, _w_table_colnum) {
       _w_table_currenttd = $(this);  
       if (_w_table_firsttd.text() == _w_table_currenttd.text()) {//这边注意不是val（）属性，而是text（）属性  
           _w_table_SpanNum++;  
-          _w_table_currenttd.hide(); //remove();  
+          _w_table_currenttd.css("visibility","hidden"); //remove();  
           _w_table_firsttd.attr("rowSpan", _w_table_SpanNum);  
+          _w_table_firsttd.css({"borderBottom":"none"})  
+          _w_table_firsttd.css({"borderLeft":"none"})  
       } else {  
           _w_table_firsttd = $(this);  
           _w_table_SpanNum = 1;  
@@ -92,6 +94,7 @@ function _w_table_rowspanTh(_w_table_id, _w_table_colnum) {
 }
 
 $(function(){
+	// $("td").width($("th").width()+1);
 	//select change
 	$("#stype").on('change',function(){
 		if($("#stype option:selected").val() == '1'){
@@ -190,12 +193,12 @@ function selData() {
 					$("#tdName").html(strTd);
 					
 					//设置样式
-					$("#info #process-demo-1 th").css("width", "170px");
-					$("#info #process-demo-1 th").css("min-width", "170px");
-					$("#info #process-demo-1 th").css("max-width", "170px");
-					$("#info td").css("width", "170px");
-					$("#info td").css("min-width", "170px");
-					$("#info td").css("max-width", "170px");
+//					$("#info #process-demo-1 th").css("width", "170px");
+//					$("#info #process-demo-1 th").css("min-width", "170px");
+//					$("#info #process-demo-1 th").css("max-width", "170px");
+//					$("#info td").css("width", "170px");
+//					$("#info td").css("min-width", "170px");
+//					$("#info td").css("max-width", "170px");
 					
 					$("#nameX").text("标的券名称：");
 					$("#labelS").text("委托日期起：");
@@ -227,20 +230,26 @@ function selData() {
 						    		"<td>" + item.sDqClose + "</td>" +
 						    		"<td>" + item.sDqSettle + "</td>" +
 						    		"<td>" + item.sDqVolume + "</td>" +
-						    		"<td>" + item.sDqOi + "</td>" +
-						    		"<td>" + item.sDqChange + "</td>" +
-						    		"<td style='text-align:left;'>" + item.sInfoDelistdate + "</td>" +
-					    		"</tr>";
+						    		"<td>" + item.sDqOi + "</td>" ;
+				    	if(parseFloat(item.sDqChange) > 0){
+				    	   strTd += "<td><font color='#ff0000'>" + item.sDqChange + "</font></td>";
+				    	}else if(parseFloat(item.sDqChange) < 0){
+				    	   strTd += "<td><font color='#008000'>" + item.sDqChange + "</font></td>";
+				    	}else{
+				    	   strTd += "<td>" + item.sDqChange + "</td>";
+				    	}
+				    	   strTd += "<td style='text-align:left;'>" + item.sInfoDelistdate + "</td>" +
+					    		  "</tr>";
 					})  
 					$("#tdName").html(strTd);
 					
 					//设置样式
-					$("#info #process-demo-1 th").css("width", "90px");
-					$("#info #process-demo-1 th").css("min-width", "90px");
-					$("#info #process-demo-1 th").css("max-width", "90px");
-					$("#info td").css("width", "90px");
-					$("#info td").css("min-width", "90px");
-					$("#info td").css("max-width", "90px");
+//					$("#info #process-demo-1 th").css("width", "90px");
+//					$("#info #process-demo-1 th").css("min-width", "90px");
+//					$("#info #process-demo-1 th").css("max-width", "90px");
+//					$("#info td").css("width", "90px");
+//					$("#info td").css("min-width", "90px");
+//					$("#info td").css("max-width", "90px");
 					
 					$("#nameX").text("合约名称：");
 					$("#labelS").text("交易日期起：");
@@ -289,13 +298,25 @@ function selData() {
 						    		"<td>" + item.sInfoWindcode + "</td>" +
 						    		"<td>" + item.fsInfoRank + "</td>" +
 						    		"<td>" + item.cJmem + "</td>" +
-						    		"<td>" + item.cJl + "</td>" +
-						    		"<td>" + item.cJlbh + "</td>" +
-						    		"<td>" + item.fsInfoRank + "</td>" +
+						    		"<td>" + item.cJl + "</td>";
+			    		if(parseFloat(item.cJlbh) > 0){
+			    		   strTd += "<td><font color='#ff0000'>" + item.cJlbh + "<font></td>"
+			    		}else if(parseFloat(item.cJlbh) < 0){
+			    		   strTd += "<td><font color='#008000'>" + item.cJlbh + "<font></td>"
+			    		}else{
+			    		   strTd += "<td>" + item.cJlbh + "</td>"
+			    		}
+			    		   strTd += "<td>" + item.fsInfoRank + "</td>" +
 						    		"<td>" + item.cBmem + "</td>" +
-						    		"<td>" + item.cBl + "</td>" +
-						    		"<td>" + item.cBlbh + "</td>" +
-						    		"<td>" + item.fsInfoRank + "</td>" +
+						    		"<td>" + item.cBl + "</td>";
+				    		if(parseFloat(item.cBlbh) > 0){
+				    		   strTd += "<td><font color='#ff0000'>" + item.cBlbh + "<font></td>"
+				    		}else if(parseFloat(item.cBlbh) < 0){
+				    		   strTd += "<td><font color='#008000'>" + item.cBlbh + "<font></td>"
+				    		}else{
+				    		   strTd += "<td>" + item.cBlbh + "</td>"
+				    		}
+				    	   strTd += "<td>" + item.fsInfoRank + "</td>" +
 						    		"<td>" + item.cSmem + "</td>" +
 						    		"<td>" + item.cSl + "</td>" +
 						    		"<td>" + item.cSlbh + "</td>" +

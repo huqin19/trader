@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title></title>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<!-- saved from url=(0068)http://localhost:8080/renren-fastplus/modules/generator/message.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>固收日报发布系统</title>
+  
   <link rel="stylesheet" href="../../css/bootstrap.min.css">
   <link rel="stylesheet" href="../../css/font-awesome.min.css">
   <link rel="stylesheet" href="../../plugins/jqgrid/ui.jqgrid-bootstrap.css">
@@ -10,10 +10,24 @@
   <link rel="stylesheet" href="../../css/main.css">
   <link rel="stylesheet" href="../../css/reset.css" type="text/css">
   <link rel="stylesheet" href="../../css/zTreeStyle.css" type="text/css">
-</head>
+  <link rel="stylesheet" href="../../css/common.css" type="text/css">
+  <link rel="stylesheet" href="../../plugins/layer/skin/default/layer.css" id="layuicss-skinlayercss">
+  <link rel="stylesheet" href="../../css/jedate.css">
+  </head>
 <body>
   <div class="z-container">
-    <div class="left">
+    <div class="form1">
+      <label>发送日期:</label>
+      <input id="dateinfo" type="text" onclick="testShow(this)" readonly>
+      <div class="icons jebtns"></div>
+    </div>
+    <div class="content_wrap">
+      <div class="zTreeDemoBackground left">
+        <h3>请勾选发送类型</h3>
+        <ul id="treeDemo2" class="ztree"></ul>
+      </div>
+    </div>
+  <!--   <div class="left">
       <div class="left-title"> 
         <div class="check"></div>
         <p>银行间每日债券借贷</p>
@@ -26,15 +40,36 @@
         <div class="check"></div>
         <p>国债期货品种排名</p>
       </div>
-    </div>
+    </div> -->
     <div class="content_wrap">
       <div class="zTreeDemoBackground left">
-        <ul id="treeDemo" class="ztree"></ul>
+        <h3>请勾选接受人员</h3>
+        <ul id="treeDemo" class="ztree"><li id="treeDemo_1" class="level0" tabindex="0" hidefocus="true" treenode=""><span id="treeDemo_1_switch" title="" class="button level0 switch root_open" treenode_switch=""></span><span id="treeDemo_1_check" class="button chk checkbox_false_full" treenode_check=""></span><a id="treeDemo_1_a" class="level0" treenode_a="" onclick="" target="_blank" style="" title="东方证券股份有限公司"><span id="treeDemo_1_ico" title="" treenode_ico="" class="button ico_open" style=""></span><span id="treeDemo_1_span" class="node_name">东方证券股份有限公司</span></a><ul id="treeDemo_1_ul" class="level0 " style="display:block"><li id="treeDemo_2" class="level1" tabindex="0" hidefocus="true" treenode=""><span id="treeDemo_2_switch" title="" class="button level1 switch center_close" treenode_switch=""></span><span id="treeDemo_2_check" class="button chk checkbox_false_full" treenode_check=""></span><a id="treeDemo_2_a" class="level1" treenode_a="" onclick="" target="_blank" style="" title="子公司"><span id="treeDemo_2_ico" title="" treenode_ico="" class="button ico_close" style=""></span><span id="treeDemo_2_span" class="node_name">子公司</span></a></li><li id="treeDemo_2117" class="level1" tabindex="0" hidefocus="true" treenode=""><span id="treeDemo_2117_switch" title="" class="button level1 switch center_close" treenode_switch=""></span><span id="treeDemo_2117_check" class="button chk checkbox_false_full" treenode_check=""></span><a id="treeDemo_2117_a" class="level1" treenode_a="" onclick="" target="_blank" style="" title="其他"><span id="treeDemo_2117_ico" title="" treenode_ico="" class="button ico_close" style=""></span><span id="treeDemo_2117_span" class="node_name">其他</span></a></li><li id="treeDemo_2129" class="level1" tabindex="0" hidefocus="true" treenode=""><span id="treeDemo_2129_switch" title="" class="button level1 switch center_close" treenode_switch=""></span><span id="treeDemo_2129_check" class="button chk checkbox_false_full" treenode_check=""></span><a id="treeDemo_2129_a" class="level1" treenode_a="" onclick="" target="_blank" style="" title="分支机构"><span id="treeDemo_2129_ico" title="" treenode_ico="" class="button ico_close" style=""></span><span id="treeDemo_2129_span" class="node_name">分支机构</span></a></li><li id="treeDemo_4505" class="level1" tabindex="0" hidefocus="true" treenode=""><span id="treeDemo_4505_switch" title="" class="button level1 switch bottom_close" treenode_switch=""></span><span id="treeDemo_4505_check" class="button chk checkbox_false_full" treenode_check=""></span><a id="treeDemo_4505_a" class="level1" treenode_a="" onclick="" target="_blank" style="" title="职能部门"><span id="treeDemo_4505_ico" title="" treenode_ico="" class="button ico_close" style=""></span><span id="treeDemo_4505_span" class="node_name">职能部门</span></a></li></ul></li></ul>
       </div>
     </div>
-    <div class="send-message"><button>发送</button></div>
+    <div class="right-container">
+      <div class="type">
+        <div class="inner">
+          <div class="type-name active">银行间每日债券借贷 <span></span></div>
+          <div class="type-name">国债期货品种排名<span></span></div>
+          <div class="type-name">国债期货当日结算价<span></span></div>
+        </div>
+      </div>
+      <div class="personnel">
+        <div class="inner">
+          <div class="personnel-name active">分支机构/互联网金融部门/王雷<span></span></div>
+          </br>
+          <div class="personnel-name">分支机构/互联网金融部门/王雷<span></span></div>
+        </div>
+      </div>
+      <div class="btn">
+        <div class="common-btn reset-btn">重置</div>
+        <div class="common-btn send-message">发送</div>
+      </div>
+    </div>
+    
   </div>
-</body>
+
     <script type="text/javascript" src="../../js/jquery-1.4.4.min.js"></script>
     <script type="text/javascript" src="../../js/jquery.ztree.core.js"></script>
     <script type="text/javascript" src="../../js/jquery.ztree.excheck.js"></script>
@@ -47,4 +82,40 @@
 	<script src="../../plugins/ztree/jquery.ztree.all.min.js"></script>
     <script type="text/javascript" src="../../js/common.js"></script>
     <script type="text/javascript" src="../../js/message.js"></script>
+    <script src="../../js/jedate.min.js"></script>
+    <script type="text/javascript">
+        function testShow(elem){
+          jeDate(elem,{
+              trigger:false,
+              format:"YYYY-MM-DD hh:mm:ss",
+              isTime:false,
+              // minDate:"2014-09-19 00:00:00",
+              theme:{ bgcolor:"#00A1CB",color:"#ffffff", pnColor:"#00CCFF"},
+              // minDate: '2025-06-16',
+          })
+        }
+        $(function(){
+            // 发送类型  触摸事件
+            $(".type-name:not('.type-name:first') span").css("visibility","hidden");
+            $(".type-name").hover(function(){
+              $(this).addClass("active");
+              $(this).children("span").css("visibility","visible");
+            },function(){
+              $(this).removeClass("active");
+              $(this).children("span").css("visibility","hidden");
+            });
+
+            //接受人员  触摸事件
+            $(".personnel-name:not('.personnel-name:first') span").css("visibility","hidden");
+            $(".personnel-name").hover(function(){
+              $(this).addClass("active");
+              $(this).children("span").css("visibility","visible");
+            },function(){
+              $(this).removeClass("active");
+              $(this).children("span").css("visibility","hidden");
+            });
+        });
+      
+    </script>
+</body>
 </html>
