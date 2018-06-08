@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.renren.common.utils.DateUtils;
 import io.renren.common.utils.GsonUtils;
 import io.renren.common.utils.R;
+import io.renren.common.utils.ReadYml;
 import io.renren.modules.generator.entity.WeixinEntity;
 import io.renren.modules.generator.service.WeixinService;
 import io.renren.modules.job.entity.Content;
@@ -84,8 +85,10 @@ public class WeixinController {
 					String type = x.trim().equals("银行间每日债券借贷") ? "1" : (x.trim().equals("国债期货当日结算价") ? "2" : "3");
 					con.setDescription(x);
 					con.setTitle(x + "[" + DateUtils.format(date, DateUtils.DATE_PATTERN) + "]");
-					con.setPicurl("https://img.alicdn.com/tfs/TB1e58ksHSYBuNjSspiXXXNzpXa-290-130.gif");
-					con.setUrl("http://localhost:8080/renren-fastplus/modules/generator/weixin.html" + "?dt=" + date
+					con.setPicurl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_ADDRESS")+
+							"/tfs/TB1e58ksHSYBuNjSspiXXXNzpXa-290-130.gif");
+					con.setUrl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_ADDRESS")
+							+"/renren-fastplus/modules/generator/weixin.html" + "?dt=" + date
 							+ "&stype=" + type);
 					content.add(con);
 				}
