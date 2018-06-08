@@ -63,6 +63,7 @@ public class TBNDServiceImpl implements TBNDService{
 	@Transactional
 	public void saveBatch(List<TBNDEntity> list) {
 		for(TBNDEntity t : list) {
+			t.setbFpml(null);
 			t.setStatus(0);
 		}
 		tBNDao.saveBatch(list);
@@ -84,6 +85,7 @@ public class TBNDServiceImpl implements TBNDService{
 	@Transactional
 	public void firstSaveBatch(List<TBNDEntity> list) {
 		for(TBNDEntity t : list) {
+			t.setbFpml(null);
 			t.setStatus(1);
 		}
 		tBNDao.saveBatch(list);

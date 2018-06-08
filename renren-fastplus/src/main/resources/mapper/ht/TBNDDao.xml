@@ -193,8 +193,7 @@
 		)
 	</insert> 
 	<insert id="saveBatch" parameterType="java.util.List">
-	begin
-    <foreach collection="list" item="item" index="index" separator=";">
+	<!--begin     <foreach collection="list" item="item" index="index" separator=";"> -->
 		insert into TBND
 		(
 			I_CODE,
@@ -263,8 +262,10 @@
 			CBGS_NAME,
 			STATUS
 		)
-		values
+		 <!--values-->
+		 <foreach item="item" collection="list" index="index" separator="union all" >
 		(
+			select
 			#{item.iCode,jdbcType=VARCHAR}, 
 			#{item.aType,jdbcType=VARCHAR}, 
 			#{item.mType,jdbcType=VARCHAR},
@@ -330,8 +331,9 @@
 			#{item.thirdpartyGuarantees,jdbcType=VARCHAR},
 			#{item.cbgsName,jdbcType=VARCHAR},
 			#{item.status,jdbcType=INTEGER}
+			from dual
 			)
 		</foreach>
-		;end;
+		<!--;end;-->
 	</insert> 
 </mapper>

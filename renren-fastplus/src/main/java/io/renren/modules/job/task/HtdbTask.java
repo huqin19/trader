@@ -104,7 +104,7 @@ public class HtdbTask {
 				offset = offset + limit;
 			} while (offset < total);
 			DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
-			ttrdCmdsExecutionreportService.updateStatus();
+			tCalendarDatesService.updateStatus();
 			DynamicDataSource.clearDataSource();
 		}else {
 			do {
@@ -212,7 +212,7 @@ public class HtdbTask {
 				offset = offset + limit;
 			} while (offset < total);
 			DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
-			ttrdCmdsExecutionreportService.updateStatus();
+			tBNDService.updateStatus();
 			DynamicDataSource.clearDataSource();
 		}else {
 			do {
