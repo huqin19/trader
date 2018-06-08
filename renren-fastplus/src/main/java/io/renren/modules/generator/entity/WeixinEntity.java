@@ -3,7 +3,7 @@ package io.renren.modules.generator.entity;
 import java.io.Serializable;
 
 /**
- * 微信推送
+ * 微信推送-树状结构model
  * 
  * @author milk
  * @email 

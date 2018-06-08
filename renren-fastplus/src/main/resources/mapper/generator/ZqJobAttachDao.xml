@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.generator.dao.ZqJobAttachDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.generator.entity.ZqJobAttachEntity" id="zqJobAttachMap">
+        <result property="objectId" column="OBJECT_ID"/>
+        <result property="jobId" column="JOB_ID"/>
+        <result property="sheetId" column="SHEET_ID"/>
+        <result property="userId" column="USER_ID"/>
+        <result property="status" column="STATUS"/>
+        <result property="creatorId" column="CREATOR_ID"/>
+        <result property="createdTimestamp" column="CREATED_TIMESTAMP"/>
+        <result property="lastModifierId" column="LAST_MODIFIER_ID"/>
+        <result property="modifiedTimestamp" column="MODIFIED_TIMESTAMP"/>
+    </resultMap>
+
+	<select id="queryList" parameterType="java.util.HashMap" resultType="io.renren.modules.generator.entity.ZqJobAttachEntity" >
+		select 
+			*
+		from
+			zq_job_attach
+		<where>
+			<if test="jobId != null">
+				and job_id=#{jobId,jdbcType=NUMERIC} 
+			</if>
+			<if test="sheetId != null">
+				and sheet_id=#{sheetId,jdbcType=NUMERIC} 
+			</if>
+			<if test="userId != null and userId.trim() != ''">
+				and user_id=#{userId,jdbcType=VARCHAR} 
+			</if>
+			<if test="status != null">
+				and status=#{status} 
+			</if>
+		</where>
+	</select>
+	
+	<insert id="save" parameterType="io.renren.modules.generator.entity.ZqJobAttachEntity">
+		insert into zq_job_attach(
+			object_id, 
+			job_id, 
+			sheet_id, 
+			user_id,
+			status,
+			creator_id,
+			created_timestamp,
+			last_modifier_id,
+			modified_timestamp
+		)
+		values(
+			#{objectId}, 
+			#{jobId},
+			#{sheetId},
+			#{userId},
+			#{status},
+			#{creatorId},
+			#{createdTimestamp},
+			#{lastModifierId},
+			#{modifiedTimestamp}
+		)
+	</insert>
+</mapper>

@@ -15,8 +15,13 @@ import io.renren.modules.generator.entity.WeixinEntity;
 public interface WeixinService {
 
 	/**
-	 * 查询ztree
+	 * 查询人员ztree
 	 */
 	List<WeixinEntity> queryList(Map<String, Object> map);
+	
+	/**
+	 * 查询日报ztree
+	 */
+	List<WeixinEntity> querySheetList(Map<String, Object> map);
 }
 

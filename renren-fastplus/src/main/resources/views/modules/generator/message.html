@@ -23,11 +23,12 @@
     </div>
     <div class="content_wrap">
       <div class="zTreeDemoBackground left">
-        <h3>请勾选发送类型</h3>
+        <h3>请勾选日报类型</h3>
         <ul id="treeDemo2" class="ztree"></ul>
       </div>
     </div>
-  <!--   <div class="left">
+  	<!--   
+  	<div class="left">
       <div class="left-title"> 
         <div class="check"></div>
         <p>银行间每日债券借贷</p>
@@ -40,11 +41,12 @@
         <div class="check"></div>
         <p>国债期货品种排名</p>
       </div>
-    </div> -->
+    </div> 
+    -->
     <div class="content_wrap">
       <div class="zTreeDemoBackground left">
-        <h3>请勾选接受人员</h3>
-        <ul id="treeDemo" class="ztree"><li id="treeDemo_1" class="level0" tabindex="0" hidefocus="true" treenode=""><span id="treeDemo_1_switch" title="" class="button level0 switch root_open" treenode_switch=""></span><span id="treeDemo_1_check" class="button chk checkbox_false_full" treenode_check=""></span><a id="treeDemo_1_a" class="level0" treenode_a="" onclick="" target="_blank" style="" title="东方证券股份有限公司"><span id="treeDemo_1_ico" title="" treenode_ico="" class="button ico_open" style=""></span><span id="treeDemo_1_span" class="node_name">东方证券股份有限公司</span></a><ul id="treeDemo_1_ul" class="level0 " style="display:block"><li id="treeDemo_2" class="level1" tabindex="0" hidefocus="true" treenode=""><span id="treeDemo_2_switch" title="" class="button level1 switch center_close" treenode_switch=""></span><span id="treeDemo_2_check" class="button chk checkbox_false_full" treenode_check=""></span><a id="treeDemo_2_a" class="level1" treenode_a="" onclick="" target="_blank" style="" title="子公司"><span id="treeDemo_2_ico" title="" treenode_ico="" class="button ico_close" style=""></span><span id="treeDemo_2_span" class="node_name">子公司</span></a></li><li id="treeDemo_2117" class="level1" tabindex="0" hidefocus="true" treenode=""><span id="treeDemo_2117_switch" title="" class="button level1 switch center_close" treenode_switch=""></span><span id="treeDemo_2117_check" class="button chk checkbox_false_full" treenode_check=""></span><a id="treeDemo_2117_a" class="level1" treenode_a="" onclick="" target="_blank" style="" title="其他"><span id="treeDemo_2117_ico" title="" treenode_ico="" class="button ico_close" style=""></span><span id="treeDemo_2117_span" class="node_name">其他</span></a></li><li id="treeDemo_2129" class="level1" tabindex="0" hidefocus="true" treenode=""><span id="treeDemo_2129_switch" title="" class="button level1 switch center_close" treenode_switch=""></span><span id="treeDemo_2129_check" class="button chk checkbox_false_full" treenode_check=""></span><a id="treeDemo_2129_a" class="level1" treenode_a="" onclick="" target="_blank" style="" title="分支机构"><span id="treeDemo_2129_ico" title="" treenode_ico="" class="button ico_close" style=""></span><span id="treeDemo_2129_span" class="node_name">分支机构</span></a></li><li id="treeDemo_4505" class="level1" tabindex="0" hidefocus="true" treenode=""><span id="treeDemo_4505_switch" title="" class="button level1 switch bottom_close" treenode_switch=""></span><span id="treeDemo_4505_check" class="button chk checkbox_false_full" treenode_check=""></span><a id="treeDemo_4505_a" class="level1" treenode_a="" onclick="" target="_blank" style="" title="职能部门"><span id="treeDemo_4505_ico" title="" treenode_ico="" class="button ico_close" style=""></span><span id="treeDemo_4505_span" class="node_name">职能部门</span></a></li></ul></li></ul>
+        <h3>请勾选接收人员</h3>
+        <ul id="treeDemo" class="ztree"></ul>
       </div>
     </div>
     <div class="right-container">
@@ -105,7 +107,7 @@
               $(this).children("span").css("visibility","hidden");
             });
 
-            //接受人员  触摸事件
+            //接收人员  触摸事件
             $(".personnel-name:not('.personnel-name:first') span").css("visibility","hidden");
             $(".personnel-name").hover(function(){
               $(this).addClass("active");

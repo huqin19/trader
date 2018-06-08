@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.generator.dao.ZqSheetsDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.generator.entity.ZqSheetsEntity" id="zqSheetsMap">
+        <result property="objectId" column="OBJECT_ID"/>
+        <result property="parentId" column="PARENT_ID"/>
+        <result property="sheetName" column="SHEET_NAME"/>
+        <result property="sheetUrl" column="SHEET_URL"/>
+        <result property="status" column="STATUS"/>
+        <result property="creatorId" column="CREATOR_ID"/>
+        <result property="createdTimestamp" column="CREATED_TIMESTAMP"/>
+        <result property="lastModifierId" column="LAST_MODIFIER_ID"/>
+        <result property="modifiedTimestamp" column="MODIFIED_TIMESTAMP"/>
+    </resultMap>
+
+	<select id="queryList" parameterType="java.util.HashMap" resultType="io.renren.modules.generator.entity.ZqSheetsEntity" >
+		select 
+			*
+		from
+			zq_sheets
+		<where>
+			<if test="parentId != null">
+				and parent_id=#{parentId,jdbcType=NUMERIC} 
+			</if>
+			<if test="sheetName != null and sheetName.trim() != ''">
+				and sheet_name=#{sheetName,jdbcType=VARCHAR}
+			</if>
+			<if test="status != null">
+				and status=#{status} 
+			</if>
+		</where>
+	</select>
+	
+	<select id="querySheetList" resultType="io.renren.modules.generator.entity.WeixinEntity" >
+		select 
+			DISTINCT object_id as id, 
+			parent_id as pId, 
+			sheet_name as name, 
+			case parent_id when 0 then 'true' else 'false' end as open, 
+			'false' as checked,
+			case when object_id     in (select parent_id from zq_sheets) then '0'
+			     when object_id not in (select parent_id from zq_sheets) then '1'
+			end  as isleaf
+		from 
+			zq_sheets
+		where 
+			status = 1
+	</select>
+</mapper>

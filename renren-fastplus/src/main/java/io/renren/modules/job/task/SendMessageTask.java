@@ -2,24 +2,22 @@ package io.renren.modules.job.task;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.apache.commons.lang.StringUtils;
-import io.renren.common.utils.SpringContextUtils;
+
+import io.renren.common.utils.GsonUtils;
+import io.renren.common.utils.HttpClientUtils;
 import io.renren.modules.job.entity.InvalidEntity;
 import io.renren.modules.job.entity.ResultEntity;
 import io.renren.modules.job.entity.SyncPushLogEntity;
-import io.renren.modules.job.entity.UsersEntity;
 import io.renren.modules.job.service.SyncPushLogService;
 import io.renren.modules.job.service.UsersService;
-import io.renren.common.utils.GsonUtils;
-import io.renren.common.utils.HttpClientUtils;
 
 /**
  * 定时任务推送消息 sendMessage为spring bean的名称
@@ -57,11 +55,11 @@ public class SendMessageTask {
 	 */
 	public Map<String, Object>  sendPushdMessage(String param , Integer way) {
 		logger.info("我是带参数的senPushdMessage方法，正在被执行，参数为：" + param);
-		//String strResult = HttpClientUtils.doPost(url, param, true);
+		String strResult = HttpClientUtils.doPost(url, param, true);
 		// 测试
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		StringBuilder back = new StringBuilder();
-		String strResult = "{\"cause\":null,\"obj\":{\"invaliduser\":\"xinzhi_test\",\"invalidparty\":\"276\",\"invalidtag\":null},\"code\":0,\"msg\":\"成功！\"}";
+		//String strResult = "{\"cause\":null,\"obj\":{\"invaliduser\":\"xinzhi_test\",\"invalidparty\":\"276\",\"invalidtag\":null},\"code\":0,\"msg\":\"成功！\"}";
 		// Json解析成实体类
 		ResultEntity<InvalidEntity> result = GsonUtils.fromJsonObject(strResult, InvalidEntity.class);
 		// 数据库保存执行记录

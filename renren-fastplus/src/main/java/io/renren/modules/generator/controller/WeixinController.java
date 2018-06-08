@@ -46,9 +46,11 @@ public class WeixinController {
 	public R list(@RequestParam Map<String, Object> params) {
 		// Query query = new Query(new HashMap<String, Object>());
 		//String JOB_SENDWX = ReadYml.getMl("JOB_SEND_WX");
+		//查询成员
 		List<WeixinEntity> weixinList = weixinService.queryList(new HashMap<String, Object>());
-
-		return R.ok().put("weixinList", weixinList);
+		//查询报表
+		List<WeixinEntity> weixinSheetList = weixinService.querySheetList(new HashMap<String, Object>());
+		return R.ok().put("weixinList", weixinList).put("weixinSheetList", weixinSheetList);
 	}
 
 	/**
@@ -115,6 +117,12 @@ public class WeixinController {
 					num++;
 				}
 
+			}else {
+				if(null != resultMap.get("resultStr")) {
+					resultDesc = (String) resultMap.get("resultStr");
+				}else {
+					resultDesc = "无法访问服务器";
+				}
 			}
 		}
 
