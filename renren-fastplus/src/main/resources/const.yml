@@ -1,2 +1,3 @@
 JOB_SEND_WX_TRADE_DAY: jobSendWxTradeDay
 JOB_SEND_WX: jobSendWx
+LOOP_SIZE: 300

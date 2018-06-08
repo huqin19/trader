@@ -103,7 +103,7 @@ public class WeixinController {
 			msg.setSendType("0");
 			msg.setSafe("0");
 			String gsonString = GsonUtils.gsonString(msg);
-			Map<String, Object> resultMap = msgTask.sendPushdMessage(gsonString);
+			Map<String, Object> resultMap = msgTask.sendPushdMessage(gsonString, 0);
 			Integer success = weixinEntity.getNewtreeName().length;
 			if (resultMap.get("faildNum") != null ) {	
 				success = (Integer) resultMap.get("faildNum") >=0 ? 

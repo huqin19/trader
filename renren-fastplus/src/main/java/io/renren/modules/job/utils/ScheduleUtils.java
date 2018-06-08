@@ -109,7 +109,7 @@ public class ScheduleUtils {
         	//参数
         	JobDataMap dataMap = new JobDataMap();
         	dataMap.put(ScheduleJobEntity.JOB_PARAM_KEY, new Gson().toJson(scheduleJob));
-        	
+        	dataMap.put("way", "0");
             scheduler.triggerJob(getJobKey(scheduleJob.getJobId()), dataMap);
         } catch (SchedulerException e) {
             throw new RRException("立即执行定时任务失败", e);

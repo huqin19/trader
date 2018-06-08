@@ -1,6 +1,6 @@
 package io.renren.modules.job.task;
 
-import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,9 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import io.renren.common.utils.ReadYml;
 import io.renren.datasources.DataSourceNames;
 import io.renren.datasources.DynamicDataSource;
-import io.renren.modules.ht.entity.TCalendarDatesEntity;
 import io.renren.modules.job.entity.SyncPushLogEntity;
 import io.renren.modules.job.service.SyncPushLogService;
 import io.renren.modules.wd.entity.CBondFuturesEODPricesEntity;
@@ -53,11 +53,13 @@ public class WddbTask {
 	/**
 	 * 表CBONDFUTURESEODPRICES定时任务
 	 * @param param
-	 * 1,在本地查询最近的数据opdate
-	 * 1.1，如果不为空就以插入万德中大于这个日期的数据
-	 * 1.2，如果为空就全量更新
+	 * 1,首次同步 status=1
+	 * 2,非首次同步 
+	 * 2.1,先将status=0的数据删除
+	 * 2.2,本轮同步、本轮同步的数据status=0，
+	 * 2.3,同步完成后将status=1的改为status=0、将status=0的置为1
 	 */
-	public void updateCBondFuturesEODPrices(String param) {
+	public void updateCBondFuturesEODPrices(String param, Integer way) {
 		logger.info("我是带参数的cBondFuturesEODPrices方法，正在被执行，参数为：" + param);
 		Map<String, Object> zqMap = new HashMap<String, Object>();
 		Map<String, Object> wdMap = new HashMap<String, Object>();
@@ -68,7 +70,7 @@ public class WddbTask {
 		log.setFunctionName("queryList,saveBatch,updateStatus,deleteStatus");
 		log.setParam(param);
 		log.setCreateTime(new Date());
-		log.setWay(0);
+		log.setWay(way);
 		log.setReason("用以更新本地万得CBONDFUTURESEODPRICES数据库表！");
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 		int before = cBondFuturesEODPricesService.queryTotal(zqMap);
@@ -89,26 +91,22 @@ public class WddbTask {
 				DynamicDataSource.setDataSource(DataSourceNames.WDDB_SOURCE);
 				list = cBondFuturesEODPricesService.queryList(wdMap);
 				DynamicDataSource.clearDataSource();
-				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
-				if (list != null && list.size() > 0) {
-					int pointsDataLimit = 400;// 限制条数
-					Integer size = list.size();
-					if (pointsDataLimit < size) {// 判断是否有必要分批
-						int part = size / pointsDataLimit;// 分批数
-						for (int i = 0; i < part; i++) {
-							List<CBondFuturesEODPricesEntity> listPage = list.subList(0, pointsDataLimit);
-							cBondFuturesEODPricesService.saveBatch(listPage);
-							list.subList(0, pointsDataLimit).clear();
+				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);		
+				if(list != null && list.size() > 0) {
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					List<CBondFuturesEODPricesEntity> saveList = new ArrayList<CBondFuturesEODPricesEntity>();
+					for(int i = 0; i < list.size(); i++) {
+						if(i > 0 && i%loopSize == 0) {
+							cBondFuturesEODPricesService.saveBatch(saveList);
+							saveList.clear();
+							saveList = new ArrayList<CBondFuturesEODPricesEntity>();
 						}
-						if (!list.isEmpty()) {
-							cBondFuturesEODPricesService.saveBatch(list);// 最后剩下的数据
-						}
-					} else {
-						cBondFuturesEODPricesService.saveBatch(list);
+						saveList.add(list.get(i));
 					}
-				} else {
-					System.out.println("没有数据!!!");
-				}
+					if(saveList.size() > 0) {
+						cBondFuturesEODPricesService.saveBatch(saveList);
+					}
+				}		
 				DynamicDataSource.clearDataSource();
 				list.clear();
 				offset = offset + limit;
@@ -123,31 +121,26 @@ public class WddbTask {
 				list = cBondFuturesEODPricesService.queryList(wdMap);
 				DynamicDataSource.clearDataSource();
 				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
-				if (list != null && list.size() > 0) {
-					int pointsDataLimit = 400;
-					Integer size = list.size();
-					if (pointsDataLimit < size) {
-						int part = size / pointsDataLimit;
-						for (int i = 0; i < part; i++) {
-							List<CBondFuturesEODPricesEntity> listPage = list.subList(0, pointsDataLimit);
-							cBondFuturesEODPricesService.firstSaveBatch(listPage);
-							list.subList(0, pointsDataLimit).clear();
+				if(list != null && list.size() > 0) {
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					List<CBondFuturesEODPricesEntity> saveList = new ArrayList<CBondFuturesEODPricesEntity>();
+					for(int i = 0; i < list.size(); i++) {
+						if(i > 0 && i%loopSize == 0) {
+							cBondFuturesEODPricesService.saveBatch(saveList);
+							saveList.clear();
+							saveList = new ArrayList<CBondFuturesEODPricesEntity>();
 						}
-						if (!list.isEmpty()) {
-							cBondFuturesEODPricesService.firstSaveBatch(list);
-						}
-					} else {
-						cBondFuturesEODPricesService.firstSaveBatch(list);
+						saveList.add(list.get(i));
 					}
-				} else {
-					System.out.println("没有数据!!!");
-				}
+					if(saveList.size() > 0) {
+						cBondFuturesEODPricesService.saveBatch(saveList);
+					}
+				}	
 				DynamicDataSource.clearDataSource();
 				list.clear();
 				offset = offset + limit;
 			} while (offset < total);
 		}	
-		DynamicDataSource.clearDataSource();
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 		zqMap.put("status", 1);
 		int after = cBondFuturesEODPricesService.queryTotal(zqMap);
@@ -167,11 +160,13 @@ public class WddbTask {
 	/**
 	 * 表CBONDFUTURESPOSITIONS定时任务
 	 * @param param
-	 * 1,在本地查询最近的数据opdate
-	 * 1.1，如果不为空就以插入万德中大于这个日期的数据
-	 * 1.2，如果为空就全量更新
+	 * 1,首次同步 status=1
+	 * 2,非首次同步 
+	 * 2.1,先将status=0的数据删除
+	 * 2.2,本轮同步、本轮同步的数据status=0，
+	 * 2.3,同步完成后将status=1的改为status=0、将status=0的置为1
 	 */
-	public void updateCBondFuturesPositions(String param) {
+	public void updateCBondFuturesPositions(String param, Integer way) {
 		logger.info("我是带参数的cBondFuturesPositions方法，正在被执行，参数为：" + param);
 		Map<String, Object> zqMap = new HashMap<String, Object>();
 		Map<String, Object> wdMap = new HashMap<String, Object>();
@@ -182,7 +177,7 @@ public class WddbTask {
 		log.setFunctionName("queryList,saveBatch,updateStatus,deleteStatus");
 		log.setParam(param);
 		log.setCreateTime(new Date());
-		log.setWay(0);
+		log.setWay(way);
 		log.setReason("用以更新本地万得CBONDFUTURESPOSITIONS数据库表！");
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 		int before = cBondFuturesPositionsService.queryTotal(zqMap);
@@ -203,26 +198,22 @@ public class WddbTask {
 				DynamicDataSource.setDataSource(DataSourceNames.WDDB_SOURCE);
 				list = cBondFuturesPositionsService.queryList(wdMap);
 				DynamicDataSource.clearDataSource();
-				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
-				if (list != null && list.size() > 0) {
-					int pointsDataLimit = 400;// 限制条数
-					Integer size = list.size();
-					if (pointsDataLimit < size) {// 判断是否有必要分批
-						int part = size / pointsDataLimit;// 分批数
-						for (int i = 0; i < part; i++) {
-							List<CBondFuturesPositionsEntity> listPage = list.subList(0, pointsDataLimit);
-							cBondFuturesPositionsService.saveBatch(listPage);
-							list.subList(0, pointsDataLimit).clear();
+				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);			
+				if(list != null && list.size() > 0) {
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					List<CBondFuturesPositionsEntity> saveList = new ArrayList<CBondFuturesPositionsEntity>();
+					for(int i = 0; i < list.size(); i++) {
+						if(i > 0 && i%loopSize == 0) {
+							cBondFuturesPositionsService.saveBatch(saveList);
+							saveList.clear();
+							saveList = new ArrayList<CBondFuturesPositionsEntity>();
 						}
-						if (!list.isEmpty()) {
-							cBondFuturesPositionsService.saveBatch(list);// 最后剩下的数据
-						}
-					} else {
-						cBondFuturesPositionsService.saveBatch(list);
+						saveList.add(list.get(i));
 					}
-				} else {
-					System.out.println("没有数据!!!");
-				}
+					if(saveList.size() > 0) {
+						cBondFuturesPositionsService.saveBatch(saveList);
+					}
+				}	
 				DynamicDataSource.clearDataSource();
 				list.clear();
 				offset = offset + limit;
@@ -237,31 +228,26 @@ public class WddbTask {
 				list = cBondFuturesPositionsService.queryList(wdMap);
 				DynamicDataSource.clearDataSource();
 				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
-				if (list != null && list.size() > 0) {
-					int pointsDataLimit = 400;
-					Integer size = list.size();
-					if (pointsDataLimit < size) {
-						int part = size / pointsDataLimit;
-						for (int i = 0; i < part; i++) {
-							List<CBondFuturesPositionsEntity> listPage = list.subList(0, pointsDataLimit);
-							cBondFuturesPositionsService.firstSaveBatch(listPage);
-							list.subList(0, pointsDataLimit).clear();
+				if(list != null && list.size() > 0) {
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					List<CBondFuturesPositionsEntity> saveList = new ArrayList<CBondFuturesPositionsEntity>();
+					for(int i = 0; i < list.size(); i++) {
+						if(i > 0 && i%loopSize == 0) {
+							cBondFuturesPositionsService.saveBatch(saveList);
+							saveList.clear();
+							saveList = new ArrayList<CBondFuturesPositionsEntity>();
 						}
-						if (!list.isEmpty()) {
-							cBondFuturesPositionsService.firstSaveBatch(list);
-						}
-					} else {
-						cBondFuturesPositionsService.firstSaveBatch(list);
+						saveList.add(list.get(i));
 					}
-				} else {
-					System.out.println("没有数据!!!");
+					if(saveList.size() > 0) {
+						cBondFuturesPositionsService.saveBatch(saveList);
+					}
 				}
 				DynamicDataSource.clearDataSource();
 				list.clear();
 				offset = offset + limit;
 			} while (offset < total);
 		}	
-		DynamicDataSource.clearDataSource();
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 		zqMap.put("status", 1);
 		int after = cBondFuturesPositionsService.queryTotal(zqMap);
@@ -281,11 +267,13 @@ public class WddbTask {
 	/**
 	 * 表CBONDISSUERRATING定时任务
 	 * @param param
-	 * 1,在本地查询最近的数据opdate
-	 * 1.1，如果不为空就以插入万德中大于这个日期的数据
-	 * 1.2，如果为空就全量更新
+	 * 1,首次同步 status=1
+	 * 2,非首次同步 
+	 * 2.1,先将status=0的数据删除
+	 * 2.2,本轮同步、本轮同步的数据status=0，
+	 * 2.3,同步完成后将status=1的改为status=0、将status=0的置为1
 	 */
-	public void updateCBondIssuerRating(String param) {
+	public void updateCBondIssuerRating(String param, Integer way) {
 		logger.info("我是带参数的cBondIssuerRating方法，正在被执行，参数为：" + param);
 		Map<String, Object> zqMap = new HashMap<String, Object>();
 		Map<String, Object> wdMap = new HashMap<String, Object>();
@@ -296,7 +284,7 @@ public class WddbTask {
 		log.setFunctionName("queryList,saveBatch,updateStatus,deleteStatus");
 		log.setParam(param);
 		log.setCreateTime(new Date());
-		log.setWay(0);
+		log.setWay(way);
 		log.setReason("用以更新本地万得CBONDISSUERRATING数据库表！");
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 		int before = cBondIssuerRatingService.queryTotal(zqMap);
@@ -317,26 +305,22 @@ public class WddbTask {
 				DynamicDataSource.setDataSource(DataSourceNames.WDDB_SOURCE);
 				list = cBondIssuerRatingService.queryList(wdMap);
 				DynamicDataSource.clearDataSource();
-				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
-				if (list != null && list.size() > 0) {
-					int pointsDataLimit = 400;// 限制条数
-					Integer size = list.size();
-					if (pointsDataLimit < size) {// 判断是否有必要分批
-						int part = size / pointsDataLimit;// 分批数
-						for (int i = 0; i < part; i++) {
-							List<CBondIssuerRatingEntity> listPage = list.subList(0, pointsDataLimit);
-							cBondIssuerRatingService.saveBatch(listPage);
-							list.subList(0, pointsDataLimit).clear();
+				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);		
+				if(list != null && list.size() > 0) {
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					List<CBondIssuerRatingEntity> saveList = new ArrayList<CBondIssuerRatingEntity>();
+					for(int i = 0; i < list.size(); i++) {
+						if(i > 0 && i%loopSize == 0) {
+							cBondIssuerRatingService.saveBatch(saveList);
+							saveList.clear();
+							saveList = new ArrayList<CBondIssuerRatingEntity>();
 						}
-						if (!list.isEmpty()) {
-							cBondIssuerRatingService.saveBatch(list);// 最后剩下的数据
-						}
-					} else {
-						cBondIssuerRatingService.saveBatch(list);
+						saveList.add(list.get(i));
 					}
-				} else {
-					System.out.println("没有数据!!!");
-				}
+					if(saveList.size() > 0) {
+						cBondIssuerRatingService.saveBatch(saveList);
+					}
+				}				
 				DynamicDataSource.clearDataSource();
 				list.clear();
 				offset = offset + limit;
@@ -351,31 +335,26 @@ public class WddbTask {
 				list = cBondIssuerRatingService.queryList(wdMap);
 				DynamicDataSource.clearDataSource();
 				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
-				if (list != null && list.size() > 0) {
-					int pointsDataLimit = 400;
-					Integer size = list.size();
-					if (pointsDataLimit < size) {
-						int part = size / pointsDataLimit;
-						for (int i = 0; i < part; i++) {
-							List<CBondIssuerRatingEntity> listPage = list.subList(0, pointsDataLimit);
-							cBondIssuerRatingService.firstSaveBatch(listPage);
-							list.subList(0, pointsDataLimit).clear();
+				if(list != null && list.size() > 0) {
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					List<CBondIssuerRatingEntity> saveList = new ArrayList<CBondIssuerRatingEntity>();
+					for(int i = 0; i < list.size(); i++) {
+						if(i > 0 && i%loopSize == 0) {
+							cBondIssuerRatingService.saveBatch(saveList);
+							saveList.clear();
+							saveList = new ArrayList<CBondIssuerRatingEntity>();
 						}
-						if (!list.isEmpty()) {
-							cBondIssuerRatingService.firstSaveBatch(list);
-						}
-					} else {
-						cBondIssuerRatingService.firstSaveBatch(list);
+						saveList.add(list.get(i));
 					}
-				} else {
-					System.out.println("没有数据!!!");
-				}
+					if(saveList.size() > 0) {
+						cBondIssuerRatingService.saveBatch(saveList);
+					}
+				}	
 				DynamicDataSource.clearDataSource();
 				list.clear();
 				offset = offset + limit;
 			} while (offset < total);
 		}	
-		DynamicDataSource.clearDataSource();
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 		zqMap.put("status", 1);
 		int after = cBondIssuerRatingService.queryTotal(zqMap);
@@ -395,11 +374,13 @@ public class WddbTask {
 	/**
 	 * 表CBONDRATING定时任务
 	 * @param param
-	 * 1,在本地查询最近的数据opdate
-	 * 1.1，如果不为空就以插入万德中大于这个日期的数据
-	 * 1.2，如果为空就全量更新
+	 * 1,首次同步 status=1
+	 * 2,非首次同步 
+	 * 2.1,先将status=0的数据删除
+	 * 2.2,本轮同步、本轮同步的数据status=0，
+	 * 2.3,同步完成后将status=1的改为status=0、将status=0的置为1
 	 */
-	public void updateCBondRating(String param) {
+	public void updateCBondRating(String param, Integer way) {
 		logger.info("我是带参数的cBondRating方法，正在被执行，参数为：" + param);
 		Map<String, Object> zqMap = new HashMap<String, Object>();
 		Map<String, Object> wdMap = new HashMap<String, Object>();
@@ -410,7 +391,7 @@ public class WddbTask {
 		log.setFunctionName("queryList,saveBatch,updateStatus,deleteStatus");
 		log.setParam(param);
 		log.setCreateTime(new Date());
-		log.setWay(0);
+		log.setWay(way);
 		log.setReason("用以更新本地万得CBONDRATING数据库表！");
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 		int before = cBondRatingService.queryTotal(zqMap);
@@ -431,26 +412,22 @@ public class WddbTask {
 				DynamicDataSource.setDataSource(DataSourceNames.WDDB_SOURCE);
 				list = cBondRatingService.queryList(wdMap);
 				DynamicDataSource.clearDataSource();
-				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
-				if (list != null && list.size() > 0) {
-					int pointsDataLimit = 400;// 限制条数
-					Integer size = list.size();
-					if (pointsDataLimit < size) {// 判断是否有必要分批
-						int part = size / pointsDataLimit;// 分批数
-						for (int i = 0; i < part; i++) {
-							List<CBondRatingEntity> listPage = list.subList(0, pointsDataLimit);
-							cBondRatingService.saveBatch(listPage);
-							list.subList(0, pointsDataLimit).clear();
+				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);				
+				if(list != null && list.size() > 0) {
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					List<CBondRatingEntity> saveList = new ArrayList<CBondRatingEntity>();
+					for(int i = 0; i < list.size(); i++) {
+						if(i > 0 && i%loopSize == 0) {
+							cBondRatingService.saveBatch(saveList);
+							saveList.clear();
+							saveList = new ArrayList<CBondRatingEntity>();
 						}
-						if (!list.isEmpty()) {
-							cBondRatingService.saveBatch(list);// 最后剩下的数据
-						}
-					} else {
-						cBondRatingService.saveBatch(list);
+						saveList.add(list.get(i));
 					}
-				} else {
-					System.out.println("没有数据!!!");
-				}
+					if(saveList.size() > 0) {
+						cBondRatingService.saveBatch(saveList);
+					}
+				}	
 				DynamicDataSource.clearDataSource();
 				list.clear();
 				offset = offset + limit;
@@ -465,31 +442,26 @@ public class WddbTask {
 				list = cBondRatingService.queryList(wdMap);
 				DynamicDataSource.clearDataSource();
 				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
-				if (list != null && list.size() > 0) {
-					int pointsDataLimit = 400;
-					Integer size = list.size();
-					if (pointsDataLimit < size) {
-						int part = size / pointsDataLimit;
-						for (int i = 0; i < part; i++) {
-							List<CBondRatingEntity> listPage = list.subList(0, pointsDataLimit);
-							cBondRatingService.firstSaveBatch(listPage);
-							list.subList(0, pointsDataLimit).clear();
+				if(list != null && list.size() > 0) {
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					List<CBondRatingEntity> saveList = new ArrayList<CBondRatingEntity>();
+					for(int i = 0; i < list.size(); i++) {
+						if(i > 0 && i%loopSize == 0) {
+							cBondRatingService.saveBatch(saveList);
+							saveList.clear();
+							saveList = new ArrayList<CBondRatingEntity>();
 						}
-						if (!list.isEmpty()) {
-							cBondRatingService.firstSaveBatch(list);
-						}
-					} else {
-						cBondRatingService.firstSaveBatch(list);
+						saveList.add(list.get(i));
 					}
-				} else {
-					System.out.println("没有数据!!!");
-				}
+					if(saveList.size() > 0) {
+						cBondRatingService.saveBatch(saveList);
+					}
+				}	
 				DynamicDataSource.clearDataSource();
 				list.clear();
 				offset = offset + limit;
 			} while (offset < total);
 		}	
-		DynamicDataSource.clearDataSource();
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 		zqMap.put("status", 1);
 		int after = cBondRatingService.queryTotal(zqMap);
@@ -509,11 +481,13 @@ public class WddbTask {
 	/**
 	 * 表CFUTURESDESCRIPTION定时任务
 	 * @param param
-	 * 1,在本地查询最近的数据opdate
-	 * 1.1，如果不为空就以插入万德中大于这个日期的数据
-	 * 1.2，如果为空就全量更新
+	 * 1,首次同步 status=1
+	 * 2,非首次同步 
+	 * 2.1,先将status=0的数据删除
+	 * 2.2,本轮同步、本轮同步的数据status=0，
+	 * 2.3,同步完成后将status=1的改为status=0、将status=0的置为1
 	 */
-	public void updateCFuturesDescription(String param) {
+	public void updateCFuturesDescription(String param, Integer way) {
 		logger.info("我是带参数的cFuturesDescription方法，正在被执行，参数为：" + param);
 		Map<String, Object> zqMap = new HashMap<String, Object>();
 		Map<String, Object> wdMap = new HashMap<String, Object>();
@@ -524,7 +498,7 @@ public class WddbTask {
 		log.setFunctionName("queryList,saveBatch,updateStatus,deleteStatus");
 		log.setParam(param);
 		log.setCreateTime(new Date());
-		log.setWay(0);
+		log.setWay(way);
 		log.setReason("用以更新本地万得CFUTURESDESCRIPTION数据库表！");
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 		int before = cFuturesDescriptionService.queryTotal(zqMap);
@@ -545,26 +519,22 @@ public class WddbTask {
 				DynamicDataSource.setDataSource(DataSourceNames.WDDB_SOURCE);
 				list = cFuturesDescriptionService.queryList(wdMap);
 				DynamicDataSource.clearDataSource();
-				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
-				if (list != null && list.size() > 0) {
-					int pointsDataLimit = 400;// 限制条数
-					Integer size = list.size();
-					if (pointsDataLimit < size) {// 判断是否有必要分批
-						int part = size / pointsDataLimit;// 分批数
-						for (int i = 0; i < part; i++) {
-							List<CFuturesDescriptionEntity> listPage = list.subList(0, pointsDataLimit);
-							cFuturesDescriptionService.saveBatch(listPage);
-							list.subList(0, pointsDataLimit).clear();
+				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);			
+				if(list != null && list.size() > 0) {
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					List<CFuturesDescriptionEntity> saveList = new ArrayList<CFuturesDescriptionEntity>();
+					for(int i = 0; i < list.size(); i++) {
+						if(i > 0 && i%loopSize == 0) {
+							cFuturesDescriptionService.saveBatch(saveList);
+							saveList.clear();
+							saveList = new ArrayList<CFuturesDescriptionEntity>();
 						}
-						if (!list.isEmpty()) {
-							cFuturesDescriptionService.saveBatch(list);// 最后剩下的数据
-						}
-					} else {
-						cFuturesDescriptionService.saveBatch(list);
+						saveList.add(list.get(i));
 					}
-				} else {
-					System.out.println("没有数据!!!");
-				}
+					if(saveList.size() > 0) {
+						cFuturesDescriptionService.saveBatch(saveList);
+					}
+				}	
 				DynamicDataSource.clearDataSource();
 				list.clear();
 				offset = offset + limit;
@@ -579,31 +549,26 @@ public class WddbTask {
 				list = cFuturesDescriptionService.queryList(wdMap);
 				DynamicDataSource.clearDataSource();
 				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
-				if (list != null && list.size() > 0) {
-					int pointsDataLimit = 400;
-					Integer size = list.size();
-					if (pointsDataLimit < size) {
-						int part = size / pointsDataLimit;
-						for (int i = 0; i < part; i++) {
-							List<CFuturesDescriptionEntity> listPage = list.subList(0, pointsDataLimit);
-							cFuturesDescriptionService.firstSaveBatch(listPage);
-							list.subList(0, pointsDataLimit).clear();
+				if(list != null && list.size() > 0) {
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					List<CFuturesDescriptionEntity> saveList = new ArrayList<CFuturesDescriptionEntity>();
+					for(int i = 0; i < list.size(); i++) {
+						if(i > 0 && i%loopSize == 0) {
+							cFuturesDescriptionService.saveBatch(saveList);
+							saveList.clear();
+							saveList = new ArrayList<CFuturesDescriptionEntity>();
 						}
-						if (!list.isEmpty()) {
-							cFuturesDescriptionService.firstSaveBatch(list);
-						}
-					} else {
-						cFuturesDescriptionService.firstSaveBatch(list);
+						saveList.add(list.get(i));
 					}
-				} else {
-					System.out.println("没有数据!!!");
+					if(saveList.size() > 0) {
+						cFuturesDescriptionService.saveBatch(saveList);
+					}
 				}
 				DynamicDataSource.clearDataSource();
 				list.clear();
 				offset = offset + limit;
 			} while (offset < total);
 		}	
-		DynamicDataSource.clearDataSource();
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 		zqMap.put("status", 1);
 		int after = cFuturesDescriptionService.queryTotal(zqMap);

@@ -1,5 +1,6 @@
 package io.renren.modules.job.task;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import io.renren.common.utils.ReadYml;
 import io.renren.datasources.DataSourceNames;
 import io.renren.datasources.DynamicDataSource;
 import io.renren.modules.ht.entity.TBNDEntity;
@@ -42,11 +44,14 @@ public class HtdbTask {
 
 	/**
 	 * 表TCALENDAR_DATES定时任务
-	 * 
 	 * @param param
-	 *            查询所有数据并更新 1，查询衡泰数据库 2，删除本地表数据，插入本地表
+	 * 1,首次同步 status=1
+	 * 2,非首次同步 
+	 * 2.1,先将status=0的数据删除
+	 * 2.2,本轮同步、本轮同步的数据status=0，
+	 * 2.3,同步完成后将status=1的改为status=0、将status=0的置为1
 	 */
-	public void updateTCalendarDates(String param) {
+	public void updateTCalendarDates(String param, Integer way) {
 		logger.info("我是带参数的tCalendarDates方法，正在被执行，参数为：" + param);
 		Map<String, Object> zqMap = new HashMap<String, Object>();
 		Map<String, Object> htMap = new HashMap<String, Object>();
@@ -57,7 +62,7 @@ public class HtdbTask {
 		log.setFunctionName("queryList,saveBatch,updateStatus,deleteStatus");
 		log.setParam(param);
 		log.setCreateTime(new Date());
-		log.setWay(0);
+		log.setWay(way);
 		log.setReason("用以更新本地衡泰TCALENDAR_DATES数据库表！");
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 		int before = tCalendarDatesService.queryTotal(zqMap);
@@ -78,25 +83,21 @@ public class HtdbTask {
 				DynamicDataSource.setDataSource(DataSourceNames.HTDB_SOURCE);
 				list = tCalendarDatesService.queryList(htMap);
 				DynamicDataSource.clearDataSource();
-				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
-				if (list != null && list.size() > 0) {
-					int pointsDataLimit = 400;// 限制条数
-					Integer size = list.size();
-					if (pointsDataLimit < size) {// 判断是否有必要分批
-						int part = size / pointsDataLimit;// 分批数
-						for (int i = 0; i < part; i++) {
-							List<TCalendarDatesEntity> listPage = list.subList(0, pointsDataLimit);
-							tCalendarDatesService.saveBatch(listPage);
-							list.subList(0, pointsDataLimit).clear();
+				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);				
+				if(list != null && list.size() > 0) {
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					List<TCalendarDatesEntity> saveList = new ArrayList<TCalendarDatesEntity>();
+					for(int i = 0; i < list.size(); i++) {
+						if(i > 0 && i%loopSize == 0) {
+							tCalendarDatesService.saveBatch(saveList);
+							saveList.clear();
+							saveList = new ArrayList<TCalendarDatesEntity>();
 						}
-						if (!list.isEmpty()) {
-							tCalendarDatesService.saveBatch(list);// 最后剩下的数据
-						}
-					} else {
-						tCalendarDatesService.saveBatch(list);
+						saveList.add(list.get(i));
 					}
-				} else {
-					System.out.println("没有数据!!!");
+					if(saveList.size() > 0) {
+						tCalendarDatesService.saveBatch(saveList);
+					}
 				}
 				DynamicDataSource.clearDataSource();
 				list.clear();
@@ -112,31 +113,26 @@ public class HtdbTask {
 				list = tCalendarDatesService.queryList(htMap);
 				DynamicDataSource.clearDataSource();
 				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
-				if (list != null && list.size() > 0) {
-					int pointsDataLimit = 400;
-					Integer size = list.size();
-					if (pointsDataLimit < size) {
-						int part = size / pointsDataLimit;
-						for (int i = 0; i < part; i++) {
-							List<TCalendarDatesEntity> listPage = list.subList(0, pointsDataLimit);
-							tCalendarDatesService.firstSaveBatch(listPage);
-							list.subList(0, pointsDataLimit).clear();
+				if(list != null && list.size() > 0) {
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					List<TCalendarDatesEntity> saveList = new ArrayList<TCalendarDatesEntity>();
+					for(int i = 0; i < list.size(); i++) {
+						if(i > 0 && i%loopSize == 0) {
+							tCalendarDatesService.saveBatch(saveList);
+							saveList.clear();
+							saveList = new ArrayList<TCalendarDatesEntity>();
 						}
-						if (!list.isEmpty()) {
-							tCalendarDatesService.firstSaveBatch(list);
-						}
-					} else {
-						tCalendarDatesService.firstSaveBatch(list);
+						saveList.add(list.get(i));
 					}
-				} else {
-					System.out.println("没有数据!!!");
+					if(saveList.size() > 0) {
+						tCalendarDatesService.saveBatch(saveList);
+					}
 				}
 				DynamicDataSource.clearDataSource();
 				list.clear();
 				offset = offset + limit;
 			} while (offset < total);
 		}	
-		DynamicDataSource.clearDataSource();
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 		zqMap.put("status", 1);
 		int after = tCalendarDatesService.queryTotal(zqMap);
@@ -156,11 +152,14 @@ public class HtdbTask {
 
 	/**
 	 * 表TBND定时任务
-	 * 
 	 * @param param
-	 *  1,在本地查询最近的数据IMP_TIME 1.1，如果不为空就以插入衡泰中大于这个日期的数据 1.2，如果为空就全量更新
+	 * 1,首次同步 status=1
+	 * 2,非首次同步 
+	 * 2.1,先将status=0的数据删除
+	 * 2.2,本轮同步、本轮同步的数据status=0，
+	 * 2.3,同步完成后将status=1的改为status=0、将status=0的置为1
 	 */
-	public void updateTBND(String param) {		
+	public void updateTBND(String param, Integer way) {		
 		logger.info("我是带参数的tBND方法，正在被执行，参数为：" + param);
 		Map<String, Object> zqMap = new HashMap<String, Object>();
 		Map<String, Object> htMap = new HashMap<String, Object>();
@@ -171,7 +170,7 @@ public class HtdbTask {
 		log.setFunctionName("queryList,saveBatch,updateStatus,deleteStatus");
 		log.setParam(param);
 		log.setCreateTime(new Date());
-		log.setWay(0);
+		log.setWay(way);
 		log.setReason("用以更新本地衡泰TBND数据库表！");
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 		int before = tBNDService.queryTotal(zqMap);
@@ -192,25 +191,21 @@ public class HtdbTask {
 				DynamicDataSource.setDataSource(DataSourceNames.HTDB_SOURCE);
 				list = tBNDService.queryList(htMap);
 				DynamicDataSource.clearDataSource();
-				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
-				if (list != null && list.size() > 0) {
-					int pointsDataLimit = 400;// 限制条数
-					Integer size = list.size();
-					if (pointsDataLimit < size) {// 判断是否有必要分批
-						int part = size / pointsDataLimit;// 分批数
-						for (int i = 0; i < part; i++) {
-							List<TBNDEntity> listPage = list.subList(0, pointsDataLimit);
-							tBNDService.saveBatch(listPage);
-							list.subList(0, pointsDataLimit).clear();
+				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);			
+				if(list != null && list.size() > 0) {
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					List<TBNDEntity> saveList = new ArrayList<TBNDEntity>();
+					for(int i = 0; i < list.size(); i++) {
+						if(i > 0 && i%loopSize == 0) {
+							tBNDService.saveBatch(saveList);
+							saveList.clear();
+							saveList = new ArrayList<TBNDEntity>();
 						}
-						if (!list.isEmpty()) {
-							tBNDService.saveBatch(list);// 最后剩下的数据
-						}
-					} else {
-						tBNDService.saveBatch(list);
+						saveList.add(list.get(i));
 					}
-				} else {
-					System.out.println("没有数据!!!");
+					if(saveList.size() > 0) {
+						tBNDService.saveBatch(saveList);
+					}
 				}
 				DynamicDataSource.clearDataSource();
 				list.clear();
@@ -226,31 +221,26 @@ public class HtdbTask {
 				list = tBNDService.queryList(htMap);
 				DynamicDataSource.clearDataSource();
 				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
-				if (list != null && list.size() > 0) {
-					int pointsDataLimit = 400;
-					Integer size = list.size();
-					if (pointsDataLimit < size) {
-						int part = size / pointsDataLimit;
-						for (int i = 0; i < part; i++) {
-							List<TBNDEntity> listPage = list.subList(0, pointsDataLimit);
-							tBNDService.firstSaveBatch(listPage);
-							list.subList(0, pointsDataLimit).clear();
+				if(list != null && list.size() > 0) {
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					List<TBNDEntity> saveList = new ArrayList<TBNDEntity>();
+					for(int i = 0; i < list.size(); i++) {
+						if(i > 0 && i%loopSize == 0) {
+							tBNDService.saveBatch(saveList);
+							saveList.clear();
+							saveList = new ArrayList<TBNDEntity>();
 						}
-						if (!list.isEmpty()) {
-							tBNDService.firstSaveBatch(list);
-						}
-					} else {
-						tBNDService.firstSaveBatch(list);
+						saveList.add(list.get(i));
 					}
-				} else {
-					System.out.println("没有数据!!!");
+					if(saveList.size() > 0) {
+						tBNDService.saveBatch(saveList);
+					}
 				}
 				DynamicDataSource.clearDataSource();
 				list.clear();
 				offset = offset + limit;
 			} while (offset < total);
 		}	
-		DynamicDataSource.clearDataSource();
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 		zqMap.put("status", 1);
 		int after = tBNDService.queryTotal(zqMap);
@@ -270,12 +260,14 @@ public class HtdbTask {
 
 	/**
 	 * 表TTRD_CMDS_EXECUTIONREPORT定时任务
-	 * 
 	 * @param param
-	 * 1,在本地查询最近的数据trddate,trdtime 1.1，如果不为空就以插入衡泰中大于这个日期的数据
-	 * 1.2，如果为空就全量更新
+	 * 1,首次同步 status=1
+	 * 2,非首次同步 
+	 * 2.1,先将status=0的数据删除
+	 * 2.2,本轮同步、本轮同步的数据status=0，
+	 * 2.3,同步完成后将status=1的改为status=0、将status=0的置为1
 	 */
-	public void updateTtrdCmdsExecutionreport(String param) {
+	public void updateTtrdCmdsExecutionreport(String param, Integer way) {
 		logger.info("我是带参数的updateTtrdCmdsExecutionreport方法，正在被执行，参数为：" + param);
 		Map<String, Object> zqMap = new HashMap<String, Object>();
 		Map<String, Object> htMap = new HashMap<String, Object>();
@@ -286,7 +278,7 @@ public class HtdbTask {
 		log.setFunctionName("queryList,saveBatch,updateStatus,deleteStatus");
 		log.setParam(param);
 		log.setCreateTime(new Date());
-		log.setWay(0);
+		log.setWay(way);
 		log.setReason("用以更新本地衡泰TTRD_CMDS_EXECUTIONREPORT数据库表！");
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 		int before = ttrdCmdsExecutionreportService.queryTotal(zqMap);
@@ -307,25 +299,21 @@ public class HtdbTask {
 				DynamicDataSource.setDataSource(DataSourceNames.HTDB_SOURCE);
 				list = ttrdCmdsExecutionreportService.queryList(htMap);
 				DynamicDataSource.clearDataSource();
-				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
-				if (list != null && list.size() > 0) {
-					int pointsDataLimit = 400;// 限制条数
-					Integer size = list.size();
-					if (pointsDataLimit < size) {// 判断是否有必要分批
-						int part = size / pointsDataLimit;// 分批数
-						for (int i = 0; i < part; i++) {
-							List<TtrdCmdsExecutionreportEntity> listPage = list.subList(0, pointsDataLimit);
-							ttrdCmdsExecutionreportService.saveBatch(listPage);
-							list.subList(0, pointsDataLimit).clear();
+				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);			
+				if(list != null && list.size() > 0) {
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					List<TtrdCmdsExecutionreportEntity> saveList = new ArrayList<TtrdCmdsExecutionreportEntity>();
+					for(int i = 0; i < list.size(); i++) {
+						if(i > 0 && i%loopSize == 0) {
+							ttrdCmdsExecutionreportService.saveBatch(saveList);
+							saveList.clear();
+							saveList = new ArrayList<TtrdCmdsExecutionreportEntity>();
 						}
-						if (!list.isEmpty()) {
-							ttrdCmdsExecutionreportService.saveBatch(list);// 最后剩下的数据
-						}
-					} else {
-						ttrdCmdsExecutionreportService.saveBatch(list);
+						saveList.add(list.get(i));
 					}
-				} else {
-					System.out.println("没有数据!!!");
+					if(saveList.size() > 0) {
+						ttrdCmdsExecutionreportService.saveBatch(saveList);
+					}
 				}
 				DynamicDataSource.clearDataSource();
 				list.clear();
@@ -341,31 +329,26 @@ public class HtdbTask {
 				list = ttrdCmdsExecutionreportService.queryList(htMap);
 				DynamicDataSource.clearDataSource();
 				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
-				if (list != null && list.size() > 0) {
-					int pointsDataLimit = 400;
-					Integer size = list.size();
-					if (pointsDataLimit < size) {
-						int part = size / pointsDataLimit;
-						for (int i = 0; i < part; i++) {
-							List<TtrdCmdsExecutionreportEntity> listPage = list.subList(0, pointsDataLimit);
-							ttrdCmdsExecutionreportService.firstSaveBatch(listPage);
-							list.subList(0, pointsDataLimit).clear();
+				if(list != null && list.size() > 0) {
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					List<TtrdCmdsExecutionreportEntity> saveList = new ArrayList<TtrdCmdsExecutionreportEntity>();
+					for(int i = 0; i < list.size(); i++) {
+						if(i > 0 && i%loopSize == 0) {
+							ttrdCmdsExecutionreportService.saveBatch(saveList);
+							saveList.clear();
+							saveList = new ArrayList<TtrdCmdsExecutionreportEntity>();
 						}
-						if (!list.isEmpty()) {
-							ttrdCmdsExecutionreportService.firstSaveBatch(list);
-						}
-					} else {
-						ttrdCmdsExecutionreportService.firstSaveBatch(list);
+						saveList.add(list.get(i));
 					}
-				} else {
-					System.out.println("没有数据!!!");
+					if(saveList.size() > 0) {
+						ttrdCmdsExecutionreportService.saveBatch(saveList);
+					}
 				}
 				DynamicDataSource.clearDataSource();
 				list.clear();
 				offset = offset + limit;
 			} while (offset < total);
 		}	
-		DynamicDataSource.clearDataSource();
 		DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 		zqMap.put("status", 1);
 		int after = ttrdCmdsExecutionreportService.queryTotal(zqMap);

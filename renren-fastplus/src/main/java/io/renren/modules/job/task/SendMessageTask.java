@@ -41,9 +41,8 @@ public class SendMessageTask {
 	@Autowired
 	private UsersService usersService;
 	private Logger logger = LoggerFactory.getLogger(getClass());
-	// 获取spring bean
-	SyncPushLogService syncPushLogService = (SyncPushLogService) SpringContextUtils.getBean("syncPushLogService");
-
+	@Autowired
+	private SyncPushLogService syncPushLogService;
 	/**
 	 * 1.3接口返回
 	 * 
@@ -56,7 +55,7 @@ public class SendMessageTask {
 	 * 2.3,invaliduser不为空invalidparty为空，有部门获取消息失败
 	 * 2.3,invaliduser和invalidparty都为空，获取消息都成功 3，返回结果不为空，返回的obj为空时，获取消息失败
 	 */
-	public Map<String, Object>  sendPushdMessage(String param) {
+	public Map<String, Object>  sendPushdMessage(String param , Integer way) {
 		logger.info("我是带参数的senPushdMessage方法，正在被执行，参数为：" + param);
 		//String strResult = HttpClientUtils.doPost(url, param, true);
 		// 测试
@@ -72,8 +71,7 @@ public class SendMessageTask {
 		log.setCreateTime(new Date());
 		log.setParam(param);
 		log.setReason("需要使用" + name + "的接口，推送新闻");
-		// 同步方式，0-定时，-1手动 ???
-		log.setWay(-1);
+		log.setWay(way);
 		if (result == null) {
 			log.setResult(-1);
 			log.setResultDesc("消息推送失败,接收数据为空！");
@@ -120,8 +118,8 @@ public class SendMessageTask {
 		resultMap.put("resultStr", back.toString());
 		return resultMap;
 	}
-	public void saveThenPush() {
+	public void saveThenPush(String param, Integer way) {
 		String prams = "";
-		sendPushdMessage(prams);
+		sendPushdMessage(prams , way);
 	}
 }

@@ -36,10 +36,11 @@ public class ScheduleJob extends QuartzJobBean {
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		String jsonJob = context.getMergedJobDataMap().getString(ScheduleJobEntity.JOB_PARAM_KEY);
 		ScheduleJobEntity scheduleJob = new Gson().fromJson(jsonJob, ScheduleJobEntity.class);
+		Integer way = context.getMergedJobDataMap().getString("way").equals("0") ? 0 : 1;
 		TCalendarDatesService tCalendarDatesService = (TCalendarDatesService) SpringContextUtils.getBean("tCalendarDatesService");
 		//待修改
 		if(scheduleJob.getParams().equals(ReadYml.getMl("JOB_SEND_WX_TRADE_DAY"))) {
-			
+			return;
 		}
 		//获取spring bean
         ScheduleJobLogService scheduleJobLogService = (ScheduleJobLogService) SpringContextUtils.getBean("scheduleJobLogService");
@@ -59,7 +60,7 @@ public class ScheduleJob extends QuartzJobBean {
             //执行任务
         	logger.info("任务准备执行，任务ID：" + scheduleJob.getJobId());
             ScheduleRunnable task = new ScheduleRunnable(scheduleJob.getBeanName(), 
-            		scheduleJob.getMethodName(), scheduleJob.getParams(), scheduleJob.getJobId());
+            		scheduleJob.getMethodName(), scheduleJob.getParams(), scheduleJob.getJobId(), way);
             Future<?> future = service.submit(task);
             
 			future.get();

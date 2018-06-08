@@ -1,5 +1,6 @@
 package io.renren.modules.job.task;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,7 @@ import io.renren.modules.job.service.DepartmentService;
 import io.renren.modules.job.service.SyncPushLogService;
 import io.renren.common.utils.GsonUtils;
 import io.renren.common.utils.HttpClientUtils;
+import io.renren.common.utils.ReadYml;
 
 /**
  * 定时任务接收部门信息
@@ -39,8 +41,8 @@ public class GetDepartmentTask {
 	@Autowired
 	private DepartmentService departmentService;
 	private Logger logger = LoggerFactory.getLogger(getClass());
-	//获取spring bean
-	SyncPushLogService syncPushLogService = (SyncPushLogService) SpringContextUtils.getBean("syncPushLogService");
+	@Autowired
+	private SyncPushLogService syncPushLogService;
 	/**
 	 * 1.1接口返回
 	 * @param param 入参
@@ -49,7 +51,7 @@ public class GetDepartmentTask {
 	 * 2，如果返回结果状态为1，获取部门信息成功，否则就失败
 	 * 3,成功就讲数据存入department表
 	 */
-	public void getDepartmentInformation(String param) {
+	public void getDepartmentInformation(String param ,Integer way) {
 		logger.info("我是带参数的getDepartmentInformation方法，正在被执行，参数为：" + param);
 		Map<String, String> paramMap = new HashMap<String, String>();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -67,8 +69,7 @@ public class GetDepartmentTask {
 			log.setParam(paramName + "=" + param);
 			log.setCreateTime(new Date());
 			log.setReason("需要使用" + name + "接口，用以获取数据");
-			//同步方式，0-定时，-1手动 ???
-			log.setWay(-1);		
+			log.setWay(way);		
 			//如果获取数据为空就将返回结果状态置为-1
 			if(result == null) {
 				log.setResult(0);
@@ -83,44 +84,36 @@ public class GetDepartmentTask {
 						if(before > 0 ) {
 							if(list != null && list.size() > 0) {
 								departmentService.deleteStatus();
-								int pointsDataLimit = 400;// 限制条数
-								Integer size = list.size();
-								if (pointsDataLimit < size) {// 判断是否有必要分批
-									int part = size / pointsDataLimit;// 分批数
-									for (int i = 0; i < part; i++) {
-										List<DepartmentEntity> listPage = list.subList(0, pointsDataLimit);
-										departmentService.saveBatch(listPage);
-										list.subList(0, pointsDataLimit).clear();
+								int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+								List<DepartmentEntity> saveList = new ArrayList<DepartmentEntity>();
+								for(int i = 0; i < list.size(); i++) {
+									if(i > 0 && i%loopSize == 0) {
+										departmentService.saveBatch(saveList);
+										saveList.clear();
+										saveList = new ArrayList<DepartmentEntity>();
 									}
-									if (!list.isEmpty()) {
-										departmentService.saveBatch(list);// 最后剩下的数据
-									}
-								} else {
-									departmentService.saveBatch(list);
+									saveList.add(list.get(i));
 								}
-							} else {
-								System.out.println("没有数据!!!");
+								if(saveList.size() > 0) {
+									departmentService.saveBatch(saveList);
+								}
 							}
 							departmentService.updateStatus();
 						}else {
-							if (list != null && list.size() > 0) {
-								int pointsDataLimit = 400;// 限制条数
-								Integer size = list.size();
-								if (pointsDataLimit < size) {// 判断是否有必要分批
-									int part = size / pointsDataLimit;// 分批数
-									for (int i = 0; i < part; i++) {
-										List<DepartmentEntity> listPage = list.subList(0, pointsDataLimit);
-										departmentService.firstSaveBatch(listPage);;
-										list.subList(0, pointsDataLimit).clear();
+							if(list != null && list.size() > 0) {
+								int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+								List<DepartmentEntity> saveList = new ArrayList<DepartmentEntity>();
+								for(int i = 0; i < list.size(); i++) {
+									if(i > 0 && i%loopSize == 0) {
+										departmentService.saveBatch(saveList);
+										saveList.clear();
+										saveList = new ArrayList<DepartmentEntity>();
 									}
-									if (!list.isEmpty()) {
-										departmentService.firstSaveBatch(list);// 最后剩下的数据
-									}
-								} else {
-									departmentService.firstSaveBatch(list);
+									saveList.add(list.get(i));
 								}
-							} else {
-								System.out.println("没有数据!!!");
+								if(saveList.size() > 0) {
+									departmentService.saveBatch(saveList);
+								}
 							}
 						}
 						map.put("status", 1);

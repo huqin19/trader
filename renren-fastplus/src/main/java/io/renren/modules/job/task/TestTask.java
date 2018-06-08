@@ -36,9 +36,8 @@ public class TestTask {
 	private String url;
 	@Value("${api.send-message.param-name}")
 	private String paramName;
-	public void test(String params, Long jobid){
-		System.out.println(params + "=============" + jobid+"----------------------");
-		System.out.println();
+	public void test(String params, Integer way){
+		System.out.println(params + "=============" + way+"----------------------");
 	}
 	
 	

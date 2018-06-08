@@ -20,17 +20,17 @@ public class ScheduleRunnable implements Runnable {
 	private Method method;
 	private String params;
 	private Long jobId;
-	
-	public ScheduleRunnable(String beanName, String methodName, String params, Long jobId) throws NoSuchMethodException, SecurityException {
+	private Integer way;
+	public ScheduleRunnable(String beanName, String methodName, String params, Long jobId, Integer way) throws NoSuchMethodException, SecurityException {
 		this.target = SpringContextUtils.getBean(beanName);
 		this.params = params;
 		this.jobId = jobId;
-		
+		this.way = way;
 		if(StringUtils.isNotBlank(params)){
 			if(params.equals(ReadYml.getMl("JOB_SEND_WX")) || params.equals(ReadYml.getMl("JOB_SEND_WX_TRADE_DAY"))) {
-				this.method = target.getClass().getDeclaredMethod(methodName, String.class, Long.class);
+				this.method = target.getClass().getDeclaredMethod(methodName, String.class, Long.class, Integer.class);
 			}else {
-				this.method = target.getClass().getDeclaredMethod(methodName, String.class);
+				this.method = target.getClass().getDeclaredMethod(methodName, String.class,Integer.class);
 			}
 		}else{
 			this.method = target.getClass().getDeclaredMethod(methodName);
@@ -43,9 +43,9 @@ public class ScheduleRunnable implements Runnable {
 			ReflectionUtils.makeAccessible(method);
 			if(StringUtils.isNotBlank(params)){
 				if(params.equals(ReadYml.getMl("JOB_SEND_WX")) || params.equals(ReadYml.getMl("JOB_SEND_WX_TRADE_DAY"))) {
-					method.invoke(target, params, jobId);
+					method.invoke(target, params, jobId, way);
 				}else {
-					method.invoke(target, params);
+					method.invoke(target, params, way);
 				}
 			}else{
 				method.invoke(target, jobId);
