@@ -10,6 +10,11 @@
 	</delete>
 	<select id="queryTotal" parameterType="java.util.HashMap" resultType="int">
 		select count(1) from ${tableName} 
+				<where>
+             		<if test="status !=null ">
+						status = #{status}
+               		</if>
+        		</where> 
     </select>
     <select id="queryLatest" parameterType="java.util.HashMap" resultType="io.renren.modules.ht.entity.TBNDEntity">
         select * from ${tableName} 

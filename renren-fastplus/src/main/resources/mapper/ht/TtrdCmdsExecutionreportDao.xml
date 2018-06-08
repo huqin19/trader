@@ -28,7 +28,7 @@
 		delete from TTRD_CMDS_EXECUTIONREPORT
 	</delete>
 	<select id="queryTotal" resultType="int">
-		select count(1) from TTRD_CMDS_EXECUTIONREPORT
+		select count(1) from ${tableName}
 			   <where>
              		<if test="status !=null ">
 						status = #{status}

@@ -46,7 +46,12 @@
 			select * from (select * from ${tableName} order by opdate desc) where rownum=1 
     </select>
     <select id="queryTotal" parameterType="java.util.HashMap" resultType="int">
-			select count(*) from ${tableName} 
+			select count(*) from ${tableName}
+				<where>
+             		<if test="status !=null ">
+						status = #{status}
+               		</if>
+        		</where>  
     </select>
 	<delete id="deleteAll">
 		delete from CBONDFUTURESEODPRICES

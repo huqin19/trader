@@ -6,7 +6,12 @@
 		select * from ${tableName}
 	</select> 	
 	<select id="queryTotal" parameterType="java.util.HashMap" resultType="int">
-			select count(1) from ${tableName} 
+			select count(1) from ${tableName}
+				<where>
+             		<if test="status !=null ">
+						status = #{status}
+               		</if>
+        		</where>  
     </select>
     <select id="queryList" parameterType="java.util.HashMap" resultType="io.renren.modules.wd.entity.CFuturesDescriptionEntity">
 		select 
