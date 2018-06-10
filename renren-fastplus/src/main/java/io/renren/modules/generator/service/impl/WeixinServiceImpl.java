@@ -1,5 +1,6 @@
 package io.renren.modules.generator.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import io.renren.modules.generator.dao.WeixinDao;
 import io.renren.modules.generator.dao.ZqSheetsDao;
 import io.renren.modules.generator.entity.WeixinEntity;
+import io.renren.modules.generator.entity.ZqSheetsEntity;
 import io.renren.modules.generator.service.WeixinService;
 
 
@@ -31,4 +33,8 @@ public class WeixinServiceImpl implements WeixinService {
 		return zqSheetsDao.querySheetList(map);
 	}
 
+	@Override
+	public ZqSheetsEntity queryZqSheetsObject(BigDecimal objectId) {
+		return zqSheetsDao.queryObject(objectId);
+	}
 }

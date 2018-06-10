@@ -34,6 +34,10 @@
 		</where>
 	</select>
 	
+	<select id="queryObject" resultType="io.renren.modules.generator.entity.ZqSheetsEntity">
+		select * from zq_sheets where OBJECT_ID = #{value}
+	</select>
+	
 	<select id="querySheetList" resultType="io.renren.modules.generator.entity.WeixinEntity" >
 		select 
 			DISTINCT object_id as id, 

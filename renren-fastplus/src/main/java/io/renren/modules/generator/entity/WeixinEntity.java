@@ -28,6 +28,7 @@ public class WeixinEntity implements Serializable {
 	
 	private String[] titleArr;
 	private String[] newtreeName;
+	private String sheetDate; //推送的日报日期
 	
 	public String getId() {
 		return id;
@@ -91,6 +92,14 @@ public class WeixinEntity implements Serializable {
 
 	public void setNewtreeName(String[] newtreeName) {
 		this.newtreeName = newtreeName;
+	}
+
+	public String getSheetDate() {
+		return sheetDate;
+	}
+
+	public void setSheetDate(String sheetDate) {
+		this.sheetDate = sheetDate;
 	}
 	
 }

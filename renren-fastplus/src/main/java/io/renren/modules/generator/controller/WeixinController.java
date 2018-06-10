@@ -1,7 +1,7 @@
 package io.renren.modules.generator.controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +19,7 @@ import io.renren.common.utils.GsonUtils;
 import io.renren.common.utils.R;
 import io.renren.common.utils.ReadYml;
 import io.renren.modules.generator.entity.WeixinEntity;
+import io.renren.modules.generator.entity.ZqSheetsEntity;
 import io.renren.modules.generator.service.WeixinService;
 import io.renren.modules.job.entity.Content;
 import io.renren.modules.job.entity.MessageEntity;
@@ -81,16 +82,22 @@ public class WeixinController {
 			if (null != weixinEntity.getTitleArr() && weixinEntity.getTitleArr().length > 0) {
 				for (String x : weixinEntity.getTitleArr()) {
 					Content con = new Content();
-					String date = DateUtils.format(new Date());
-					String type = x.trim().equals("银行间每日债券借贷") ? "1" : (x.trim().equals("国债期货当日结算价") ? "2" : "3");
-					con.setDescription(x);
-					con.setTitle(x + "[" + DateUtils.format(date, DateUtils.DATE_PATTERN) + "]");
-					con.setPicurl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_ADDRESS")+
-							"/tfs/TB1e58ksHSYBuNjSspiXXXNzpXa-290-130.gif");
-					con.setUrl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_ADDRESS")
-							+"/renren-fastplus/modules/generator/weixin.html" + "?dt=" + date
-							+ "&stype=" + type);
-					content.add(con);
+//					String date = DateUtils.format(new Date());
+//					String type = x.trim().equals("银行间每日债券借贷") ? "1" : (x.trim().equals("国债期货当日结算价") ? "2" : "3");
+					//从日报表中获取日报名称和url
+					String date = weixinEntity.getSheetDate();
+					String type = x;
+					ZqSheetsEntity zqSheetsEntity = weixinService.queryZqSheetsObject(new BigDecimal(x));
+					if(null != zqSheetsEntity) {
+						con.setDescription(zqSheetsEntity.getSheetName());
+						con.setTitle(zqSheetsEntity.getSheetName() + "[" + DateUtils.format(date, DateUtils.DATE_PATTERN) + "]");
+						con.setPicurl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_ADDRESS")+
+								"/tfs/TB1e58ksHSYBuNjSspiXXXNzpXa-290-130.gif");
+						con.setUrl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_ADDRESS")
+								+ zqSheetsEntity.getSheetUrl() + "?dt=" + date + "&stype=" + type);
+						content.add(con);
+					}
+					
 				}
 			}
 			if (null != weixinEntity.getNewtreeName() && weixinEntity.getNewtreeName().length > 0) {
