@@ -318,10 +318,16 @@ function selData() {
 				    		}
 				    	   strTd += "<td>" + item.fsInfoRank + "</td>" +
 						    		"<td>" + item.cSmem + "</td>" +
-						    		"<td>" + item.cSl + "</td>" +
-						    		"<td>" + item.cSlbh + "</td>" +
-					    		"</tr>";
-					})  
+						    		"<td>" + item.cSl + "</td>";
+				    	   if(parseFloat(item.cSlbh) > 0){
+				    		   strTd += "<td><font color='#ff0000'>" + item.cSlbh + "<font></td>"
+				    	   }else if(parseFloat(item.cSlbh) < 0){
+				    		   strTd += "<td><font color='#008000'>" + item.cSlbh + "<font></td>"
+				    	   }else{
+				    		   strTd += "<td>" + item.cSlbh + "</td>"
+				    	   }
+						   strTd += "</tr>";
+					});  
 					$("#tdName").html(strTd);
 					
 					$("#nameX").text("合约名称：");
