@@ -86,7 +86,7 @@ public class WeixinController {
 //					String date = DateUtils.format(new Date());
 //					String type = x.trim().equals("银行间每日债券借贷") ? "1" : (x.trim().equals("国债期货当日结算价") ? "2" : "3");
 					//从日报表中获取日报名称和url
-					String date = DateUtils.format( weixinEntity.getSheetDate(), DateUtils.DATE_PATTERN);
+					String date = DateUtils.format( weixinEntity.getSheetDate(), DateUtils.DATE_PATTERN,DateUtils.DATE_PATTERN);
 					String type = x;
 					ZqSheetsEntity zqSheetsEntity = weixinService.queryZqSheetsObject(new BigDecimal(x));
 					if(null != zqSheetsEntity) {

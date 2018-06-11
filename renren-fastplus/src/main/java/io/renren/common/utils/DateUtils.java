@@ -23,16 +23,17 @@ public class DateUtils {
 	public static String format(Date date) {
         return format(date, DATE_PATTERN);
     }
-	public static String format(String dateStr,String pattern) {
+	public static String format(String dateStr,String after,String before) {
 		if(dateStr != null && dateStr.trim() != ""){
 			Date date =null;
-			SimpleDateFormat df = new SimpleDateFormat(pattern);
+			SimpleDateFormat dfAfter = new SimpleDateFormat(after);
+			SimpleDateFormat dfBefore = new SimpleDateFormat(before);
 			try {
-				date = df.parse(dateStr);
+				date = dfAfter.parse(dateStr);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			return df.format(date);
+			return dfBefore.format(date);
 		}			
 		return null;		
 	}
@@ -50,4 +51,9 @@ public class DateUtils {
         }
         return null;
     }
+    
+    public static void main(String[] args) {
+    	String s = format("20170501",NUM_PATTERN,DATE_PATTERN);
+    	System.out.println(s+ "======");
+	}
 }
