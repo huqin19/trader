@@ -44,14 +44,16 @@
 			object_id,
 			dep_id,
 			user_id,
-			created_timestamp
+			created_timestamp,
+			status
 			)
 		values 
 			(
 			 #{objectId,jdbcType=NUMERIC},
 			 #{depId,jdbcType=VARCHAR},
 			 #{userId,jdbcType=VARCHAR},
-			 #{createdTimestamp,jdbcType=TIMESTAMP}
+			 #{createdTimestamp,jdbcType=TIMESTAMP},
+			 #{status,jdbcType=INTEGER}
 			 )
 	</insert>
 	
@@ -61,7 +63,8 @@
 			object_id,
 			dep_id,
 			user_id,
-			created_timestamp
+			created_timestamp,
+			status
 			)
 		 
 		<foreach item="item" collection="list" index="index" separator="union all" >
@@ -70,7 +73,8 @@
 			 #{item.objectId,jdbcType=NUMERIC},
 			 #{item.depId,jdbcType=VARCHAR},
 			 #{item.userId,jdbcType=VARCHAR},
-			 #{item.createdTimestamp,jdbcType=TIMESTAMP}
+			 #{item.createdTimestamp,jdbcType=TIMESTAMP},
+			 #{item.status,jdbcType=INTEGER}
 			 from dual
 			 )
 		</foreach>
