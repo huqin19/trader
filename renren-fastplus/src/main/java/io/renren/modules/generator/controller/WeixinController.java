@@ -94,7 +94,7 @@ public class WeixinController {
 						con.setDescription(zqSheetsEntity.getSheetName());
 						con.setTitle(zqSheetsEntity.getSheetName() + "[" + date + "]");
 						con.setPicurl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_PORT")+
-								"/renren-fastplus/img/0000"+ type+".jpg");
+								"/renren-fastplus/img/sheet00"+ type+".jpg");
 						con.setUrl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_PORT")
 								+ zqSheetsEntity.getSheetUrl() + "?dt=" + date + "&stype=" + type);
 						content.add(con);

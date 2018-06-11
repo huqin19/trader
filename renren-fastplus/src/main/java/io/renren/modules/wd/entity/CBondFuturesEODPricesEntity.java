@@ -18,7 +18,7 @@ public class CBondFuturesEODPricesEntity implements Serializable{
 	//trade_dt
 	private String tradeDt;
 	//s_dq_presettle
-	private BigDecimal dDqPresettle;
+	private BigDecimal sDqPresettle;
 	//s_dq_open
 	private BigDecimal sDqOpen; 
 	//s_dq_high
@@ -65,12 +65,7 @@ public class CBondFuturesEODPricesEntity implements Serializable{
 	public void setTradeDt(String tradeDt) {
 		this.tradeDt = tradeDt;
 	}
-	public BigDecimal getdDqPresettle() {
-		return dDqPresettle;
-	}
-	public void setdDqPresettle(BigDecimal dDqPresettle) {
-		this.dDqPresettle = dDqPresettle;
-	}
+
 	public BigDecimal getsDqOpen() {
 		return sDqOpen;
 	}
@@ -155,6 +150,12 @@ public class CBondFuturesEODPricesEntity implements Serializable{
 	}
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+	public BigDecimal getsDqPresettle() {
+		return sDqPresettle;
+	}
+	public void setsDqPresettle(BigDecimal sDqPresettle) {
+		this.sDqPresettle = sDqPresettle;
 	}
 
 }

@@ -145,7 +145,7 @@ public class SendMessageTask {
 						con.setDescription(zqSheetsEntity.getSheetName());
 						con.setTitle(zqSheetsEntity.getSheetName() + "[" + date + "]");
 						con.setPicurl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_PORT")+
-								"/renren-fastplus/img/0000"+ id+".jpg");
+								"/renren-fastplus/img/sheet00"+ id+".jpg");
 						con.setUrl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_PORT")
 								+ zqSheetsEntity.getSheetUrl() + "?dt=" + date + "&stype=" + id);
 						content.add(con);
