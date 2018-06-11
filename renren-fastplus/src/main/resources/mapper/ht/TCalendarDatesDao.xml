@@ -5,8 +5,8 @@
 	<select id="queryCode" parameterType="java.util.HashMap" resultType="io.renren.modules.ht.entity.TCalendarDatesEntity" >
 		select * from ${tableName} 
 		<where>
-			<if test="calCode !=null and calCode.trim() != ''">
-				where cal_code = #{calCode}
+			<if test="calDay !=null and calDay.trim() != ''">
+				where TO_DATE(cal_day,'syyyy-mm-dd') = TO_DATE(#{calDay},'syyyy-mm-dd')
 			</if> 
 		</where>
 	</select> 

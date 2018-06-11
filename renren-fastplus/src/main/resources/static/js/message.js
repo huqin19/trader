@@ -307,7 +307,7 @@
 			async : false,
 			success : function(r) {
 				if (r.code == 0) {
-					alert(r.resultDesc.replace(/\n|\r\n/g, "<br/>"));
+					alert("提交成功");
 				} else {
 					alert(r.msg);
 				}

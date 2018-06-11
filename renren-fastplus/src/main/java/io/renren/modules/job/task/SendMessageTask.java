@@ -136,7 +136,7 @@ public class SendMessageTask {
 			String date = DateUtils.format( new Date(), DateUtils.DATE_PATTERN);
 			String sheet = jobAttach.getSheetId().substring(1);
 			String touser = jobAttach.getUserId().substring(1);
-			String sheetid[] = sheet.split("|");
+			String sheetid[] = sheet.split("\\|");
 			if(sheetid != null && sheetid.length > 0) {
 				for(String id:  sheetid) {
 					Content con = new Content();

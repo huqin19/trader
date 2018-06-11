@@ -36,7 +36,7 @@
 			</if>
 		</where>
 	</select>
-	<select id="queryObject" resultType="io.renren.modules.generator.entity.ZqSheetsEntity">
+	<select id="queryObject" resultType="io.renren.modules.generator.entity.ZqJobAttachEntity">
 		select * from zq_job_attach where JOB_ID = #{value}
 	</select>
 	<insert id="save" parameterType="io.renren.modules.generator.entity.ZqJobAttachEntity">

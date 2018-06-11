@@ -2,6 +2,7 @@ package io.renren.modules.job.utils;
 
 import com.google.gson.Gson;
 
+import io.renren.modules.ht.entity.TCalendarDatesEntity;
 import io.renren.modules.ht.service.TCalendarDatesService;
 import io.renren.modules.job.entity.ScheduleJobEntity;
 import io.renren.modules.job.entity.ScheduleJobLogEntity;
@@ -15,7 +16,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -37,10 +42,26 @@ public class ScheduleJob extends QuartzJobBean {
 		String jsonJob = context.getMergedJobDataMap().getString(ScheduleJobEntity.JOB_PARAM_KEY);
 		ScheduleJobEntity scheduleJob = new Gson().fromJson(jsonJob, ScheduleJobEntity.class);
 		Integer way = context.getMergedJobDataMap().getString("way") != null ? 0 : 1;
-		TCalendarDatesService tCalendarDatesService = (TCalendarDatesService) SpringContextUtils.getBean("tCalendarDatesService");
 		//待修改
 		if(scheduleJob.getParams().equals(ReadYml.getMl("JOB_SEND_WX_TRADE_DAY"))) {
-			return;
+			boolean isTrDate = false;
+			TCalendarDatesService tCalendarDatesService = (TCalendarDatesService) SpringContextUtils.getBean("tCalendarDatesService");
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("tableName", "TCALENDAR_DATES");
+			map.put("calDay", new Date());
+			List<TCalendarDatesEntity> tcList = tCalendarDatesService.queryCode(map);
+			if(tcList != null && tcList.size() > 0) {
+				for(TCalendarDatesEntity tc : tcList) {
+					if(tc.getCalFlag() == 1) {
+						isTrDate = true;
+					}
+				}
+				if(!isTrDate) {
+					return;
+				}
+			}else{
+				return;
+			}
 		}
 		//获取spring bean
         ScheduleJobLogService scheduleJobLogService = (ScheduleJobLogService) SpringContextUtils.getBean("scheduleJobLogService");
