@@ -98,7 +98,7 @@ public class GetUserTask {
 								&& udList.size() == uList.size()) {
 							userDepartmentService.deleteStatus();
 							usersService.deleteStatus();
-							int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+							int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE").toString());
 							List<UserDepartmentEntity> saveudList = new ArrayList<UserDepartmentEntity>();
 							List<UsersEntity> saveuList = new ArrayList<UsersEntity>();
 							for (int i = 0; i < uList.size(); i++) {
@@ -123,7 +123,7 @@ public class GetUserTask {
 					} else {
 						if (udList != null && udList.size() > 0 && uList != null && uList.size() > 0
 								&& udList.size() == uList.size()) {
-							int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+							int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE").toString());
 							List<UserDepartmentEntity> saveudList = new ArrayList<UserDepartmentEntity>();
 							List<UsersEntity> saveuList = new ArrayList<UsersEntity>();
 							for (int i = 0; i < uList.size(); i++) {

@@ -77,6 +77,7 @@ public class WeixinController {
 		StringBuilder touser = new StringBuilder();
 		MessageEntity msg = new MessageEntity();
 		String resultDesc = "";
+		Map<String, String> sheetNameMap = new HashMap<String, String>();
 		List<Content> content = new ArrayList<Content>();
 		if (null != weixinEntity) {
 			if (null != weixinEntity.getTitleArr() && weixinEntity.getTitleArr().length > 0) {
@@ -89,11 +90,12 @@ public class WeixinController {
 					String type = x;
 					ZqSheetsEntity zqSheetsEntity = weixinService.queryZqSheetsObject(new BigDecimal(x));
 					if(null != zqSheetsEntity) {
+						sheetNameMap.put(zqSheetsEntity.getSheetName(), x);
 						con.setDescription(zqSheetsEntity.getSheetName());
 						con.setTitle(zqSheetsEntity.getSheetName() + "[" + date + "]");
-						con.setPicurl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_ADDRESS")+
+						con.setPicurl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_PORT")+
 								"/renren-fastplus/img/0000"+ type+".jpg");
-						con.setUrl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_ADDRESS")
+						con.setUrl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_PORT")
 								+ zqSheetsEntity.getSheetUrl() + "?dt=" + date + "&stype=" + type);
 						content.add(con);
 					}
@@ -122,7 +124,7 @@ public class WeixinController {
 						success - (Integer) resultMap.get("faildNum") : 0;
 				int num = 1;
 				for (String x : weixinEntity.getTitleArr()) {
-					resultDesc = resultDesc + num + "," + x + ":" + "\n" + "成功：" + success + "条" + "\n"
+					resultDesc = resultDesc + num + "," + sheetNameMap.get(x) + ":" + "\n" + "成功：" + success + "条" + "\n"
 							+ resultMap.get("resultStr") + "\n";
 					num++;
 				}

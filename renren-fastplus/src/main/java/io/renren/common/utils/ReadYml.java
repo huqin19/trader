@@ -14,7 +14,7 @@ import org.ho.yaml.Yaml;
  */
 @SuppressWarnings("unchecked")
 public class ReadYml {
-	private static HashMap<String,String> ml;
+	private static HashMap<String,Object> ml;
 	
 	/**
 	 * 静态代码段，在类路径下加载属性文件mainconfig.properties
@@ -43,7 +43,7 @@ public class ReadYml {
 	 * @param key
 	 * @return String类型的值
 	 */
-	public static String getMl(String key) {
+	public static Object getMl(String key) {
 		
 		return ml.get(key);
 	}

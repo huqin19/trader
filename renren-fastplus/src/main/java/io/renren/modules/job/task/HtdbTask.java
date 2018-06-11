@@ -85,7 +85,7 @@ public class HtdbTask {
 				DynamicDataSource.clearDataSource();
 				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);				
 				if(list != null && list.size() > 0) {
-					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE").toString());
 					List<TCalendarDatesEntity> saveList = new ArrayList<TCalendarDatesEntity>();
 					for(int i = 0; i < list.size(); i++) {
 						if(i > 0 && i%loopSize == 0) {
@@ -114,7 +114,7 @@ public class HtdbTask {
 				DynamicDataSource.clearDataSource();
 				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 				if(list != null && list.size() > 0) {
-					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE").toString());
 					List<TCalendarDatesEntity> saveList = new ArrayList<TCalendarDatesEntity>();
 					for(int i = 0; i < list.size(); i++) {
 						if(i > 0 && i%loopSize == 0) {
@@ -193,7 +193,7 @@ public class HtdbTask {
 				DynamicDataSource.clearDataSource();
 				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);			
 				if(list != null && list.size() > 0) {
-					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE").toString());
 					List<TBNDEntity> saveList = new ArrayList<TBNDEntity>();
 					for(int i = 0; i < list.size(); i++) {
 						if(i > 0 && i%loopSize == 0) {
@@ -222,7 +222,7 @@ public class HtdbTask {
 				DynamicDataSource.clearDataSource();
 				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 				if(list != null && list.size() > 0) {
-					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE").toString());
 					List<TBNDEntity> saveList = new ArrayList<TBNDEntity>();
 					for(int i = 0; i < list.size(); i++) {
 						if(i > 0 && i%loopSize == 0) {
@@ -301,7 +301,7 @@ public class HtdbTask {
 				DynamicDataSource.clearDataSource();
 				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);			
 				if(list != null && list.size() > 0) {
-					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE").toString());
 					List<TtrdCmdsExecutionreportEntity> saveList = new ArrayList<TtrdCmdsExecutionreportEntity>();
 					for(int i = 0; i < list.size(); i++) {
 						if(i > 0 && i%loopSize == 0) {
@@ -330,7 +330,7 @@ public class HtdbTask {
 				DynamicDataSource.clearDataSource();
 				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 				if(list != null && list.size() > 0) {
-					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE").toString());
 					List<TtrdCmdsExecutionreportEntity> saveList = new ArrayList<TtrdCmdsExecutionreportEntity>();
 					for(int i = 0; i < list.size(); i++) {
 						if(i > 0 && i%loopSize == 0) {

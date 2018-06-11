@@ -144,9 +144,9 @@ public class SendMessageTask {
 					if(null != zqSheetsEntity) {
 						con.setDescription(zqSheetsEntity.getSheetName());
 						con.setTitle(zqSheetsEntity.getSheetName() + "[" + date + "]");
-						con.setPicurl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_ADDRESS")+
+						con.setPicurl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_PORT")+
 								"/renren-fastplus/img/0000"+ id+".jpg");
-						con.setUrl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_ADDRESS")
+						con.setUrl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_PORT")
 								+ zqSheetsEntity.getSheetUrl() + "?dt=" + date + "&stype=" + id);
 						content.add(con);
 					}
@@ -162,7 +162,6 @@ public class SendMessageTask {
 			}
 		}
 		String msgString = GsonUtils.gsonString(msg);
-		System.out.println(msgString+"=========-----------+++++=");
 		sendPushdMessage(msgString , way);
 	}
 }

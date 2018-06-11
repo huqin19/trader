@@ -84,7 +84,7 @@ public class GetDepartmentTask {
 						if(before > 0 ) {
 							if(list != null && list.size() > 0) {
 								departmentService.deleteStatus();
-								int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+								int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE").toString());
 								List<DepartmentEntity> saveList = new ArrayList<DepartmentEntity>();
 								for(int i = 0; i < list.size(); i++) {
 									if(i > 0 && i%loopSize == 0) {
@@ -101,7 +101,7 @@ public class GetDepartmentTask {
 							departmentService.updateStatus();
 						}else {
 							if(list != null && list.size() > 0) {
-								int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+								int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE").toString());
 								List<DepartmentEntity> saveList = new ArrayList<DepartmentEntity>();
 								for(int i = 0; i < list.size(); i++) {
 									if(i > 0 && i%loopSize == 0) {

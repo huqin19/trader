@@ -93,7 +93,7 @@ public class WddbTask {
 				DynamicDataSource.clearDataSource();
 				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);		
 				if(list != null && list.size() > 0) {
-					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE").toString());
 					List<CBondFuturesEODPricesEntity> saveList = new ArrayList<CBondFuturesEODPricesEntity>();
 					for(int i = 0; i < list.size(); i++) {
 						if(i > 0 && i%loopSize == 0) {
@@ -122,7 +122,7 @@ public class WddbTask {
 				DynamicDataSource.clearDataSource();
 				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 				if(list != null && list.size() > 0) {
-					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE").toString());
 					List<CBondFuturesEODPricesEntity> saveList = new ArrayList<CBondFuturesEODPricesEntity>();
 					for(int i = 0; i < list.size(); i++) {
 						if(i > 0 && i%loopSize == 0) {
@@ -200,7 +200,7 @@ public class WddbTask {
 				DynamicDataSource.clearDataSource();
 				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);			
 				if(list != null && list.size() > 0) {
-					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE").toString());
 					List<CBondFuturesPositionsEntity> saveList = new ArrayList<CBondFuturesPositionsEntity>();
 					for(int i = 0; i < list.size(); i++) {
 						if(i > 0 && i%loopSize == 0) {
@@ -229,7 +229,7 @@ public class WddbTask {
 				DynamicDataSource.clearDataSource();
 				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 				if(list != null && list.size() > 0) {
-					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE").toString());
 					List<CBondFuturesPositionsEntity> saveList = new ArrayList<CBondFuturesPositionsEntity>();
 					for(int i = 0; i < list.size(); i++) {
 						if(i > 0 && i%loopSize == 0) {
@@ -307,7 +307,7 @@ public class WddbTask {
 				DynamicDataSource.clearDataSource();
 				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);		
 				if(list != null && list.size() > 0) {
-					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE").toString());
 					List<CBondIssuerRatingEntity> saveList = new ArrayList<CBondIssuerRatingEntity>();
 					for(int i = 0; i < list.size(); i++) {
 						if(i > 0 && i%loopSize == 0) {
@@ -336,7 +336,7 @@ public class WddbTask {
 				DynamicDataSource.clearDataSource();
 				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 				if(list != null && list.size() > 0) {
-					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE").toString());
 					List<CBondIssuerRatingEntity> saveList = new ArrayList<CBondIssuerRatingEntity>();
 					for(int i = 0; i < list.size(); i++) {
 						if(i > 0 && i%loopSize == 0) {
@@ -414,7 +414,7 @@ public class WddbTask {
 				DynamicDataSource.clearDataSource();
 				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);				
 				if(list != null && list.size() > 0) {
-					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE").toString());
 					List<CBondRatingEntity> saveList = new ArrayList<CBondRatingEntity>();
 					for(int i = 0; i < list.size(); i++) {
 						if(i > 0 && i%loopSize == 0) {
@@ -443,7 +443,7 @@ public class WddbTask {
 				DynamicDataSource.clearDataSource();
 				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 				if(list != null && list.size() > 0) {
-					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE").toString());
 					List<CBondRatingEntity> saveList = new ArrayList<CBondRatingEntity>();
 					for(int i = 0; i < list.size(); i++) {
 						if(i > 0 && i%loopSize == 0) {
@@ -521,7 +521,7 @@ public class WddbTask {
 				DynamicDataSource.clearDataSource();
 				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);			
 				if(list != null && list.size() > 0) {
-					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE").toString());
 					List<CFuturesDescriptionEntity> saveList = new ArrayList<CFuturesDescriptionEntity>();
 					for(int i = 0; i < list.size(); i++) {
 						if(i > 0 && i%loopSize == 0) {
@@ -550,7 +550,7 @@ public class WddbTask {
 				DynamicDataSource.clearDataSource();
 				DynamicDataSource.setDataSource(DataSourceNames.ZQDB_SOURCE);
 				if(list != null && list.size() > 0) {
-					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE"));
+					int loopSize = Integer.parseInt(ReadYml.getMl("LOOP_SIZE").toString());
 					List<CFuturesDescriptionEntity> saveList = new ArrayList<CFuturesDescriptionEntity>();
 					for(int i = 0; i < list.size(); i++) {
 						if(i > 0 && i%loopSize == 0) {
