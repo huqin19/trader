@@ -32,5 +32,12 @@ public interface WeixinService {
 	 * @return
 	 */
 	public ZqSheetsEntity queryZqSheetsObject(BigDecimal objectId);
+	
+	/**
+	 * 消息定时推送-提交
+	 * @param objectId
+	 * @return
+	 */
+	public String submitMessage(WeixinEntity weixinEntity);
 }
 

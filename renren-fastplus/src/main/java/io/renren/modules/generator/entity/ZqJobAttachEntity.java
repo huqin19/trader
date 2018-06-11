@@ -22,11 +22,11 @@ public class ZqJobAttachEntity implements Serializable {
 	 * $column.comments
 	 */
 	@TableId
-	private BigDecimal objectId;
+	private Long objectId;
 	/**
 	 * $column.comments
 	 */
-	private BigDecimal jobId;
+	private Long jobId;
 	/**
 	 * $column.comments
 	 */
@@ -59,25 +59,25 @@ public class ZqJobAttachEntity implements Serializable {
 	/**
 	 * 设置：${column.comments}
 	 */
-	public void setObjectId(BigDecimal objectId) {
+	public void setObjectId(Long objectId) {
 		this.objectId = objectId;
 	}
 	/**
 	 * 获取：${column.comments}
 	 */
-	public BigDecimal getObjectId() {
+	public Long getObjectId() {
 		return objectId;
 	}
 	/**
 	 * 设置：${column.comments}
 	 */
-	public void setJobId(BigDecimal jobId) {
+	public void setJobId(Long jobId) {
 		this.jobId = jobId;
 	}
 	/**
 	 * 获取：${column.comments}
 	 */
-	public BigDecimal getJobId() {
+	public Long getJobId() {
 		return jobId;
 	}
 	/**

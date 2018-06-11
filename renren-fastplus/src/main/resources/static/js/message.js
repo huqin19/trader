@@ -225,6 +225,75 @@
 		});
 	})
 	
+	// 消息定时推送-提交
+	$(".submit-message").click(function() {
+		newtreeName = [];
+		newtreeName2 = [];
+		//去重
+		for (var i = 0; i < treeName.length; i++) {
+			if (newtreeName.indexOf(treeName[i]) == -1) {
+				newtreeName.push(treeName[i]);
+			}
+		}
+		for(var i=0;i<treeName2.length;i++){
+			if(newtreeName2.indexOf(treeName2[i])==-1){
+				newtreeName2.push(treeName2[i]);
+			}
+		}
+		console.log(newtreeName);
+		console.log(newtreeName2);
+		
+		var beanName = $("#beanName").val();
+		var methodName = $("#methodName").val();
+		var appId = $("#appId").val();
+		var params = $("#params").val();
+		var cronExpression = $("#cronExpression").val();
+		var remark = $("#remark").val();
+		
+		if(beanName.length == 0){
+			alert("请填写bean名称");
+			return;
+		}else if (methodName.length == 0) {
+			alert("请填写方法名称");
+			return;
+		}else if (cronExpression.length == 0) {
+			alert("请填写定时表达式");
+			return;
+		}else if (newtreeName2.length == 0) {
+			alert("请选择推送的日报类型");
+			return;
+		} else if (newtreeName.length == 0) {
+			alert("请选择接收人员");
+			return;
+		}
+		var paramswx = {
+			titleArr : newtreeName2,
+			newtreeName : newtreeName,
+			sheetDate : sheetDate,
+			beanName : beanName,
+			methodName : methodName,
+			appId : appId,
+			params : params,
+			cronExpression : cronExpression,
+			remark : remark
+		};
+		// 消息定时推送-提交
+		$.ajax({
+			type : "POST",
+			url : baseURL + "generator/weixin/submitMessage",
+			contentType : "application/json",
+			data : JSON.stringify(paramswx),
+			async : false,
+			success : function(r) {
+				if (r.code == 0) {
+					alert(r.resultDesc.replace(/\n|\r\n/g, "<br/>"));
+				} else {
+					alert(r.msg);
+				}
+			}
+		});
+	})
+	
 	$(".send-message1").click(function() {
 		var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
 		treeObj.checkNode(treeObj.getNodeByParam("id", "xinzhi_test", null), false, true);

@@ -23,15 +23,19 @@
       <div class="icons jebtns"></div>
       -->
     	<div class="check-name">
-			<label style="width:95px;" id="nameX" for="">任务名称：</label>
-			<input type="text" id="sname">
-			<label style="width:95px;" id="nameX2" for="">应用编号：</label>
-			<input type="text" id="sname2">
+			<label style="width:95px;" for="">bean名称：</label>
+			<input type="text" id="beanName">
+			<label style="width:95px;" for="">方法名称：</label>
+			<input type="text" id="methodName">
+			<label style="width:95px;" for="">应用编号：</label>
+			<input type="text" id="appId" value="b21aa97019ac42658af0f107bc5a379f">
 			</br>
-			<label style="width:95px;" id="nameX3" for="">定时表达式：</label>
-			<input type="text" id="sname3">
-			<label style="width:95px;" id="nameX4" for="">备注：</label>
-			<input type="text" id="sname4">
+			<label style="width:95px;margin-top:2px;" for="">参数：</label>
+			<input style="margin-top:2px;" type="text" id="params" value="定时推送">
+			<label style="width:95px;" for="">定时表达式：</label>
+			<input type="text" id="cronExpression">
+			<label style="width:95px;" for="">备注：</label>
+			<input type="text" id="remark">
 		</div>
     </div>
     <div class="content_wrap">
@@ -83,7 +87,7 @@
       </div>
       <div class="btn">
         <div class="common-btn reset-btn">重置</div>
-        <div class="common-btn send-message">发送</div>
+        <div class="common-btn submit-message">提交</div>
       </div>
     </div>
     

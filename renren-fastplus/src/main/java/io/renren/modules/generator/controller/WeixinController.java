@@ -138,6 +138,16 @@ public class WeixinController {
 
 		return R.ok().put("resultDesc", resultDesc);
 	}
+	
+	/**
+	 * 消息定时推送-提交
+	 */
+	@RequestMapping("/submitMessage")
+	@RequiresPermissions("generator:weixin:submitMessage")
+	public R submitMessage(@RequestBody WeixinEntity weixinEntity) {
+		weixinService.submitMessage(weixinEntity);
+		return R.ok();
+	}
 
 	/**
 	 * 修改
