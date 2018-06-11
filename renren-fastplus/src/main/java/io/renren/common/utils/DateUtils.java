@@ -51,9 +51,5 @@ public class DateUtils {
         }
         return null;
     }
-    
-    public static void main(String[] args) {
-    	String s = format("20170501",NUM_PATTERN,DATE_PATTERN);
-    	System.out.println(s+ "======");
-	}
+
 }
