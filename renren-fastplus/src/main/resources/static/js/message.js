@@ -13,9 +13,9 @@
 	            			treeNameparam.push(childrenNodes[k].id);
 	        				//添加到右侧
 	            			if(seltype == 1){//选择人员
-	            				$("#personnel").append('<div class="personnel-name" personid=' + childrenNodes[k].id + '>' + childrenNodes[k].name + '<span></span></div>');
+	            				$("#personnel").append('<div class="personnel-name" personid=' + childrenNodes[k].id + '>' + childrenNodes[k].name + '<span onclick="javascript:del(this);"></span></div>');
 	            			}else if(seltype == 2){//选择日报类型
-	            				$("#sheets").append('<div class="type-name" sheetid=' + childrenNodes[k].id + '>' + childrenNodes[k].name + '<span></span></div>');
+	            				$("#sheets").append('<div class="type-name" sheetid=' + childrenNodes[k].id + '>' + childrenNodes[k].name + '<span onclick="javascript:del(this);"></span></div>');
 	            			}
 	            		}else{//取消选中
 	        				var i = treeNameparam.length;
@@ -41,9 +41,9 @@
 					treeNameparam.push(treeNode.id);
 					//添加到右侧
 					if(seltype == 1){//选择人员
-						$("#personnel").append('<div class="personnel-name" personid=' + treeNode.id + '>' + treeNode.name + '<span></span></div>');
+						$("#personnel").append('<div class="personnel-name" personid=' + treeNode.id + '>' + treeNode.name + '<span onclick="javascript:del(this);"></span></div>');
 					}else if(seltype == 2){//选择日报类型
-        				$("#sheets").append('<div class="type-name" sheetid=' + treeNode.id + '>' + treeNode.name + '<span></span></div>');
+        				$("#sheets").append('<div class="type-name" sheetid=' + treeNode.id + '>' + treeNode.name + '<span onclick="javascript:del(this);"></span></div>');
 					}
 				}else if(treeNode.checked == false && treeNode.checked != treeNode.checkedOld){//取消选中
 					var i = treeNameparam.length;
@@ -59,7 +59,29 @@
 					}
 				}
 			}
-	    }  
+	    } 
+	      
+	    //绑定hover事件
+		if(seltype == 1){//选择人员
+			$(".personnel-name:not('.personnel-name:first') span").css("visibility","hidden");
+			$(".personnel-name").hover(function(){
+				$(this).addClass("active");
+				$(this).children("span").css("visibility","visible");
+			},function(){
+				$(this).removeClass("active");
+				$(this).children("span").css("visibility","hidden");
+			});
+		}else if(seltype == 2){//选择日报类型
+			$(".type-name:not('.type-name:first') span").css("visibility","hidden");
+			$(".type-name").hover(function(){
+				$(this).addClass("active");
+				$(this).children("span").css("visibility","visible");
+			},function(){
+				$(this).removeClass("active");
+				$(this).children("span").css("visibility","hidden");
+			});
+		}
+         
 	    return treeNameparam;  
 	}
 
@@ -91,7 +113,7 @@
 			treeName = getAllChildrenNodesToRight(1, ischeck, treeName, treeNode);
 		}
 		clearCheckedOldNodes();
-		//console.log("treeName: " + treeName + "," + treeName.length);
+		console.log("treeName: " + treeName + "," + treeName.length);
 	}
 	//防止二次点击无效
 	function clearCheckedOldNodes() {
@@ -292,6 +314,35 @@
 			}
 		});
 	})
+	
+	function del(obj){
+		var thisObj=$(obj);
+		if(thisObj.parent().attr("sheetid") != undefined && thisObj.parent().attr("sheetid") != ""){
+			i = treeName2.length;
+			while(i--){
+				//删除日报
+				if(treeName2[i] == thisObj.parent().attr("sheetid")){
+					treeName2.splice(i,1);
+					$("div[sheetid='"+ thisObj.parent().attr("sheetid") +"']").remove();
+					var treeObj = $.fn.zTree.getZTreeObj("treeDemo2");
+					treeObj.checkNode(treeObj.getNodeByParam("id", thisObj.parent().attr("sheetid"), null), false, true);
+				}
+			}
+			clearCheckedOldNodes2();
+		}else if(thisObj.parent().attr("personid") != undefined && thisObj.parent().attr("personid") != ""){
+			i = treeName.length;
+			while(i--){
+				//删除人员
+				if(treeName[i] == thisObj.parent().attr("personid")){
+					treeName.splice(i,1);
+					$("div[personid='"+ thisObj.parent().attr("personid") +"']").remove();
+					var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+					treeObj.checkNode(treeObj.getNodeByParam("id", thisObj.parent().attr("personid"), null), false, true);
+				}
+			}
+			clearCheckedOldNodes();
+		}
+	}
 	
 	$(".send-message1").click(function() {
 		var treeObj = $.fn.zTree.getZTreeObj("treeDemo");

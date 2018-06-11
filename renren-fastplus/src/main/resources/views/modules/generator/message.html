@@ -100,28 +100,6 @@
              	maxDate: jeDate.nowDate({DD:0}), //设定最小日期为当前日期
           	})
         }
-        $(function(){
-			// 发送类型  触摸事件
-            $(".type-name:not('.type-name:first') span").css("visibility","hidden");
-            $(".type-name").hover(function(){
-            	$(this).addClass("active");
-              	$(this).children("span").css("visibility","visible");
-            },function(){
-              	$(this).removeClass("active");
-              	$(this).children("span").css("visibility","hidden");
-            });
-
-            //接收人员  触摸事件
-            $(".personnel-name:not('.personnel-name:first') span").css("visibility","hidden");
-            $(".personnel-name").hover(function(){
-              	$(this).addClass("active");
-              	$(this).children("span").css("visibility","visible");
-            },function(){
-              	$(this).removeClass("active");
-             	$(this).children("span").css("visibility","hidden");
-            });
-        });
-      
     </script>
 </body>
 </html>
