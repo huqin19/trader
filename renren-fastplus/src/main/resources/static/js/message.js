@@ -269,7 +269,6 @@
 		var paramswx = {
 			titleArr : newtreeName2,
 			newtreeName : newtreeName,
-			sheetDate : sheetDate,
 			beanName : beanName,
 			methodName : methodName,
 			appId : appId,

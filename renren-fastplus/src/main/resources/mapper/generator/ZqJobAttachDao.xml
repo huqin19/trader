@@ -50,15 +50,15 @@
 			modified_timestamp
 		)
 		values(
-			#{objectId}, 
-			#{jobId},
-			#{sheetId},
-			#{userId},
-			#{status},
-			#{creatorId},
-			#{createdTimestamp},
-			#{lastModifierId},
-			#{modifiedTimestamp}
+			#{objectId,jdbcType=NUMERIC}, 
+			#{jobId,jdbcType=NUMERIC},
+			#{sheetId,jdbcType=VARCHAR},
+			#{userId,jdbcType=CHAR},
+			#{status,jdbcType=NUMERIC},
+			#{creatorId,jdbcType=VARCHAR},
+			#{createdTimestamp,jdbcType=TIMESTAMP},
+			#{lastModifierId,jdbcType=VARCHAR},
+			#{modifiedTimestamp,jdbcType=TIMESTAMP}
 		)
 	</insert>
 </mapper>
