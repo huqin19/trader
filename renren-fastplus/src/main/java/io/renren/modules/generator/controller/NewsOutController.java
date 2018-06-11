@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.renren.common.utils.DateUtils;
 import io.renren.common.utils.R;
 import io.renren.modules.api.annotation.AuthIgnore;
 import io.renren.modules.generator.entity.NewspaperEntity;
@@ -75,6 +76,12 @@ public class NewsOutController {
 		}
 		if(null != newspaperEntity) {
 			newspaperEntity.setsInfoWindcodes(sInfoWindcodes);
+		}
+		
+		String tmp = newspaperEntity.getParamdate();
+		if(null != tmp && tmp.length() > 0) {
+			tmp = tmp.replaceAll("-", "");
+			newspaperEntity.setParamdate(tmp.substring(0, 4) + "-" + tmp.substring(4, 6) + "-" + tmp.substring(6, 8));
 		}
         return R.ok().put("listZQJD", listZQJD).put("listVCBONDFUTURESEODPRICES", listVCBONDFUTURESEODPRICES)
         		.put("listVCBONDFUTURESPOSITIONSD", listVCBONDFUTURESPOSITIONSD).put("newspaperEntity", newspaperEntity)
