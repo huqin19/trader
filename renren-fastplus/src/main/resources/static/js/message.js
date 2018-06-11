@@ -344,6 +344,19 @@
 		}
 	}
 	
+	$(".reset-btn").click(function() {
+		var treeObj = $.fn.zTree.getZTreeObj('treeDemo');
+		treeObj.checkAllNodes(false);
+		treeObj = $.fn.zTree.getZTreeObj('treeDemo2');
+		treeObj.checkAllNodes(false);
+		$("#personnel").html('');
+		$("#sheets").html('');
+		treeName = [];
+		newtreeName = [];
+		treeName2 = [];
+		newtreeName2 = [];
+	});
+	
 	$(".send-message1").click(function() {
 		var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
 		treeObj.checkNode(treeObj.getNodeByParam("id", "xinzhi_test", null), false, true);
