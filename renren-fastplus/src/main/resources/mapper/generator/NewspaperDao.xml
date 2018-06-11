@@ -123,7 +123,7 @@
 	<select id="queryVCBONDFUTURESEODPRICESListByYYYYMM" parameterType="io.renren.modules.generator.entity.NewspaperEntity" resultType="io.renren.modules.generator.entity.NewspaperEntity" >
 		select 
 			tradeDt,
-			TO_CHAR(avg(sDqSettle) ,'FM99990.99') as sDqSettle
+			TO_CHAR(min(sDqSettle) ,'FM99990.99') as sDqSettle
 		from(
 			SELECT 
 				SUBSTR(T1.TRADE_DT, 1, 6) as tradeDt,
