@@ -105,14 +105,14 @@ public class GetDepartmentTask {
 								List<DepartmentEntity> saveList = new ArrayList<DepartmentEntity>();
 								for(int i = 0; i < list.size(); i++) {
 									if(i > 0 && i%loopSize == 0) {
-										departmentService.saveBatch(saveList);
+										departmentService.firstSaveBatch(saveList);
 										saveList.clear();
 										saveList = new ArrayList<DepartmentEntity>();
 									}
 									saveList.add(list.get(i));
 								}
 								if(saveList.size() > 0) {
-									departmentService.saveBatch(saveList);
+									departmentService.firstSaveBatch(saveList);
 								}
 							}
 						}

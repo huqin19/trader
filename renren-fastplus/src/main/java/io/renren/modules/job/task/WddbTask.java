@@ -126,14 +126,14 @@ public class WddbTask {
 					List<CBondFuturesEODPricesEntity> saveList = new ArrayList<CBondFuturesEODPricesEntity>();
 					for(int i = 0; i < list.size(); i++) {
 						if(i > 0 && i%loopSize == 0) {
-							cBondFuturesEODPricesService.saveBatch(saveList);
+							cBondFuturesEODPricesService.firstSaveBatch(saveList);
 							saveList.clear();
 							saveList = new ArrayList<CBondFuturesEODPricesEntity>();
 						}
 						saveList.add(list.get(i));
 					}
 					if(saveList.size() > 0) {
-						cBondFuturesEODPricesService.saveBatch(saveList);
+						cBondFuturesEODPricesService.firstSaveBatch(saveList);
 					}
 				}	
 				DynamicDataSource.clearDataSource();
@@ -233,14 +233,14 @@ public class WddbTask {
 					List<CBondFuturesPositionsEntity> saveList = new ArrayList<CBondFuturesPositionsEntity>();
 					for(int i = 0; i < list.size(); i++) {
 						if(i > 0 && i%loopSize == 0) {
-							cBondFuturesPositionsService.saveBatch(saveList);
+							cBondFuturesPositionsService.firstSaveBatch(saveList);
 							saveList.clear();
 							saveList = new ArrayList<CBondFuturesPositionsEntity>();
 						}
 						saveList.add(list.get(i));
 					}
 					if(saveList.size() > 0) {
-						cBondFuturesPositionsService.saveBatch(saveList);
+						cBondFuturesPositionsService.firstSaveBatch(saveList);
 					}
 				}
 				DynamicDataSource.clearDataSource();
@@ -340,14 +340,14 @@ public class WddbTask {
 					List<CBondIssuerRatingEntity> saveList = new ArrayList<CBondIssuerRatingEntity>();
 					for(int i = 0; i < list.size(); i++) {
 						if(i > 0 && i%loopSize == 0) {
-							cBondIssuerRatingService.saveBatch(saveList);
+							cBondIssuerRatingService.firstSaveBatch(saveList);
 							saveList.clear();
 							saveList = new ArrayList<CBondIssuerRatingEntity>();
 						}
 						saveList.add(list.get(i));
 					}
 					if(saveList.size() > 0) {
-						cBondIssuerRatingService.saveBatch(saveList);
+						cBondIssuerRatingService.firstSaveBatch(saveList);
 					}
 				}	
 				DynamicDataSource.clearDataSource();
@@ -447,14 +447,14 @@ public class WddbTask {
 					List<CBondRatingEntity> saveList = new ArrayList<CBondRatingEntity>();
 					for(int i = 0; i < list.size(); i++) {
 						if(i > 0 && i%loopSize == 0) {
-							cBondRatingService.saveBatch(saveList);
+							cBondRatingService.firstSaveBatch(saveList);
 							saveList.clear();
 							saveList = new ArrayList<CBondRatingEntity>();
 						}
 						saveList.add(list.get(i));
 					}
 					if(saveList.size() > 0) {
-						cBondRatingService.saveBatch(saveList);
+						cBondRatingService.firstSaveBatch(saveList);
 					}
 				}	
 				DynamicDataSource.clearDataSource();
@@ -554,14 +554,14 @@ public class WddbTask {
 					List<CFuturesDescriptionEntity> saveList = new ArrayList<CFuturesDescriptionEntity>();
 					for(int i = 0; i < list.size(); i++) {
 						if(i > 0 && i%loopSize == 0) {
-							cFuturesDescriptionService.saveBatch(saveList);
+							cFuturesDescriptionService.firstSaveBatch(saveList);
 							saveList.clear();
 							saveList = new ArrayList<CFuturesDescriptionEntity>();
 						}
 						saveList.add(list.get(i));
 					}
 					if(saveList.size() > 0) {
-						cFuturesDescriptionService.saveBatch(saveList);
+						cFuturesDescriptionService.firstSaveBatch(saveList);
 					}
 				}
 				DynamicDataSource.clearDataSource();

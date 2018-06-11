@@ -118,14 +118,14 @@ public class HtdbTask {
 					List<TCalendarDatesEntity> saveList = new ArrayList<TCalendarDatesEntity>();
 					for(int i = 0; i < list.size(); i++) {
 						if(i > 0 && i%loopSize == 0) {
-							tCalendarDatesService.saveBatch(saveList);
+							tCalendarDatesService.firstSaveBatch(saveList);
 							saveList.clear();
 							saveList = new ArrayList<TCalendarDatesEntity>();
 						}
 						saveList.add(list.get(i));
 					}
 					if(saveList.size() > 0) {
-						tCalendarDatesService.saveBatch(saveList);
+						tCalendarDatesService.firstSaveBatch(saveList);
 					}
 				}
 				DynamicDataSource.clearDataSource();
@@ -226,14 +226,14 @@ public class HtdbTask {
 					List<TBNDEntity> saveList = new ArrayList<TBNDEntity>();
 					for(int i = 0; i < list.size(); i++) {
 						if(i > 0 && i%loopSize == 0) {
-							tBNDService.saveBatch(saveList);
+							tBNDService.firstSaveBatch(saveList);
 							saveList.clear();
 							saveList = new ArrayList<TBNDEntity>();
 						}
 						saveList.add(list.get(i));
 					}
 					if(saveList.size() > 0) {
-						tBNDService.saveBatch(saveList);
+						tBNDService.firstSaveBatch(saveList);
 					}
 				}
 				DynamicDataSource.clearDataSource();
@@ -334,14 +334,14 @@ public class HtdbTask {
 					List<TtrdCmdsExecutionreportEntity> saveList = new ArrayList<TtrdCmdsExecutionreportEntity>();
 					for(int i = 0; i < list.size(); i++) {
 						if(i > 0 && i%loopSize == 0) {
-							ttrdCmdsExecutionreportService.saveBatch(saveList);
+							ttrdCmdsExecutionreportService.firstSaveBatch(saveList);
 							saveList.clear();
 							saveList = new ArrayList<TtrdCmdsExecutionreportEntity>();
 						}
 						saveList.add(list.get(i));
 					}
 					if(saveList.size() > 0) {
-						ttrdCmdsExecutionreportService.saveBatch(saveList);
+						ttrdCmdsExecutionreportService.firstSaveBatch(saveList);
 					}
 				}
 				DynamicDataSource.clearDataSource();

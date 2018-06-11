@@ -128,8 +128,8 @@ public class GetUserTask {
 							List<UsersEntity> saveuList = new ArrayList<UsersEntity>();
 							for (int i = 0; i < uList.size(); i++) {
 								if (i > 0 && i % loopSize == 0) {
-									userDepartmentService.saveBatch(saveudList);
-									usersService.saveBatch(saveuList);
+									userDepartmentService.firstSaveBatch(saveudList);
+									usersService.firstSaveBatch(saveuList);
 									saveudList.clear();
 									saveuList.clear();
 									saveudList = new ArrayList<UserDepartmentEntity>();
@@ -139,8 +139,8 @@ public class GetUserTask {
 								saveuList.add(uList.get(i));
 							}
 							if (saveudList.size() > 0 && saveuList.size() > 0) {
-								userDepartmentService.saveBatch(saveudList);
-								usersService.saveBatch(saveuList);
+								userDepartmentService.firstSaveBatch(saveudList);
+								usersService.firstSaveBatch(saveuList);
 							}
 						}
 					}
