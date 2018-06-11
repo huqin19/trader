@@ -5,7 +5,7 @@ body{
 	width:94%;
 	margin:0 auto;
 }
-#table1,#table2,#table3{
+#table1,#table2,#table3,.table3{
 	width:100%;
 }
 .form1 h3,.form2 h3,.form3 h3{
@@ -75,7 +75,7 @@ body{
 	line-height: 45px;
 	vertical-align: middle;
 }
-#table3{
+#table3,.table3{
 	table-layout: auto;
 }
 

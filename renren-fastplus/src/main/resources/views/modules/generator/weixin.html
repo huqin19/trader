@@ -398,49 +398,48 @@
 								$(".form2").html('');
 								var all = "<h3>" + r.newspaperEntity.paramdate + "国债期货品种排名</h3>" ;
 								$.each(r.newspaperEntity.sInfoWindcodes,function(index1, item1){ 
-									str = "<b>" + item1 + "</b><table><thead>" +
-										  "<tr>" +
-											  "<th></th>" +
-											  //"<th></th>" +
-											  "<th>成交量排名</th>" + 
-											  "<th>成交量排名</th>" + 
-											  "<th>成交量排名</th>" + 
-											  "<th>成交量排名</th>" + 
-											  "<th>持买量排名</th>" + 
-											  "<th>持买量排名</th>" + 
-											  "<th>持买量排名</th>" + 
-											  "<th>持买量排名</th>" + 
-											  "<th>持卖量排名</th>" + 
-											  "<th>持卖量排名</th>" + 
-											  "<th>持卖量排名</th>" + 
-											  "<th>持卖量排名</th>" + 
-										  "</tr>" +
-										  "<tr>" +
-										  	  "<th>日期</th>" +
-											  //"<th>合约</th>" + 
-											  "<th>名次</th>" + 
-											  "<th>会员简称</th>" + 
-											  "<th>成交量</th>" + 
-											  "<th>比上交易日增减</th>" + 
-											  "<th>名次</th>" + 
-											  "<th>会员简称</th>" + 
-											  "<th>持买单量</th>" + 
-											  "<th>比上交易日增减</th>" + 
-											  "<th>名次</th>" + 
-											  "<th>会员简称</th>" + 
-											  "<th>持卖单量</th>" + 
-											  "<th>比上交易日增减</th>" + 
-										  "</tr>";
+									str = "<div class='remarks' style='margin-top: 12px;'><div class='left'>合约：" + item1 + "</div>" + 
+								          "<div class='right'>交易日期：" + r.newspaperEntity.paramdate + "</div></div>" +
+									      "<table class='table3'>" +
+								          	"<thead class='main-title'>" +
+								            	"<th colspan='4'>成交量排名</th>" +
+								            	"<th colspan='4'>持买量排名</th>" +
+								            	"<th colspan='4'>持卖量排名</th>" +
+								            "</thead>" +
+								            "<thead class='sub-title'>" +
+											  "<tr>" +
+											  	  //"<th>日期</th>" +
+												  //"<th>合约</th>" + 
+												  "<th>名次</th>" + 
+												  "<th>会员简称</th>" + 
+												  "<th>成交量</th>" + 
+												  "<th>比上交易日增减</th>" + 
+												  "<th>名次</th>" + 
+												  "<th>会员简称</th>" + 
+												  "<th>持买单量</th>" + 
+												  "<th>比上交易日增减</th>" + 
+												  "<th>名次</th>" + 
+												  "<th>会员简称</th>" + 
+												  "<th>持卖单量</th>" + 
+												  "<th>比上交易日增减</th>" + 
+											  "</tr>" +
+											"</thead><tbody>";
 								    //合并列
-									_w_table_colspan("#table3",1,13);
-									
-								    all += str + "</thead>";
-								    all += "<tbody>";
+									//_w_table_colspan(".table3",1,13);
+								    all += str;
 								    strTd = "";
+								    var num1=0,num2=0,num3=0,num4=0,num5=0,num6=0;
+								    var num1str='',num2str='',num3str='',num4str='',num5str='',num6str='';
 									$.each(r.listVCBONDFUTURESPOSITIONSD,function(index, item){ 
 										if(item.sInfoWindcode == item1){
+											num1 += item.cJl;
+											num2 += item.cJlbh;
+											num3 += item.cBl;
+											num4 += item.cBlbh;
+											num5 += item.cSl;
+											num6 += item.cSlbh;
 										    strTd += "<tr>" +
-											    		"<td style='text-align:left;'>" + item.tradeDt + "</td>" +
+											    		//"<td style='text-align:left;'>" + item.tradeDt + "</td>" +
 											    		//"<td>" + item.sInfoWindcode + "</td>" +
 											    		"<td>" + item.fsInfoRank + "</td>" +
 											    		"<td>" + item.cJmem + "</td>" +
@@ -459,9 +458,31 @@
 										all += strTd;
 										strTd = "";
 									}) 
+									num1str = parseFloat(num1) > 0? '<font color="#008000">' + num1 + '</font>' : '<font color="#ff0000">' + num1 + '</font>';
+									num2str = parseFloat(num2) > 0? '<font color="#008000">' + num2 + '</font>' : '<font color="#ff0000">' + num2 + '</font>';
+									num3str = parseFloat(num3) > 0? '<font color="#008000">' + num3 + '</font>' : '<font color="#ff0000">' + num3 + '</font>';
+									num4str = parseFloat(num4) > 0? '<font color="#008000">' + num4 + '</font>' : '<font color="#ff0000">' + num4 + '</font>';
+									num5str = parseFloat(num5) > 0? '<font color="#008000">' + num5 + '</font>' : '<font color="#ff0000">' + num5 + '</font>';
+									num6str = parseFloat(num6) > 0? '<font color="#008000">' + num6 + '</font>' : '<font color="#ff0000">' + num6 + '</font>';
+									all += '<tr>' + 
+						            	   	'<td>合计</td>' + 
+								            '<td></td>' + 
+								            '<td>' + num1str + '</td>' + 
+								            '<td>' + num2str + '</td>' + 
+								            '<td></td>' + 
+								            '<td></td>' + 
+								            '<td>' + num3str + '</td>' + 
+								            '<td>' + num4str + '</td>' + 
+								            '<td></td>' + 
+								            '<td></td>' + 
+								            '<td>' + num5str + '</td>' + 
+								            '<td>' + num6str + '</td>' + 
+								          '</tr>';
+									num1=0; num2=0; num3=0; num4=0; num5=0; num6=0;
+									num1str=''; num2str=''; num3str=''; num4str=''; num5str=''; num6str='';
 									all += "</tbody></table>";
 								})
-								all += "</div>";
+								all += "</div></br>";
 								$(".form3").html(all)
 							}else{
 								$(".form3 h3").html(r.newspaperEntity.paramdate + "国债期货品种排名 无数据");
