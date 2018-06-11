@@ -50,6 +50,7 @@ public class NewsOutController {
 			//国债期货当日结算价
 			listVCBONDFUTURESEODPRICES = newspaperService.queryVCBONDFUTURESEODPRICESList(newspaperEntity);
 			sInfoWindcodes = newspaperService.queryHYNameOfVCBONDFUTURESEODPRICES(newspaperEntity);
+			//查折线图
 			if(null != sInfoWindcodes && sInfoWindcodes.size() > 0 && null != newspaperEntity.getParamdate()) {
 				NewspaperEntity pa = new NewspaperEntity();
 				namehy = sInfoWindcodes.get(0);

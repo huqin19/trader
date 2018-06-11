@@ -126,7 +126,7 @@
 			TO_CHAR(avg(sDqSettle) ,'FM99990.99') as sDqSettle
 		from(
 			SELECT 
-				SUBSTR(T1.TRADE_DT, 1, 7) as tradeDt,
+				SUBSTR(T1.TRADE_DT, 1, 6) as tradeDt,
 				T1.S_DQ_SETTLE as sDqSettle
 			FROM 
 				CBONDFUTURESEODPRICES T1 
