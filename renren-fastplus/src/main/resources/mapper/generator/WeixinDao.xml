@@ -17,6 +17,8 @@
 				'0' as isleaf
 			from 
 				zq_department
+			where 
+				status=1
 		
 		UNION
 			select 
@@ -33,6 +35,8 @@
 				zq_user_department
 			on 
 				zq_user.user_id = zq_user_department.user_id
+				and zq_user.status=1
+				and zq_user_department.status=1
 		)x
 		ORDER BY 
 			x.id ASC

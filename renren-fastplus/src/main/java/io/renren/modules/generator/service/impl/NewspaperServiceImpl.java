@@ -20,49 +20,51 @@ public class NewspaperServiceImpl implements NewspaperService {
 	public List<NewspaperEntity> queryZQJDList(NewspaperEntity newspaperEntity) {
 		return newspaperDao.queryZQJDList(newspaperEntity);
 	}
+	
+	public String removehg(String x) {
+		if(null != x && x.length() > 0) {
+			x = x.replaceAll("-", "");
+		}
+		return x;
+	}
 
 	@Override
 	public List<NewspaperEntity> queryVCBONDFUTURESPOSITIONSDList(NewspaperEntity newspaperEntity) {
-		String x = newspaperEntity.getParamdate();
-		if(null != x && x.length() > 0) {
-			newspaperEntity.setParamdate(x.replaceAll("-", ""));
-		}
+		newspaperEntity.setParamdate(removehg(newspaperEntity.getParamdate()));
+		newspaperEntity.setDateinfoS(removehg(newspaperEntity.getDateinfoS()));
+		newspaperEntity.setDateinfoE(removehg(newspaperEntity.getDateinfoE()));
 		return newspaperDao.queryVCBONDFUTURESPOSITIONSDList(newspaperEntity);
 	}
 
 	@Override
 	public List<NewspaperEntity> queryVCBONDFUTURESEODPRICESList(NewspaperEntity newspaperEntity) {
-		String x = newspaperEntity.getParamdate();
-		if(null != x && x.length() > 0) {
-			newspaperEntity.setParamdate(x.replaceAll("-", ""));
-		}
+		newspaperEntity.setParamdate(removehg(newspaperEntity.getParamdate()));
+		newspaperEntity.setDateinfoS(removehg(newspaperEntity.getDateinfoS()));
+		newspaperEntity.setDateinfoE(removehg(newspaperEntity.getDateinfoE()));
 		return newspaperDao.queryVCBONDFUTURESEODPRICESList(newspaperEntity);
 	}
 
 	@Override
 	public List<String> queryHYNameOfVCBONDFUTURESPOSITIONSD(NewspaperEntity newspaperEntity) {
-		String x = newspaperEntity.getParamdate();
-		if(null != x && x.length() > 0) {
-			newspaperEntity.setParamdate(x.replaceAll("-", ""));
-		}
+		newspaperEntity.setParamdate(removehg(newspaperEntity.getParamdate()));
+		newspaperEntity.setDateinfoS(removehg(newspaperEntity.getDateinfoS()));
+		newspaperEntity.setDateinfoE(removehg(newspaperEntity.getDateinfoE()));
 		return newspaperDao.queryHYNameOfVCBONDFUTURESPOSITIONSD(newspaperEntity);
 	}
 
 	@Override
 	public List<String> queryHYNameOfVCBONDFUTURESEODPRICES(NewspaperEntity newspaperEntity) {
-		String x = newspaperEntity.getParamdate();
-		if(null != x && x.length() > 0) {
-			newspaperEntity.setParamdate(x.replaceAll("-", ""));
-		}
+		newspaperEntity.setParamdate(removehg(newspaperEntity.getParamdate()));
+		newspaperEntity.setDateinfoS(removehg(newspaperEntity.getDateinfoS()));
+		newspaperEntity.setDateinfoE(removehg(newspaperEntity.getDateinfoE()));
 		return newspaperDao.queryHYNameOfVCBONDFUTURESEODPRICES(newspaperEntity);
 	}
 
 	@Override
 	public List<NewspaperEntity> queryVCBONDFUTURESEODPRICESListByYYYYMM(NewspaperEntity newspaperEntity) {
-		String x = newspaperEntity.getParamdate();
-		if(null != x && x.length() > 0) {
-			newspaperEntity.setParamdate(x.replaceAll("-", ""));
-		}
+		newspaperEntity.setParamdate(removehg(newspaperEntity.getParamdate()));
+		newspaperEntity.setDateinfoS(removehg(newspaperEntity.getDateinfoS()));
+		newspaperEntity.setDateinfoE(removehg(newspaperEntity.getDateinfoE()));
 		return newspaperDao.queryVCBONDFUTURESEODPRICESListByYYYYMM(newspaperEntity);
 	}
 

@@ -17,6 +17,8 @@
 		ON  
 			TBND.I_CODE = TCE.U_I_CODE
 		    AND TBND.M_TYPE = 'X_CNBD'
+		    and TCE.status=1
+		    and TBND.status=1
 		WHERE 
 			TCE.MARKETINDICATOR = 8
 			<if test="sname != null and sname.trim() != ''">
@@ -53,9 +55,10 @@
 	       	SUM( CASE WHEN FS_INFO_TYPE ='3' THEN S_OI_POSITIONSNUMC ELSE 0 END)    AS cSlbh
 		FROM 
 			CBONDFUTURESPOSITIONS
-		<where>
+		where
+			CBONDFUTURESPOSITIONS.status=1
 			<if test="sname != null and sname.trim() != ''">
-				SUBSTR(S_INFO_WINDCODE,0,INSTR(S_INFO_WINDCODE,'.')-1) like '%' || #{sname} || '%'
+				and SUBSTR(S_INFO_WINDCODE,0,INSTR(S_INFO_WINDCODE,'.')-1) like '%' || #{sname} || '%'
 			</if>
 			<if test="dateinfoS != null and dateinfoS.trim() != ''">
 				and TRADE_DT &gt;=  #{dateinfoS}
@@ -66,7 +69,6 @@
 			<if test="paramdate != null and paramdate.trim() != ''">
 				and TRADE_DT = #{paramdate}
 			</if>
-		</where>
 		GROUP BY 
 			TRADE_DT, S_INFO_WINDCODE, FS_INFO_RANK
 		ORDER BY 
@@ -92,6 +94,8 @@
 			CFUTURESDESCRIPTION T2 
 		ON 
 			T2.S_INFO_WINDCODE = T1.S_INFO_WINDCODE
+			and T1.status=1 
+			and T2.status=1 
 		WHERE 
 			T2.S_INFO_EXCHMARKET='CFFEX' AND T2.FS_INFO_SCCODE IN ('T','TF') 
 			AND T2.FS_INFO_TYPE=1
@@ -130,6 +134,8 @@
 				CFUTURESDESCRIPTION T2 
 			ON 
 				T2.S_INFO_WINDCODE = T1.S_INFO_WINDCODE
+				and T1.status=1 
+				and T2.status=1 
 			WHERE 
 				T2.S_INFO_EXCHMARKET='CFFEX' AND T2.FS_INFO_SCCODE IN ('T','TF') 
 				AND T2.FS_INFO_TYPE=1
@@ -167,9 +173,10 @@
 	       	distinct SUBSTR(S_INFO_WINDCODE,0,INSTR(S_INFO_WINDCODE,'.')-1) AS sInfoWindcode
 		FROM 
 			CBONDFUTURESPOSITIONS
-		<where>
+		where 
+			CBONDFUTURESPOSITIONS.status=1
 			<if test="sname != null and sname.trim() != ''">
-				SUBSTR(S_INFO_WINDCODE,0,INSTR(S_INFO_WINDCODE,'.')-1) like '%' || #{sname} || '%'
+				and SUBSTR(S_INFO_WINDCODE,0,INSTR(S_INFO_WINDCODE,'.')-1) like '%' || #{sname} || '%'
 			</if>
 			<if test="dateinfoS != null and dateinfoS.trim() != ''">
 				and TRADE_DT &gt;=  #{dateinfoS}
@@ -180,7 +187,6 @@
 			<if test="paramdate != null and paramdate.trim() != ''">
 				and TRADE_DT = #{paramdate}
 			</if>
-		</where>
 		ORDER BY 
 			TRADE_DT, S_INFO_WINDCODE, FS_INFO_RANK
 		)x
@@ -195,6 +201,8 @@
 			CFUTURESDESCRIPTION T2 
 		ON 
 			T2.S_INFO_WINDCODE = T1.S_INFO_WINDCODE
+			and T1.status=1
+			and T2.status=1
 		WHERE 
 			T2.S_INFO_EXCHMARKET='CFFEX' AND T2.FS_INFO_SCCODE IN ('T','TF') 
 			AND T2.FS_INFO_TYPE=1

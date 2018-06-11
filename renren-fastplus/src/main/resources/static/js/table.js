@@ -99,12 +99,10 @@ $(function(){
 	$("#stype").on('change',function(){
 		if($("#stype option:selected").val() == '1'){
 			$("#nameX").text("标的券名称：");
-			$("#labelS").text("委托日期起：");
-			$("#labelE").text("委托日期止：");
+			$("#dateinfoS").attr("placeholder", "委托日期起：");
 		}else if($("#stype option:selected").val() == '2' || $("#stype option:selected").val() == '3'){
 			$("#nameX").text("合约名称：");
-			$("#labelS").text("交易日期起：");
-			$("#labelE").text("交易日期止：");
+			$("#dateinfoS").attr("placeholder", "交易日期起：");
 		}
 	});
 	

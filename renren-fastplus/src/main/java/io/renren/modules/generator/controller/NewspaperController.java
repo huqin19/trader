@@ -46,6 +46,16 @@ public class NewspaperController {
 				newspaperList = newspaperService.queryVCBONDFUTURESPOSITIONSDList(newspaperEntity);
 			}
 		}
+		String tmp = newspaperEntity.getDateinfoS();
+		if(null != tmp && tmp.length() > 0) {
+			tmp = tmp.replaceAll("-", "");
+			newspaperEntity.setDateinfoS(tmp.substring(0, 4) + "-" + tmp.substring(4, 6) + "-" + tmp.substring(6, 8));
+		}
+		tmp = newspaperEntity.getDateinfoE();
+		if(null != tmp && tmp.length() > 0) {
+			tmp = tmp.replaceAll("-", "");
+			newspaperEntity.setDateinfoE(tmp.substring(0, 4) + "-" + tmp.substring(4, 6) + "-" + tmp.substring(6, 8));
+		}
         return R.ok().put("newspaperList", newspaperList).put("newspaperEntity", newspaperEntity);
     }
     
