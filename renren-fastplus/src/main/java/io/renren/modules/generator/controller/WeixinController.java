@@ -90,7 +90,7 @@ public class WeixinController {
 					String type = x;
 					ZqSheetsEntity zqSheetsEntity = weixinService.queryZqSheetsObject(new BigDecimal(x));
 					if(null != zqSheetsEntity) {
-						sheetNameMap.put(zqSheetsEntity.getSheetName(), x);
+						sheetNameMap.put(x, zqSheetsEntity.getSheetName());
 						con.setDescription(zqSheetsEntity.getSheetName());
 						con.setTitle(zqSheetsEntity.getSheetName() + "[" + date + "]");
 						con.setPicurl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_PORT")+
