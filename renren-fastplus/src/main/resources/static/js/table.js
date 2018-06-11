@@ -136,7 +136,7 @@ $(function(){
         }, //设定最小日期为当前日期
         maxDate: jeDate.nowDate({DD:0}), //设定最大日期为当前日期
     })
-    selData();
+    //selData();
 })
 
 //查询
