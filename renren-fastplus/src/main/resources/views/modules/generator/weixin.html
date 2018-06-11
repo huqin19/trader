@@ -4,7 +4,7 @@
   <title></title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <title>固收日报发布系统</title>
-	<link rel="stylesheet" href="../../css/bootstrap.min.css">
+	<!-- <link rel="stylesheet" href="../../css/bootstrap.min.css"> -->
 	<link rel="stylesheet" href="../../css/font-awesome.min.css">
 	<link rel="stylesheet" href="../../plugins/jqgrid/ui.jqgrid-bootstrap.css">
 	<link rel="stylesheet" href="../../plugins/ztree/css/metroStyle/metroStyle.css">
@@ -20,6 +20,7 @@
 	<script src="../../plugins/jqgrid/grid.locale-cn.js"></script>
 	<script src="../../plugins/jqgrid/jquery.jqGrid.min.js"></script>
 	<script src="../../plugins/ztree/jquery.ztree.all.min.js"></script>
+	<script type="text/javascript" src="../../js/echarts.js"></script>
     <!-- <script type="text/javascript" src="../../js/common.js"></script> -->
 	
   <link rel="stylesheet" href="../../css/reset.css">
@@ -89,6 +90,11 @@
            -->
         </tbody>
       </table>
+    </div>
+    
+	<div class="echart1">
+    	<h3 class="echart-title">结算价格折线图</h3>
+      	<div id="main1" style="height:400px;width:80%;margin:0 auto;"></div>
     </div>
     
     <div class="form3">
@@ -242,11 +248,14 @@
 			    async: false,
 			    success: function(r){
 					if(r.code == 0){
-						$(".form1 h3").html(r.newspaperEntity.paramdate + "银行间每日债券借贷");
+						//$(".form1 h3").html(r.newspaperEntity.paramdate + "银行间每日债券借贷");
 						//$(".form2 h3").html(r.newspaperEntity.paramdate + "国债期货当日结算价");
 						//$(".form3 h3").html(r.newspaperEntity.paramdate + "国债期货品种排名");
+						// ============== 表格：银行间每日债券借贷  ============== 
 						var str = ""; var strTd = "";
-						if(r.newspaperEntity.stype == '1'){
+						if(r.newspaperEntity.stype == '1' || r.newspaperEntity.stype == '2'){
+							str = ""; strTd = "";
+							$(".form1 h3").html(r.newspaperEntity.paramdate + "银行间每日债券借贷");
 							if(null !=r.listZQJD && r.listZQJD != undefined && r.listZQJD.length > 0){
 								str = "<tr>" +
 										  "<th>委托日期</th>" +
@@ -275,53 +284,43 @@
 						}else{
 							$(".form1 h3").html('');
 						}
-						
-						if(r.newspaperEntity.stype == '2'){
+						// ============== 表格：国债期货当日结算价  ==============
+						if(r.newspaperEntity.stype == '1' || r.newspaperEntity.stype == '2'){
+							str = ""; strTd = "";
+							$(".form2 h3").html(r.newspaperEntity.paramdate + "国债期货当日结算价");
 							if(null !=r.listVCBONDFUTURESEODPRICES && r.listVCBONDFUTURESEODPRICES != undefined && r.listVCBONDFUTURESEODPRICES.length > 0){
-								str = ""; strTd = "";
-								$(".form2").html('');
-								var all = "<h3>" + r.newspaperEntity.paramdate + "国债期货当日结算价</h3>" ;
-								$.each(r.newspaperEntity.sInfoWindcodes,function(index1, item1){ 
-									str = "<b>" + item1 + "</b><table><thead>" +
-										  "<tr>" +
-											  "<th>交易日</th>" +
-											 //"<th>合约</th>" + 
-											  "<th>开盘价</th>" + 
-									          "<th>最高价</th>" +
-									          "<th>最低价</th>" +
-									          "<th>收盘价</th>" +
-									          "<th>结算价</th>" +
-									          "<th>成交量</th>" +
-									          "<th>持仓量</th>" +
-									          "<th>涨跌(元)-涨跌幅%</th>" +
-									          "<th>最后交易日期</th>" +
-								          "</tr>";
-								    all += str + "</thead>";
-								    all += "<tbody>";
-								    strTd = "";
-									$.each(r.listVCBONDFUTURESEODPRICES,function(index, item){ 
-										if(item.sInfoWindcode == item1){
-										    strTd += "<tr>" +
-											    		"<td>" + item.tradeDt + "</td>" +
-											    		//"<td>" + item.sInfoWindcode + "</td>" +
-											    		"<td>" + item.sDqOpen + "</td>" +
-											    		"<td>" + item.sDqHigh + "</td>" +
-											    		"<td>" + item.sDqLow + "</td>" +
-											    		"<td>" + item.sDqClose + "</td>" +
-											    		"<td>" + item.sDqSettle + "</td>" +
-											    		"<td>" + item.sDqVolume + "</td>" +
-											    		"<td>" + item.sDqOi + "</td>" +
-											    		"<td>" + item.sDqChange + "</td>" +
-											    		"<td style='text-align:left;'>" + item.sInfoDelistdate + "</td>" +
-										    		"</tr>";
-										}
-										all += strTd;
-										strTd = "";
-									}) 
-									all += "</tbody></table>";
+								str = "<tr>" +
+										  "<th>交易日</th>" +
+										  "<th>合约</th>" + 
+										  "<th>开盘价</th>" + 
+								          "<th>最高价</th>" +
+								          "<th>最低价</th>" +
+								          "<th>收盘价</th>" +
+								          "<th>结算价</th>" +
+								          "<th>成交量</th>" +
+								          "<th>持仓量</th>" +
+								          "<th>涨跌(元)-涨跌幅%</th>" +
+								          "<th>最后交易日期</th>" +
+							          "</tr>";
+							    $("#table2 thead").html('');
+								$("#table2 thead").html(str);
+								$.each(r.listVCBONDFUTURESEODPRICES,function(index, item){ 
+									    strTd += "<tr>" +
+										    		"<td>" + item.tradeDt + "</td>" +
+										    		"<td>" + item.sInfoWindcode + "</td>" +
+										    		"<td>" + item.sDqOpen + "</td>" +
+										    		"<td>" + item.sDqHigh + "</td>" +
+										    		"<td>" + item.sDqLow + "</td>" +
+										    		"<td>" + item.sDqClose + "</td>" +
+										    		"<td>" + item.sDqSettle + "</td>" +
+										    		"<td>" + item.sDqVolume + "</td>" +
+										    		"<td>" + item.sDqOi + "</td>" +
+										    		"<td>" + item.sDqChange + "</td>" +
+										    		"<td style='text-align:left;'>" + item.sInfoDelistdate + "</td>" +
+									    		"</tr>";
 								})
-								all += "</div>";
-								$(".form2").html(all)
+								$("#table2 tbody").html('');
+								$("#table2 tbody").html(strTd);
 							}else{
 								$(".form2 h3").html(r.newspaperEntity.paramdate + "国债期货当日结算价 无数据");
 							}
@@ -329,7 +328,68 @@
 							$(".form2 h3").html('');
 						}
 						
-						
+						// ============== 折线图：国债期货当日结算价  ==============
+					    if(r.newspaperEntity.stype == '1' || r.newspaperEntity.stype == '2'){
+					    	var myChart1 = echarts.init(document.getElementById('main1')); 
+					    	option1 = {
+					    	    //标记
+					    	    legend: {
+					    	        data:[r.namehy + '价格走势'],
+					    	    },
+					    	    // 提示
+					    	    tooltip : {
+					    	        trigger: 'axis'
+					    	    },
+					    	      calculable : true,
+
+					    	      xAxis : [
+					    	          {
+					    	              axisLabel:{
+					    	              interval:0
+					    	              },
+					    	              axisLine:{
+					    	                lineStyle :{
+					    	                    color: '#CECECE'
+					    	                }
+					    	              },
+					    	              type : 'category',
+					    	              boundaryGap : false,
+					    	              data : r.dateLists
+					    	      }],
+					    	      yAxis : [
+					    	          {
+
+					    	              type : 'value',
+					    	              min: 3,
+					    	              max: 4,
+					    	              axisLabel : {
+					    	                formatter: function(value,index){
+					    	                  return value.toFixed(1)
+					    	                }
+					    	              },
+					    	              axisLine:{
+					    	                  lineStyle :{
+					    	                      color: '#CECECE'
+					    	                  }
+					    	              }
+					    	          }
+					    	      ],
+					    	      series : [
+					    	          {
+					    	              name: r.namehy + '价格走势',
+					    	              type:'line',
+					    	              symbol:'emptyCircle',
+					    	              smooth: 0.2,
+					    	              color:['#66AEDE'],
+					    	              data:r.priceLists,
+					    	          }
+					    	      ]
+
+					    	};
+					    	myChart1.setOption(option1); 
+					    }
+							
+						// ============== 表格：国债期货品种排名  ==============	
 						if(r.newspaperEntity.stype == '3'){
 							if(null != r.listVCBONDFUTURESPOSITIONSD && r.listVCBONDFUTURESPOSITIONSD != undefined && r.listVCBONDFUTURESPOSITIONSD.length > 0){
 								str = ""; strTd = "";

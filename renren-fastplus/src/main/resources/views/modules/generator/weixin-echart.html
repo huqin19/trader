@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/weixin.css">
+</head>
+<body>
+  <div class="container">
+    <div class="form1">
+      <h3>2018-12-12银行间每日债券借贷</h3>
+      <table id="table1">
+        <thead>
+          <tr>
+            <th>标的券代码</th>
+            <th>标的券名称</th>
+            <th>加权平均费率（%）</th>
+            <th>成交量（亿元）</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>SuZhou</td>
+            <td>11111</td>
+            <td>22222</td>
+            <td>333</td>
+          </tr>
+          <tr>
+              <td>SuZhou</td>
+              <td>33333</td>
+              <td>44444</td>
+              <td>333</td>
+          </tr>
+          <tr>
+              <td>SuZhou</td>
+              <td>55555</td>
+              <td>66666</td>
+              <td>333</td>
+          </tr>
+          <tr>
+              <td>ShangHai</td>
+              <td>77777</td>
+              <td>88888</td>
+              <td>333</td>
+          </tr>
+          <tr>
+              <td>ShangHai</td>
+              <td>uuuuu</td>
+              <td>hhhhh</td>
+              <td>333</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="form2">
+      <h3>2018-12-12国债期货当日结算价</h3>
+      <table id="table2">
+        <thead>
+          <tr>
+            <th>合约</th>
+            <th>开盘价</th>
+            <th>最高价</th>
+            <th>最低价</th>
+            <th>收盘价</th>
+            <th>结算价</th>
+            <th>成交量</th>
+            <th>持仓量</th>
+            <th>涨跌（元）<br>涨幅（%）</th>
+            <th>最后交易日期</th>
+          </tr>
+         </thead>
+        <tbody>
+          <tr>
+            <td>TF793</td>
+            <td>99.89</td>
+            <td>20.99</td>
+            <td>98.00</td>
+            <td>99.00</td>
+            <td>99.00</td>
+            <td>9899</td>
+            <td>13435</td>
+            <td>-0.99</td>
+            <td>2018-10-09</td>
+          </tr>
+          <tr>
+            <td>TF793</td>
+            <td>99.89</td>
+            <td>20.99</td>
+            <td>98.00</td>
+            <td>99.00</td>
+            <td>99.00</td>
+            <td>9899</td>
+            <td>13435</td>
+            <td>-0.99</td>
+            <td>2018-10-09</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="echart1">
+      <h3 class="echart-title">结算价格曲线</h3>
+      <div id="main1" style="height:400px;width:80%;margin:0 auto;"></div>
+    </div>
+</div>
+</body>
+  <script src="js/jquery-1.4.4.min.js"></script>
+  <script src="js/table.js"></script>
+  <script src="js/echarts.js"></script>
+  <script src="js/weixin2.js"></script>
+  <script>
+      $(function(){
+        // 表格1
+        _w_table_rowspan("#table1",1);
+        _w_table_colspan("#table1",1,6);
+        // 表格2
+        // _w_table_rowspanTh("#table2",1);
+        // _w_table_rowspan("#table2",1);
+        // _w_table_colspan("#table2",1,6);
+    })
+  </script>
+</html>

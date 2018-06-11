@@ -108,6 +108,53 @@
 			<if test="paramdate != null and paramdate.trim() != ''">
 				and T1.TRADE_DT = #{paramdate}
 			</if>
+			<if test="sInfoWindcode != null and sInfoWindcode.trim() != ''">
+				and T2.S_INFO_CODE = #{sInfoWindcode}
+			</if>
+			<if test="paramyear != null and paramyear.trim() != ''">
+				and T1.TRADE_DT like '' || #{paramyear} || '%'
+			</if>
+	</select>
+	
+	<select id="queryVCBONDFUTURESEODPRICESListByYYYYMM" parameterType="io.renren.modules.generator.entity.NewspaperEntity" resultType="io.renren.modules.generator.entity.NewspaperEntity" >
+		select 
+			tradeDt,
+			TO_CHAR(avg(sDqSettle) ,'FM99990.99') as sDqSettle
+		from(
+			SELECT 
+				SUBSTR(T1.TRADE_DT, 1, 7) as tradeDt,
+				T1.S_DQ_SETTLE as sDqSettle
+			FROM 
+				CBONDFUTURESEODPRICES T1 
+			LEFT JOIN
+				CFUTURESDESCRIPTION T2 
+			ON 
+				T2.S_INFO_WINDCODE = T1.S_INFO_WINDCODE
+			WHERE 
+				T2.S_INFO_EXCHMARKET='CFFEX' AND T2.FS_INFO_SCCODE IN ('T','TF') 
+				AND T2.FS_INFO_TYPE=1
+				AND T1.S_DQ_VOLUME >= 1000
+				<if test="sname != null and sname.trim() != ''">
+					and T2.S_INFO_CODE like '%' || #{sname} || '%'
+				</if>
+				<if test="dateinfoS != null and dateinfoS.trim() != ''">
+					and T1.TRADE_DT &gt;=  #{dateinfoS}
+				</if>
+				<if test="dateinfoE != null and dateinfoE.trim() != ''">
+					and T1.TRADE_DT &lt;= #{dateinfoE}
+				</if>
+				<if test="paramdate != null and paramdate.trim() != ''">
+					and T1.TRADE_DT = #{paramdate}
+				</if>
+				<if test="sInfoWindcode != null and sInfoWindcode.trim() != ''">
+					and T2.S_INFO_CODE = #{sInfoWindcode}
+				</if>
+				<if test="paramyear != null and paramyear.trim() != ''">
+					and T1.TRADE_DT like '' || #{paramyear} || '%'
+				</if>
+		)t
+		GROUP by tradeDt
+		order by tradeDt asc
 	</select>
 	
 	

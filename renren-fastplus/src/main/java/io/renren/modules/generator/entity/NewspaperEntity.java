@@ -376,6 +376,8 @@ public class NewspaperEntity implements Serializable {
 	private String stype;
 	//某天
 	private String paramdate;
+	//某年
+	private String paramyear; 
 	
 	/*
 	 * 合约 S_INFO_WINDCODE集合
@@ -428,6 +430,14 @@ public class NewspaperEntity implements Serializable {
 
 	public void setsInfoWindcodes(List<String> sInfoWindcodes) {
 		this.sInfoWindcodes = sInfoWindcodes;
+	}
+
+	public String getParamyear() {
+		return paramyear;
+	}
+
+	public void setParamyear(String paramyear) {
+		this.paramyear = paramyear;
 	}
 
 }
