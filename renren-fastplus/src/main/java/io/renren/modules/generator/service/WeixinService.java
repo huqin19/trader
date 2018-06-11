@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.renren.modules.generator.entity.WeixinEntity;
+import io.renren.modules.generator.entity.ZqJobAttachEntity;
 import io.renren.modules.generator.entity.ZqSheetsEntity;
 
 /**
@@ -39,5 +40,11 @@ public interface WeixinService {
 	 * @return
 	 */
 	public String submitMessage(WeixinEntity weixinEntity);
+	/**
+	 * 消息定时推送-获取附加表信息
+	 * @param jobid
+	 * @return
+	 */
+	public ZqJobAttachEntity queryObject(Long jobid);
 }
 

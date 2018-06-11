@@ -85,14 +85,14 @@ public class WeixinController {
 //					String date = DateUtils.format(new Date());
 //					String type = x.trim().equals("银行间每日债券借贷") ? "1" : (x.trim().equals("国债期货当日结算价") ? "2" : "3");
 					//从日报表中获取日报名称和url
-					String date = weixinEntity.getSheetDate();
+					String date = DateUtils.format( weixinEntity.getSheetDate(), DateUtils.DATE_PATTERN);
 					String type = x;
 					ZqSheetsEntity zqSheetsEntity = weixinService.queryZqSheetsObject(new BigDecimal(x));
 					if(null != zqSheetsEntity) {
 						con.setDescription(zqSheetsEntity.getSheetName());
-						con.setTitle(zqSheetsEntity.getSheetName() + "[" + DateUtils.format(date, DateUtils.DATE_PATTERN) + "]");
+						con.setTitle(zqSheetsEntity.getSheetName() + "[" + date + "]");
 						con.setPicurl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_ADDRESS")+
-								"/tfs/TB1e58ksHSYBuNjSspiXXXNzpXa-290-130.gif");
+								"/renren-fastplus/img/0000"+ type+".jpg");
 						con.setUrl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_ADDRESS")
 								+ zqSheetsEntity.getSheetUrl() + "?dt=" + date + "&stype=" + type);
 						content.add(con);

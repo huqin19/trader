@@ -1,7 +1,10 @@
 package io.renren.modules.job.task;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -11,9 +14,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import io.renren.common.utils.DateUtils;
 import io.renren.common.utils.GsonUtils;
 import io.renren.common.utils.HttpClientUtils;
+import io.renren.common.utils.ReadYml;
+import io.renren.modules.generator.entity.ZqJobAttachEntity;
+import io.renren.modules.generator.entity.ZqSheetsEntity;
+import io.renren.modules.generator.service.WeixinService;
+import io.renren.modules.job.entity.Content;
 import io.renren.modules.job.entity.InvalidEntity;
+import io.renren.modules.job.entity.MessageEntity;
 import io.renren.modules.job.entity.ResultEntity;
 import io.renren.modules.job.entity.SyncPushLogEntity;
 import io.renren.modules.job.service.SyncPushLogService;
@@ -38,6 +48,8 @@ public class SendMessageTask {
 	private String paramName;
 	@Autowired
 	private UsersService usersService;
+	@Autowired
+	private WeixinService weixinService;
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private SyncPushLogService syncPushLogService;
@@ -116,8 +128,41 @@ public class SendMessageTask {
 		resultMap.put("resultStr", back.toString());
 		return resultMap;
 	}
-	public void saveThenPush(String param, Integer way) {
-		String prams = "";
-		sendPushdMessage(prams , way);
+	public void saveThenPush(String param,Long jobid, Integer way) {
+		MessageEntity msg = new MessageEntity();
+		List<Content> content = new ArrayList<Content>();
+		ZqJobAttachEntity jobAttach = weixinService.queryObject(jobid);
+		if(jobAttach != null) {
+			String date = DateUtils.format( new Date(), DateUtils.DATE_PATTERN);
+			String sheet = jobAttach.getSheetId().substring(1);
+			String touser = jobAttach.getUserId().substring(1);
+			String sheetid[] = sheet.split("|");
+			if(sheetid != null && sheetid.length > 0) {
+				for(String id:  sheetid) {
+					Content con = new Content();
+					ZqSheetsEntity zqSheetsEntity = weixinService.queryZqSheetsObject(new BigDecimal(id));
+					if(null != zqSheetsEntity) {
+						con.setDescription(zqSheetsEntity.getSheetName());
+						con.setTitle(zqSheetsEntity.getSheetName() + "[" + date + "]");
+						con.setPicurl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_ADDRESS")+
+								"/renren-fastplus/img/0000"+ id+".jpg");
+						con.setUrl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_ADDRESS")
+								+ zqSheetsEntity.getSheetUrl() + "?dt=" + date + "&stype=" + id);
+						content.add(con);
+					}
+				}
+				String contstr = GsonUtils.gsonString(content);
+				msg.setTouser(touser.toString());
+				msg.setToparty("");
+				msg.setNo("b21aa97019ac42658af0f107bc5a379f");
+				msg.setMsgtype("news");
+				msg.setContent(contstr);
+				msg.setSendType("0");
+				msg.setSafe("0");				
+			}
+		}
+		String msgString = GsonUtils.gsonString(msg);
+		System.out.println(msgString+"=========-----------+++++=");
+		sendPushdMessage(msgString , way);
 	}
 }

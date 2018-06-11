@@ -62,6 +62,11 @@ public class WeixinServiceImpl implements WeixinService {
 	}
 
 	@Override
+	public ZqJobAttachEntity queryObject(Long jobid) {
+		return zqJobAttachDao.queryObject(jobid);
+	}
+	
+	@Override
 	@Transactional
 	public String submitMessage(WeixinEntity weixinEntity) {
 		String result = "";
@@ -107,5 +112,6 @@ public class WeixinServiceImpl implements WeixinService {
 		}
 		return null;
 	}
+
 
 }

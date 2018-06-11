@@ -15,7 +15,7 @@
         <result property="lastModifierId" column="LAST_MODIFIER_ID"/>
         <result property="modifiedTimestamp" column="MODIFIED_TIMESTAMP"/>
     </resultMap>
-
+	
 	<select id="queryList" parameterType="java.util.HashMap" resultType="io.renren.modules.generator.entity.ZqJobAttachEntity" >
 		select 
 			*
@@ -36,7 +36,9 @@
 			</if>
 		</where>
 	</select>
-	
+	<select id="queryObject" resultType="io.renren.modules.generator.entity.ZqSheetsEntity">
+		select * from zq_job_attach where JOB_ID = #{value}
+	</select>
 	<insert id="save" parameterType="io.renren.modules.generator.entity.ZqJobAttachEntity">
 		insert into zq_job_attach(
 			object_id, 
