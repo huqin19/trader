@@ -4,11 +4,13 @@
 <mapper namespace="io.renren.modules.ht.dao.TCalendarDatesDao">
 	<select id="queryCode" parameterType="java.util.HashMap" resultType="io.renren.modules.ht.entity.TCalendarDatesEntity" >
 		select * from ${tableName} 
-		<where>
-			<if test="calDay !=null and calDay.trim() != ''">
-				where TO_DATE(cal_day,'syyyy-mm-dd') = TO_DATE(#{calDay},'syyyy-mm-dd')
-			</if> 
-		</where>
+		where
+			status = 1
+			<if test="calDay !=null">
+				and TO_DATE(cal_day,'syyyy-mm-dd') = TO_DATE(#{calDay},'syyyy-mm-dd')			
+			</if> 	
+			
+
 	</select> 
 	<select id="queryAll" parameterType="java.util.HashMap" resultType="io.renren.modules.ht.entity.TCalendarDatesEntity" >
 		select * from ${tableName}

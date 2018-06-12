@@ -135,8 +135,8 @@ public class SendMessageTask {
 		List<Content> content = new ArrayList<Content>();
 		ZqJobAttachEntity jobAttach = weixinService.queryObject(jobid);
 		if (jobAttach != null) {
-			String date = "2017-08-14";
-			//String date = DateUtils.format(new Date(), DateUtils.DATE_PATTERN);
+			//String date = "2017-08-14";
+			String date = DateUtils.format(new Date(), DateUtils.DATE_PATTERN);
 			String sheet = jobAttach.getSheetId().substring(1);
 			String touser = jobAttach.getUserId().substring(1);
 			String sheetid[] = sheet.split("\\|");
