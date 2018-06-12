@@ -123,7 +123,8 @@
 	<select id="queryVCBONDFUTURESEODPRICESListByYYYYMM" parameterType="io.renren.modules.generator.entity.NewspaperEntity" resultType="io.renren.modules.generator.entity.NewspaperEntity" >
 		select 
 			tradeDt,
-			TO_CHAR(min(sDqSettle) ,'FM99990.99') as sDqSettle
+			CASE WHEN mod(to_number(SUBSTR(tradeDt, 5, 2)),2) = 0 THEN TO_CHAR(min(sDqSettle) ,'FM99990.99') 
+			else TO_CHAR(max(sDqSettle) ,'FM99990.99')  end as sDqSettle
 		from(
 			SELECT 
 				SUBSTR(T1.TRADE_DT, 1, 6) as tradeDt,
