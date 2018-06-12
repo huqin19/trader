@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -81,25 +82,35 @@ public class WeixinController {
 		List<Content> content = new ArrayList<Content>();
 		if (null != weixinEntity) {
 			if (null != weixinEntity.getTitleArr() && weixinEntity.getTitleArr().length > 0) {
+				int flag = 0;
 				for (String x : weixinEntity.getTitleArr()) {
-					Content con = new Content();
-//					String date = DateUtils.format(new Date());
-//					String type = x.trim().equals("银行间每日债券借贷") ? "1" : (x.trim().equals("国债期货当日结算价") ? "2" : "3");
-					//从日报表中获取日报名称和url
-					String date = DateUtils.format( weixinEntity.getSheetDate(), DateUtils.DATE_PATTERN,DateUtils.DATE_PATTERN);
-					String type = x;
-					ZqSheetsEntity zqSheetsEntity = weixinService.queryZqSheetsObject(new BigDecimal(x));
-					if(null != zqSheetsEntity) {
-						sheetNameMap.put(x, zqSheetsEntity.getSheetName());
-						con.setDescription(zqSheetsEntity.getSheetName());
-						con.setTitle(zqSheetsEntity.getSheetName() + "[" + date + "]");
-						con.setPicurl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_PORT")+
-								"/renren-fastplus/img/sheet00"+ type+".jpg");
-						con.setUrl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_PORT")
-								+ zqSheetsEntity.getSheetUrl() + "?dt=" + date + "&stype=" + type);
-						content.add(con);
+					if(!(flag == 1 && (x.equals("1") || x.equals("2")))) {
+						if(flag == 0 && (x.equals("1") || x.equals("2"))) {
+							flag = 1;
+						}
+						Content con = new Content();
+//						String date = DateUtils.format(new Date());
+//						String type = x.trim().equals("银行间每日债券借贷") ? "1" : (x.trim().equals("国债期货当日结算价") ? "2" : "3");
+						//从日报表中获取日报名称和url
+						String date = DateUtils.format( weixinEntity.getSheetDate(), DateUtils.DATE_PATTERN,DateUtils.DATE_PATTERN);
+						String type = x;
+						ZqSheetsEntity zqSheetsEntity = weixinService.queryZqSheetsObject(new BigDecimal(x));
+						if(null != zqSheetsEntity) {
+							
+							String tmp = zqSheetsEntity.getSheetName();
+							if(zqSheetsEntity.getSheetName().equals("银行间每日债券借贷") || zqSheetsEntity.getSheetName().equals("国债期货当日结算价")) {
+								tmp = "固收日报示例1";
+							}
+							sheetNameMap.put(x, tmp);
+							con.setDescription(tmp);
+							con.setTitle(tmp + "[" + date + "]");
+							con.setPicurl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_PORT")+
+									"/renren-fastplus/img/sheet00"+ type+".jpg");
+							con.setUrl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_PORT")
+							+ zqSheetsEntity.getSheetUrl() + "?dt=" + date + "&stype=" + type);
+							content.add(con);
+						}
 					}
-					
 				}
 			}
 			if (null != weixinEntity.getNewtreeName() && weixinEntity.getNewtreeName().length > 0) {
@@ -124,11 +135,12 @@ public class WeixinController {
 						success - (Integer) resultMap.get("faildNum") : 0;
 				int num = 1;
 				for (String x : weixinEntity.getTitleArr()) {
-					resultDesc = resultDesc + num + "," + sheetNameMap.get(x) + ":" + "\n" + "成功：" + success + "条" + "\n"
-							+ resultMap.get("resultStr") + "\n";
-					num++;
+					if(null != sheetNameMap.get(x)){
+						resultDesc = resultDesc + num + "," + sheetNameMap.get(x) + ":" + "\n" + "成功：" + success + "条" + "\n"
+								+ resultMap.get("resultStr") + "\n";
+						num++;
+					}				
 				}
-
 			}else {
 				if(null != resultMap.get("resultStr")) {
 					resultDesc = (String) resultMap.get("resultStr");
@@ -136,6 +148,8 @@ public class WeixinController {
 					resultDesc = "无法访问服务器";
 				}
 			}
+		}else {
+			resultDesc = "数据为空";
 		}
 
 		return R.ok().put("resultDesc", resultDesc);

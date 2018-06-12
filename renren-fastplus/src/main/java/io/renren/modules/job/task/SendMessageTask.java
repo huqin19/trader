@@ -53,25 +53,25 @@ public class SendMessageTask {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private SyncPushLogService syncPushLogService;
+
 	/**
 	 * 1.3接口返回
 	 * 
-	 * @param param 入参
-	 * 将返回数据日志记录数据库 
-	 * 1，如果返回结果为空，获取返回信息失败
-	 * 2，返回结果不为空，返回的obj不为空时
-	 * 2.1,invaliduser和invalidparty都不为空，有成员和有部门没有获取消息失败
-	 * 2.2,invaliduser为空invalidparty不为空，有成员获取消息失败
-	 * 2.3,invaliduser不为空invalidparty为空，有部门获取消息失败
-	 * 2.3,invaliduser和invalidparty都为空，获取消息都成功 3，返回结果不为空，返回的obj为空时，获取消息失败
+	 * @param param
+	 *            入参 将返回数据日志记录数据库 1，如果返回结果为空，获取返回信息失败 2，返回结果不为空，返回的obj不为空时
+	 *            2.1,invaliduser和invalidparty都不为空，有成员和有部门没有获取消息失败
+	 *            2.2,invaliduser为空invalidparty不为空，有成员获取消息失败
+	 *            2.3,invaliduser不为空invalidparty为空，有部门获取消息失败
+	 *            2.3,invaliduser和invalidparty都为空，获取消息都成功 3，返回结果不为空，返回的obj为空时，获取消息失败
 	 */
-	public Map<String, Object>  sendPushdMessage(String param , Integer way) {
+	public Map<String, Object> sendPushdMessage(String param, Integer way) {
 		logger.info("我是带参数的senPushdMessage方法，正在被执行，参数为：" + param);
 		String strResult = HttpClientUtils.doPost(url, param, true);
 		// 测试
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		StringBuilder back = new StringBuilder();
-		//String strResult = "{\"cause\":null,\"obj\":{\"invaliduser\":\"xinzhi_test\",\"invalidparty\":\"276\",\"invalidtag\":null},\"code\":0,\"msg\":\"成功！\"}";
+		// String strResult =
+		// "{\"cause\":null,\"obj\":{\"invaliduser\":\"xinzhi_test\",\"invalidparty\":\"276\",\"invalidtag\":null},\"code\":0,\"msg\":\"成功！\"}";
 		// Json解析成实体类
 		ResultEntity<InvalidEntity> result = GsonUtils.fromJsonObject(strResult, InvalidEntity.class);
 		// 数据库保存执行记录
@@ -93,23 +93,24 @@ public class SendMessageTask {
 				InvalidEntity inv = (InvalidEntity) result.getObj();
 				if (StringUtils.isNotBlank(inv.getInvaliduser()) || StringUtils.isNotBlank(inv.getInvalidparty())) {
 					String m = "成功！".equals(result.getMsg()) ? "" : result.getMsg();
-					String  users[] = inv.getInvaliduser().split("\\|");
-					back.append("失败："+users.length+"条，成员：");
-					for(String user : users) {
-						back.append(usersService.queryObject(user).getName()+",");
+					String users[] = inv.getInvaliduser().split("\\|");
+					back.append("失败：" + users.length + "条，成员：");
+					for (String user : users) {
+						back.append(usersService.queryObject(user).getName() + ",");
 					}
-					back.deleteCharAt(back.length()-1);
+					back.deleteCharAt(back.length() - 1);
 					back.append("接收消息失败!");
 					resultMap.put("faildNum", users.length);
-					String udf =inv.getInvaliduser() + "成员接收消息失败!" +";"+ inv.getInvalidparty() + "部门接收消息失败! " + m;
+					String udf = inv.getInvaliduser() + "成员接收消息失败!" + ";" + inv.getInvalidparty() + "部门接收消息失败! " + m;
 					String uf = inv.getInvaliduser() + "成员接收消息失败!  " + m;
 					String df = inv.getInvalidparty() + "部门接收消息失败!  " + m;
 					log.setResult(0);
-					log.setResultDesc(StringUtils.isNotBlank(inv.getInvaliduser()) 
-							&& StringUtils.isBlank(inv.getInvalidparty()) ? uf
-							: (StringUtils.isNotBlank(inv.getInvalidparty()) 
-							&& StringUtils.isBlank(inv.getInvaliduser()) ? df : udf));
-				} else if( result.getCode() == 0) {
+					log.setResultDesc(
+							StringUtils.isNotBlank(inv.getInvaliduser()) && StringUtils.isBlank(inv.getInvalidparty())
+									? uf
+									: (StringUtils.isNotBlank(inv.getInvalidparty())
+											&& StringUtils.isBlank(inv.getInvaliduser()) ? df : udf));
+				} else if (result.getCode() == 0) {
 					log.setResult(1);
 					log.setResultDesc("所有成员或部门推送成功！");
 					back.append("所有成员推送成功！");
@@ -117,38 +118,54 @@ public class SendMessageTask {
 				}
 			} else {
 				log.setResult(0);
-				log.setResultDesc("错误信息编号:"+result.getCode() + ";" + result.getMsg());
-				back.append("错误信息编号:"+result.getCode() + ";" + result.getMsg());
+				log.setResultDesc("错误信息编号:" + result.getCode() + ";" + result.getMsg());
+				back.append("错误信息编号:" + result.getCode() + ";" + result.getMsg());
 				resultMap.put("faildNum", -1);
 			}
 		}
 		log.setRemark("remark");
 		syncPushLogService.save(log);
-		
+
 		resultMap.put("resultStr", back.toString());
 		return resultMap;
 	}
-	public void saveThenPush(String param,Long jobid, Integer way) {
+
+	public void saveThenPush(String param, Long jobid, Integer way) {
 		MessageEntity msg = new MessageEntity();
 		List<Content> content = new ArrayList<Content>();
 		ZqJobAttachEntity jobAttach = weixinService.queryObject(jobid);
-		if(jobAttach != null) {
-			String date = DateUtils.format( new Date(), DateUtils.DATE_PATTERN);
+		if (jobAttach != null) {
+			String date = "2017-08-14";
+			//String date = DateUtils.format(new Date(), DateUtils.DATE_PATTERN);
 			String sheet = jobAttach.getSheetId().substring(1);
 			String touser = jobAttach.getUserId().substring(1);
 			String sheetid[] = sheet.split("\\|");
-			if(sheetid != null && sheetid.length > 0) {
-				for(String id:  sheetid) {
+			if (sheetid != null && sheetid.length > 0) {
+
+				int flag = 0;
+				for (String id : sheetid) {
 					Content con = new Content();
-					ZqSheetsEntity zqSheetsEntity = weixinService.queryZqSheetsObject(new BigDecimal(id));
-					if(null != zqSheetsEntity) {
-						con.setDescription(zqSheetsEntity.getSheetName());
-						con.setTitle(zqSheetsEntity.getSheetName() + "[" + date + "]");
-						con.setPicurl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_PORT")+
-								"/renren-fastplus/img/sheet00"+ id+".jpg");
-						con.setUrl("http://"+ReadYml.getMl("WEIXIN_ADDRESS")+":"+ReadYml.getMl("WEIXIN_PORT")
-								+ zqSheetsEntity.getSheetUrl() + "?dt=" + date + "&stype=" + id);
-						content.add(con);
+
+					if (!(flag == 1 && (id.equals("1") || id.equals("2")))) {
+						if (flag == 0 && (id.equals("1") || id.equals("2"))) {
+							flag = 1;
+						}
+
+						ZqSheetsEntity zqSheetsEntity = weixinService.queryZqSheetsObject(new BigDecimal(id));
+						if (null != zqSheetsEntity) {
+							
+							String tmp = zqSheetsEntity.getSheetName();
+							if(zqSheetsEntity.getSheetName().equals("银行间每日债券借贷") || zqSheetsEntity.getSheetName().equals("国债期货当日结算价")) {
+								tmp = "固收日报示例1";
+							}
+							con.setDescription(tmp);
+							con.setTitle(tmp + "[" + date + "]");
+							con.setPicurl("http://" + ReadYml.getMl("WEIXIN_ADDRESS") + ":"
+									+ ReadYml.getMl("WEIXIN_PORT") + "/renren-fastplus/img/sheet00" + id + ".jpg");
+							con.setUrl("http://" + ReadYml.getMl("WEIXIN_ADDRESS") + ":" + ReadYml.getMl("WEIXIN_PORT")
+									+ zqSheetsEntity.getSheetUrl() + "?dt=" + date + "&stype=" + id);
+							content.add(con);
+						}
 					}
 				}
 				String contstr = GsonUtils.gsonString(content);
@@ -158,10 +175,10 @@ public class SendMessageTask {
 				msg.setMsgtype("news");
 				msg.setContent(contstr);
 				msg.setSendType("0");
-				msg.setSafe("0");				
+				msg.setSafe("0");
 			}
 		}
 		String msgString = GsonUtils.gsonString(msg);
-		sendPushdMessage(msgString , way);
+		sendPushdMessage(msgString, way);
 	}
 }
