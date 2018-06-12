@@ -334,6 +334,34 @@ function selData() {
 				}
 			}else{
 				alert(r.msg);
+			}			
+		}
+	});
+	
+}
+function exportData() {
+	var stype = "1"
+	if ($("#stype option:selected").val() != '') {
+		stype = $("#stype option:selected").val();
+	}
+
+	var paramswx = {
+		stype : stype,
+		sname : $("#sname").val(),
+		dateinfoS : $("#dateinfoS").val(),
+		dateinfoE : $("#dateinfoE").val()
+	};
+	$.ajax({
+		type : "POST",
+		url : baseURL + "generator/newspaper/export",
+		contentType : "application/json",
+		data : JSON.stringify(paramswx),
+		async : false,
+		success : function(r) {
+			if (r.code == 0) {
+				alert("导出成功");
+			} else {
+				alert(r.msg);
 			}
 		}
 	});

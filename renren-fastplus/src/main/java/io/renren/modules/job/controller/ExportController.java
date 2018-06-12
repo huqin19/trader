@@ -32,7 +32,7 @@ public class ExportController {
 				"dept.xls", response);
 	}*/
 	
-	@AuthIgnore
+/*	@AuthIgnore
 	@RequestMapping("/listexport")
 	public void exportTest2(HttpServletResponse response){
         List<String> listName = new ArrayList<>();
@@ -56,7 +56,7 @@ public class ExportController {
         //ExportExcelUtil exportExcelUtil = new ExportExcelUtil();
         ExcelUtils.exportExcel("工单信息表Map.xls","测试POI导出EXCEL文档",listName,listId,listB,response);
         
-	}
+	}*/
 	
 	@AuthIgnore
 	@RequestMapping("/inport")

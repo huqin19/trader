@@ -2,6 +2,10 @@ package io.renren.common.utils;
 
 
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -19,6 +23,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.http.ResponseEntity;
 
 /**
  * @author DHB
@@ -35,8 +40,8 @@ public class ExcelUtils {
 	 * @param dtoList 要处理的数据
 	 * @param response 
 	 */
-	public static void exportExcel(String fileName, String title, List<String> headersName, List<String> headersId,
-			List<Map<String, Object>> dtoList,HttpServletResponse response) {
+	public static ByteArrayOutputStream exportExcel(String title, List<String> headersName, List<String> headersId,
+			List<Map<String, Object>> dtoList ) {
 		/*
 		 * （一）表头--标题栏
 		 */
@@ -102,18 +107,20 @@ public class ExcelUtils {
 			}
 		}
 		//下载
-		try {
+/*		try {
 			downLoad(fileName, response, wb);
 			System.out.println("导出成功!");
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("导出失败!");
 			
-		}
-/*		try {
-			FileOutputStream exportXls = new FileOutputStream(fileName);
-			wb.write(exportXls);
-			exportXls.close();
+		}*/
+		ByteArrayOutputStream out = null;
+	try {
+			// exportXls = new FileOutputStream(fileName);
+			out = new ByteArrayOutputStream();
+			wb.write(out);
+			//out.close();
 			System.out.println("导出成功!");
 		} catch (FileNotFoundException e) {
 			System.out.println("导出失败!");
@@ -121,7 +128,8 @@ public class ExcelUtils {
 		} catch (IOException e) {
 			System.out.println("导出失败!");
 			e.printStackTrace();
-		}*/
+		}
+	return out;
 	}
 	/**
 	 * 下载
