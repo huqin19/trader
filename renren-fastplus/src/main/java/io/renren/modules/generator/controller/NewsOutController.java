@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.renren.common.utils.DateUtils;
 import io.renren.common.utils.R;
 import io.renren.modules.api.annotation.AuthIgnore;
 import io.renren.modules.generator.entity.NewspaperEntity;
@@ -42,6 +41,8 @@ public class NewsOutController {
     	String namehy = "";
 		List<NewspaperEntity> listZQJD = null, listVCBONDFUTURESEODPRICES=null,listVCBONDFUTURESPOSITIONSD=null;
 		List<String> sInfoWindcodes = new ArrayList<String>();
+		BigDecimal minvalue = null;
+		BigDecimal maxvalue = null;
 		if((newspaperEntity.getStype() != null && newspaperEntity.getStype().equals("1"))
 				||
 		   (newspaperEntity.getStype() != null && newspaperEntity.getStype().equals("2"))  ) {
@@ -63,6 +64,16 @@ public class NewsOutController {
 					for(NewspaperEntity x:list) {
 						dateList.add(x.getTradeDt());
 						priceList.add(x.getsDqSettle());
+						if(null == maxvalue) {
+							maxvalue = x.getsDqSettle();
+						}else if(x.getsDqSettle().compareTo(maxvalue) == 1) {
+							maxvalue = x.getsDqSettle();
+						}
+						if(null == minvalue) {
+							minvalue = x.getsDqSettle();
+						}else if(minvalue.compareTo(x.getsDqSettle()) == 1) {
+							minvalue = x.getsDqSettle();
+						}
 					}
 				}
 				dateLists = dateList.toArray(new String[dateList.size()]);
@@ -88,7 +99,9 @@ public class NewsOutController {
         		.put("listVCBONDFUTURESPOSITIONSD", listVCBONDFUTURESPOSITIONSD).put("newspaperEntity", newspaperEntity)
         		.put("dateLists", dateLists)
         		.put("priceLists", priceLists)
-        		.put("namehy", namehy);
+        		.put("namehy", namehy)
+        		.put("maxvalue", maxvalue)
+        		.put("minvalue", minvalue);
     }
 
 

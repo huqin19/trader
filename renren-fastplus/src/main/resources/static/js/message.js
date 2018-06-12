@@ -358,7 +358,36 @@
 		newtreeName2 = [];
 	});
 	
+	//检索人员
+	$("#selpeople").click(function() {
+		var selpeoplevalue = $("#selpeoplevalue").val();
+		if(selpeoplevalue != undefined && null != selpeoplevalue && selpeoplevalue.length > 0){
+			var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+			//展开指定节点
+			treeObj.setting.view.expandSpeed = "";
+			treeObj.expandAll(false);
+			treeObj.setting.view.expandSpeed = "fast";
+			treeObj.expandNode(treeObj.getNodeByParam("name", selpeoplevalue, null).getParentNode() , true, false);
+			//treeObj.checkNode(treeObj.getNodeByParam("name", selpeoplevalue, null), true, true);
+		}
+	});
+	
+	//检索日报
+	$("#selsheet").click(function() {
+		var selsheetvalue = $("#selsheetvalue").val();
+		if(selsheetvalue != undefined && null != selsheetvalue && selsheetvalue.length > 0){
+			var treeObj = $.fn.zTree.getZTreeObj("treeDemo2");
+			//treeObj.checkNode(treeObj.getNodeByParam("name", selpeoplevalue, null), true, true);
+			//展开指定节点
+			treeObj.setting.view.expandSpeed = "";
+			treeObj.expandAll(false);
+			treeObj.setting.view.expandSpeed = "fast";
+			treeObj.expandNode(treeObj.getNodeByParam("name", selsheetvalue, null).getParentNode() , true, false);
+		}
+	});
+	
 	$(".send-message1").click(function() {
 		var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
 		treeObj.checkNode(treeObj.getNodeByParam("id", "xinzhi_test", null), false, true);
 	});
+	
