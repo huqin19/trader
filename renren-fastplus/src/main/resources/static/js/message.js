@@ -268,7 +268,8 @@
 		var beanName = $("#beanName").val();
 		var methodName = $("#methodName").val();
 		var appId = $("#appId").val();
-		var params = $("#params").val();
+		//var params = $("#params").val();
+		var params = $("#params option:selected").val();
 		var cronExpression = $("#cronExpression").val();
 		var remark = $("#remark").val();
 		

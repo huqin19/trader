@@ -24,14 +24,20 @@
       -->
     	<div class="check-name">
 			<label style="width:95px;" for="">bean名称：</label>
-			<input type="text" id="beanName">
+			<input type="text" id="beanName" value="sendMessage">
 			<label style="width:95px;" for="">方法名称：</label>
-			<input type="text" id="methodName">
+			<input type="text" id="methodName" value="saveThenPush">
 			<label style="width:95px;" for="">应用编号：</label>
 			<input type="text" id="appId" value="b21aa97019ac42658af0f107bc5a379f">
 			</br>
-			<label style="width:95px;margin-top:2px;" for="">参数：</label>
+			<label style="width:95px;margin-top:5px;" for="">参数：</label>
+			<!-- 
 			<input style="margin-top:2px;" type="text" id="params" value="定时推送">
+			 -->
+			<select name="params" id="params" style="margin-top:5px;width:230px;height:35px;display:inline-block;border-radius:4px;">
+				<option value="jobSendWxTradeDay">交易日推送</option>
+				<option value="jobSendWx">推送</option>
+			</select>
 			<label style="width:95px;" for="">定时表达式：</label>
 			<input type="text" id="cronExpression">
 			<label style="width:95px;" for="">备注：</label>
