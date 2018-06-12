@@ -16,32 +16,35 @@
   </head>
 <body>
   <div class="z-container">
-    <div class="form1">
+    <div class="">
       <!-- 
       <label>日期:</label>
       <input id="sheetDate" type="text" onclick="testShow(this)" readonly>
       <div class="icons jebtns"></div>
       -->
     	<div class="check-name">
-			<label style="width:95px;" for="">bean名称：</label>
-			<input type="text" id="beanName" value="sendMessage">
-			<label style="width:95px;" for="">方法名称：</label>
-			<input type="text" id="methodName" value="saveThenPush">
-			<label style="width:95px;" for="">应用编号：</label>
-			<input type="text" id="appId" value="b21aa97019ac42658af0f107bc5a379f">
-			</br>
-			<label style="width:95px;margin-top:5px;" for="">参数：</label>
-			<!-- 
-			<input style="margin-top:2px;" type="text" id="params" value="定时推送">
-			 -->
-			<select name="params" id="params" style="margin-top:5px;width:230px;height:35px;display:inline-block;border-radius:4px;">
-				<option value="jobSendWxTradeDay">交易日推送</option>
-				<option value="jobSendWx">推送</option>
-			</select>
-			<label style="width:95px;" for="">定时表达式：</label>
-			<input type="text" id="cronExpression">
-			<label style="width:95px;" for="">备注：</label>
-			<input type="text" id="remark">
+    		<div class="line">
+				<label for="">bean名称：</label>
+				<input type="text" id="beanName" value="sendMessage">
+				<label for="">方法名称：</label>
+				<input type="text" id="methodName" value="saveThenPush">
+				<label for="">应用编号：</label>
+				<input type="text" id="appId" value="b21aa97019ac42658af0f107bc5a379f">
+			</div>
+			<div class="line">
+				<label for="">参数：</label>
+				<!-- 
+				<input style="margin-top:2px;" type="text" id="params" value="定时推送">
+				 -->
+				<select name="params" id="params">
+					<option value="jobSendWxTradeDay">交易日推送</option>
+					<option value="jobSendWx">推送</option>
+				</select>
+				<label for="">定时表达式：</label>
+				<input type="text" id="cronExpression">
+				<label for="">备注：</label>
+				<input type="text" id="remark">
+			</div>
 		</div>
     </div>
     <div class="content_wrap">
@@ -50,23 +53,7 @@
         <ul id="treeDemo2" class="ztree"></ul>
       </div>
     </div>
-  	<!--   
-  	<div class="left">
-      <div class="left-title"> 
-        <div class="check"></div>
-        <p>银行间每日债券借贷</p>
-      </div>
-      <div class="left-title"> 
-        <div class="check"></div>
-        <p>国债期货当日结算价</p>
-      </div>
-      <div class="left-title"> 
-        <div class="check"></div>
-        <p>国债期货品种排名</p>
-      </div>
-    </div> 
-    -->
-    <div class="content_wrap">
+  	<div class="content_wrap">
       <div class="zTreeDemoBackground left">
         <h3>请勾选接收人员</h3>
         <ul id="treeDemo" class="ztree"></ul>

@@ -36,13 +36,16 @@ input::-webkit-input-placeholder{
 	padding-left:10px;
 }
 #info .check-btn{
-	width: 120px;
+	width: 96px;
 	height:36px;
 	border-radius:3px;
 	background: #e31f26;
 	color:#fff;
 	text-align: center;
 	line-height: 36px;
+}
+#info .check-btn2{
+	background: #bba774;
 }
 #info .check-btn img{
 	width:20px;
@@ -129,4 +132,7 @@ input::-webkit-input-placeholder{
 }
 #info tr td:first-child{
 	vertical-align: middle;
+}
+#process-demo-1 tbody tr:nth-child(2n){
+	background:#fdfdfd;
 }

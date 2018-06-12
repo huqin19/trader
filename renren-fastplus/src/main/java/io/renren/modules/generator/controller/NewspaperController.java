@@ -59,8 +59,6 @@ public class NewspaperController {
         return R.ok().put("newspaperList", newspaperList).put("newspaperEntity", newspaperEntity);
     }
     
-    
-    
     /**
      * 日报-列表
      */
