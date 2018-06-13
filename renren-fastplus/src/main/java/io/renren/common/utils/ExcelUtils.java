@@ -77,7 +77,7 @@ public class ExcelUtils {
 		// 生成一个样式
 		HSSFCellStyle style = wb.createCellStyle();
 		HSSFFont headFont = wb.createFont();	
-		HSSFRow row = sheet.createRow(3);
+		HSSFRow row = sheet.createRow(0);
 		//style.setFillBackgroundColor((short)15);
 		//headFont.setBold(true);
 		
