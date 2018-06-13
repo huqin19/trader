@@ -18,10 +18,13 @@ import java.net.URLEncoder;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFDataFormat;
+import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.formula.functions.T;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.http.ResponseEntity;
 
@@ -57,6 +60,7 @@ public class ExcelUtils {
 		 * （二）字段---标题的字段
 		 */
 		Map<Integer, String> titleFieldMap = new HashMap<>();
+		//HSSFCellStyle headStyle = 
 		int value = 0;
 		for (int i = 0; i < headersId.size(); i++) {
 			if (!headersId.get(i).equals(null)) {
@@ -69,10 +73,14 @@ public class ExcelUtils {
 		 */
 		HSSFWorkbook wb = new HSSFWorkbook();
 		HSSFSheet sheet = wb.createSheet(title);
-		sheet.setDefaultColumnWidth((short) 15);
+		sheet.setColumnWidth((short)1,(short) 15);
 		// 生成一个样式
 		HSSFCellStyle style = wb.createCellStyle();
-		HSSFRow row = sheet.createRow(0);
+		HSSFFont headFont = wb.createFont();	
+		HSSFRow row = sheet.createRow(3);
+		//style.setFillBackgroundColor((short)15);
+		//headFont.setBold(true);
+		
 		//style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 		HSSFCell cell;
 		Collection c = headersNameMap.values();// 拿到表格所有标题的value的集合
@@ -92,6 +100,9 @@ public class ExcelUtils {
 		Collection zdC = titleFieldMap.values();
 		Iterator<Map<String, Object>> titleFieldIt = dtoList.iterator();// 总记录的迭代器
 		int zdRow = 1;// 真正的数据记录的列序号
+		HSSFCellStyle contextstyle = wb.createCellStyle();
+		contextstyle.setAlignment(HorizontalAlignment.CENTER);
+		//contextstyle.setVerticalAlignment(1);
 		while (titleFieldIt.hasNext()) {// 记录的迭代器，遍历总记录
 			Map<String, Object> mapTemp = titleFieldIt.next();// 拿到一条记录
 			row = sheet.createRow(zdRow);
@@ -101,7 +112,30 @@ public class ExcelUtils {
 			while (zdIt.hasNext()) {
 				String tempField = zdIt.next();// 字段的暂存
 				if (mapTemp.get(tempField) != null) {
-					row.createCell((short) zdCell).setCellValue(String.valueOf(mapTemp.get(tempField)));// 写进excel对象
+					Object data = mapTemp.get(tempField);
+					HSSFCell contentCell = row.createCell(zdCell);
+					Boolean isNum = false;
+					Boolean isInteger = false;
+					Boolean isPercent = false;
+					if(data != null || "".equals(data)) {
+						isNum = data.toString().matches("^(-?\\d+)(\\.\\d+)?$");
+						isInteger = data.toString().matches("^[-\\+]?[\\d]*$");
+						isPercent = data.toString().contains("%");
+					}
+					if(isNum && !isPercent) {
+						HSSFDataFormat df = wb.createDataFormat();
+						if(isInteger) {
+							contextstyle.setDataFormat(df.getBuiltinFormat("#,#0"));
+						}else {
+							contextstyle.setDataFormat(df.getBuiltinFormat("#,##0.00"));
+						}
+						contentCell.setCellStyle(contextstyle);
+						contentCell.setCellValue(Double.parseDouble(data.toString()));
+					}else {
+						contentCell.setCellStyle(contextstyle);
+						contentCell.setCellValue(data.toString());
+					}				
+					//row.createCell((short) zdCell).setCellValue(String.valueOf(mapTemp.get(tempField)));// 写进excel对象
 					zdCell++;
 				}
 			}
@@ -120,7 +154,8 @@ public class ExcelUtils {
 			// exportXls = new FileOutputStream(fileName);
 			out = new ByteArrayOutputStream();
 			wb.write(out);
-			//out.close();
+			out.close();
+			wb.close();
 			System.out.println("导出成功!");
 		} catch (FileNotFoundException e) {
 			System.out.println("导出失败!");

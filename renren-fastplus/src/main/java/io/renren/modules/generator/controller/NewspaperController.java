@@ -116,6 +116,7 @@ public class NewspaperController {
 		        		listName,listId, exportList);
 		        byte [] bytes = out.toByteArray();
 		        resEntity = new ResponseEntity<byte[]>(bytes,head,HttpStatus.OK);
+				return resEntity;
 			}
 			if("2".equals(newspaperEntity.getStype())) {//国债期货当日结算价
 				newspaperList = newspaperService.queryVCBONDFUTURESEODPRICESList(newspaperEntity);
@@ -190,8 +191,7 @@ public class NewspaperController {
 		        listName.add("会员简称");
 		        listName.add("持卖单量");
 		        listName.add("比上交易日增减 ");
-		        List<String> listId = new ArrayList<>();
-		        
+		        List<String> listId = new ArrayList<>();	        
 		        listId.add("tradeDt");
 		        listId.add("sInfoWindcode");
 		        listId.add("fsInfoRank");
@@ -208,15 +208,18 @@ public class NewspaperController {
 		        listId.add("cSlbh");
 		        List<Map<String,Object>> exportList = new ArrayList<>();
 		        for (int t = 0; t < newspaperList.size(); t ++){
-		            Map<String,Object> map = new HashMap<>();
-		            map.put("fsInfoRank",newspaperList.get(t).getFsInfoRank());
+		            Map<String,Object> map = new HashMap<>();		           
 		            map.put("tradeDt",newspaperList.get(t).getTradeDt());
+		            map.put("sInfoWindcode",newspaperList.get(t).getsInfoWindcode());
+		            map.put("fsInfoRank",newspaperList.get(t).getFsInfoRank());
+		            map.put("cJmem",newspaperList.get(t).getcJmem());
 		            map.put("cJl",newspaperList.get(t).getcJl());
-		            map.put("weightedAverageRate",newspaperList.get(t).getWeightedAverageRate());
 		            map.put("cJlbh",newspaperList.get(t).getcJlbh());
+		            map.put("fsInfoRank",newspaperList.get(t).getFsInfoRank());
 		            map.put("cBmem",newspaperList.get(t).getcBmem());
 		            map.put("cBl",newspaperList.get(t).getcBl());
 		            map.put("cBlbh",newspaperList.get(t).getcBlbh());
+		            map.put("fsInfoRank",newspaperList.get(t).getFsInfoRank());
 		            map.put("cSmem",newspaperList.get(t).getcSmem());
 		            map.put("cSl",newspaperList.get(t).getcSl());
 		            map.put("cSlbh",newspaperList.get(t).getcSlbh());
