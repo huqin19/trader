@@ -351,18 +351,33 @@ function exportData() {
 		dateinfoS : $("#dateinfoS").val(),
 		dateinfoE : $("#dateinfoE").val()
 	};
-	$.ajax({
-		type : "POST",
-		url : baseURL + "generator/newspaper/export",
-		contentType : "application/json",
-		data : JSON.stringify(paramswx),
-		async : false,
-		success : function(r) {
-			if (r.code == 0) {
-				alert("导出成功");
-			} else {
-				alert(r.msg);
-			}
-		}
-	});
+
+	var form = $("<form>");
+	form.attr('style','display:none');
+	form.attr('method','post');
+	form.attr('action',baseURL + "api/export");
+	
+	var input1=$('<input>');
+	input1.attr('type','hidden');
+	input1.attr('name', 'stype');
+	input1.attr('value', stype);
+	var input2=$('<input>');
+	input2.attr('type','hidden');
+	input2.attr('name', 'sname');
+	input2.attr('value', $("#sname").val());
+	var input3=$('<input>');
+	input3.attr('type','hidden');
+	input3.attr('name', 'dateinfoS');
+	input3.attr('value', $("#dateinfoS").val());
+	var input4=$('<input>');
+	input4.attr('type','hidden');
+	input4.attr('name', 'dateinfoE');
+	input4.attr('value', $("#dateinfoE").val());
+	
+	form.append(input1);
+	form.append(input2);
+	form.append(input3);
+	form.append(input4);
+	$('body').append(form);
+	form.submit();
 }
