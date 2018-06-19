@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.renren.common.utils.ExcelUtils;
+import io.renren.common.utils.ExcelUtil;
 import io.renren.common.utils.R;
 import io.renren.modules.generator.entity.NewspaperEntity;
 import io.renren.modules.generator.service.NewspaperService;
@@ -81,27 +81,27 @@ public class NewspaperController {
 		if(null != newspaperEntity && null != newspaperEntity.getStype()) {
 			if("1".equals(newspaperEntity.getStype())) {//银行间每日债券借贷
 				newspaperList = newspaperService.queryZQJDList(newspaperEntity);
-		    	List<String> listName = new ArrayList<>();
-		        listName.add("委托日期");
-		        listName.add("标的券代码");
-		        listName.add("标的券名称 ");
-		        listName.add("加权平均费率(%)");
-		        listName.add("成交量(亿元)");
-		        List<String> listId = new ArrayList<>();
-		        listId.add("trddate");
-		        listId.add("uICode");
-		        listId.add("bName");
-		        listId.add("weightedAverageRate");
-		        listId.add("volume");
-		        List<Map<String,Object>> exportList = new ArrayList<>();
+		        List<Integer[]> mergeList = null;
+		        Integer[] mergeColume = null;
+		        Integer[] mergeRow = {0};
+		        Integer[] fontColor = null;
+		    	List<String> headName = new ArrayList<>();
+		    	headName.add("委托日期");
+		    	headName.add("标的券代码");
+		        headName.add("标的券名称 ");
+		        headName.add("加权平均费率(%)");
+		        headName.add("成交量(亿元)");
+		        List<List<String>> headsList = new ArrayList<>();
+		        headsList.add(headName);
+		        List<List<Object>> dtoList = new ArrayList<>();
 		        for (int t = 0; t < newspaperList.size(); t ++){
-		            Map<String,Object> map = new HashMap<>();
-		            map.put("trddate",newspaperList.get(t).getTrddate());
-		            map.put("uICode",newspaperList.get(t).getuICode());
-		            map.put("bName",newspaperList.get(t).getbName());
-		            map.put("weightedAverageRate",newspaperList.get(t).getWeightedAverageRate());
-		            map.put("volume",newspaperList.get(t).getVolume());
-		            exportList.add(map);
+		        	List<Object> dataList = new ArrayList<>();
+		        	dataList.add(newspaperList.get(t).getTrddate());
+		        	dataList.add(newspaperList.get(t).getuICode());
+		        	dataList.add(newspaperList.get(t).getbName());
+		        	dataList.add(newspaperList.get(t).getWeightedAverageRate());
+		        	dataList.add(newspaperList.get(t).getVolume());
+		        	dtoList.add(dataList);
 		        }      
 		        HttpHeaders head = new HttpHeaders();
 		        String fileName = null;
@@ -112,53 +112,47 @@ public class NewspaperController {
 				}
 		        head.setContentDispositionFormData("attachment", fileName);
 		        head.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-		        ByteArrayOutputStream out = ExcelUtils.exportExcel("银行间每日债券借贷",
-		        		listName,listId, exportList);
+		        ByteArrayOutputStream out = ExcelUtil.export("银行间每日债券借贷",
+		        		headsList, dtoList, mergeList,mergeColume,mergeRow,fontColor);
 		        byte [] bytes = out.toByteArray();
 		        resEntity = new ResponseEntity<byte[]>(bytes,head,HttpStatus.OK);
 				return resEntity;
 			}
 			if("2".equals(newspaperEntity.getStype())) {//国债期货当日结算价
 				newspaperList = newspaperService.queryVCBONDFUTURESEODPRICESList(newspaperEntity);
-		    	List<String> listName = new ArrayList<>();
-		    	listName.add("交易日");
-		    	listName.add("合约");
-		        listName.add("开盘价");
-		        listName.add("最高价");
-		        listName.add("最低价 ");
-		        listName.add("收盘价");
-		        listName.add("结算价");
-		        listName.add("成交量");
-		        listName.add("持仓量");
-		        listName.add("涨跌(元)-涨跌幅%");
-		        listName.add("最后交易日期");
-		        List<String> listId = new ArrayList<>();
-		        listId.add("tradeDt");
-		        listId.add("sInfoWindcode");
-		        listId.add("sDqOpen");
-		        listId.add("sDqHigh");
-		        listId.add("sDqLow");
-		        listId.add("sDqClose");
-		        listId.add("sDqSettle");
-		        listId.add("sDqVolume");
-		        listId.add("sDqOi");
-		        listId.add("sDqChange");
-		        listId.add("sInfoDelistdate");
-		        List<Map<String,Object>> exportList = new ArrayList<>();
+		        List<Integer[]> mergeList = null;
+		        Integer[] mergeColume = null;
+		        Integer[] mergeRow = {0};
+		        Integer[] fontColor = {9};
+		    	List<String> headName = new ArrayList<>();
+		    	headName.add("交易日");
+		    	headName.add("合约");
+		    	headName.add("开盘价");
+		    	headName.add("最高价");
+		    	headName.add("最低价 ");
+		    	headName.add("收盘价");
+		    	headName.add("结算价");
+		    	headName.add("成交量");
+		    	headName.add("持仓量");
+		    	headName.add("涨跌(元)-涨跌幅%");
+		    	headName.add("最后交易日期");
+		        List<List<String>> headsList = new ArrayList<>();
+		        headsList.add(headName);
+		        List<List<Object>> dtoList = new ArrayList<>();		        
 		        for (int t = 0; t < newspaperList.size(); t ++){
-		            Map<String,Object> map = new HashMap<>();
-		            map.put("tradeDt",newspaperList.get(t).getTradeDt());
-		            map.put("sInfoWindcode",newspaperList.get(t).getsInfoWindcode());
-		            map.put("sDqOpen",newspaperList.get(t).getsDqOpen());
-		            map.put("sDqHigh",newspaperList.get(t).getsDqHigh());
-		            map.put("sDqLow",newspaperList.get(t).getsDqLow());
-		            map.put("sDqClose",newspaperList.get(t).getsDqClose());
-		            map.put("sDqSettle",newspaperList.get(t).getsDqSettle());
-		            map.put("sDqVolume",newspaperList.get(t).getsDqVolume());
-		            map.put("sDqOi",newspaperList.get(t).getsDqOi());
-		            map.put("sDqChange",newspaperList.get(t).getsDqChange());
-		            map.put("sInfoDelistdate",newspaperList.get(t).getsInfoDelistdate());
-		            exportList.add(map);
+		        	List<Object> dataList = new ArrayList<>();
+		        	dataList.add(newspaperList.get(t).getTradeDt());
+		        	dataList.add(newspaperList.get(t).getsInfoWindcode());
+		        	dataList.add(newspaperList.get(t).getsDqOpen());
+		        	dataList.add(newspaperList.get(t).getsDqHigh());
+		        	dataList.add(newspaperList.get(t).getsDqLow());
+		        	dataList.add(newspaperList.get(t).getsDqClose());
+		        	dataList.add(newspaperList.get(t).getsDqSettle());
+		        	dataList.add(newspaperList.get(t).getsDqVolume());
+		        	dataList.add(newspaperList.get(t).getsDqOi());
+		        	dataList.add(newspaperList.get(t).getsDqChange());
+		        	dataList.add(newspaperList.get(t).getsInfoDelistdate());
+		        	dtoList.add(dataList);
 		        }      
 		        HttpHeaders head = new HttpHeaders();
 		        String fileName = null;
@@ -169,61 +163,59 @@ public class NewspaperController {
 				}
 		        head.setContentDispositionFormData("attachment", fileName);
 		        head.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-		        ByteArrayOutputStream out = ExcelUtils.exportExcel("国债期货当日结算价",
-		        		listName,listId, exportList);
+		        ByteArrayOutputStream out = ExcelUtil.export("国债期货当日结算价",
+		        		headsList, dtoList, mergeList,mergeColume,mergeRow,fontColor);
 		        byte [] bytes = out.toByteArray();
 		        resEntity = new ResponseEntity<byte[]>(bytes,head,HttpStatus.OK);
 			}
 			if("3".equals(newspaperEntity.getStype())) {//国债期货品种排名 
 				newspaperList = newspaperService.queryVCBONDFUTURESPOSITIONSDList(newspaperEntity);
-		    	List<String> listName = new ArrayList<>();	
-		        listName.add("日期");
-		        listName.add("合约");
-		        listName.add("名次 ");
-		        listName.add("会员简称");
-		        listName.add("成交量");
-		        listName.add("比上交易日增减");
-		        listName.add("名次 ");
-		        listName.add("会员简称");
-		        listName.add("持买单量");
-		        listName.add("比上交易日增减");
-		        listName.add("名次 ");
-		        listName.add("会员简称");
-		        listName.add("持卖单量");
-		        listName.add("比上交易日增减 ");
-		        List<String> listId = new ArrayList<>();	        
-		        listId.add("tradeDt");
-		        listId.add("sInfoWindcode");
-		        listId.add("fsInfoRank");
-		        listId.add("cJmem");
-		        listId.add("cJl");
-		        listId.add("cJlbh");
-		        listId.add("fsInfoRank");
-		        listId.add("cBmem");
-		        listId.add("cBl");
-		        listId.add("cBlbh");
-		        listId.add("fsInfoRank");
-		        listId.add("cSmem");
-		        listId.add("cSl");
-		        listId.add("cSlbh");
-		        List<Map<String,Object>> exportList = new ArrayList<>();
+		        List<Integer[]> mergeList = new ArrayList<>();
+		        Integer[] mergeColume = {1,3,3,3};
+		        mergeList.add(mergeColume);
+		        Integer[] mergeRow = null;
+		        Integer[] fontColor = {5,9,13};
+		        List<String> firstHeadName = new ArrayList<>();
+		        firstHeadName.add("");
+		        firstHeadName.add("成交量排名");
+		        firstHeadName.add("持买量排名");
+		        firstHeadName.add("持卖量排名");
+		        List<String> secondHeadName = new ArrayList<>();		    	
+		        secondHeadName.add("日期");
+		        secondHeadName.add("合约");
+		        secondHeadName.add("名次 ");
+		        secondHeadName.add("会员简称");
+		        secondHeadName.add("成交量");
+		        secondHeadName.add("比上交易日增减");
+		        secondHeadName.add("名次 ");
+		        secondHeadName.add("会员简称");
+		        secondHeadName.add("持买单量");
+		        secondHeadName.add("比上交易日增减");
+		        secondHeadName.add("名次 ");
+		        secondHeadName.add("会员简称");
+		        secondHeadName.add("持卖单量");
+		        secondHeadName.add("比上交易日增减 ");        
+		        List<List<String>> headsList = new ArrayList<>();
+		        headsList.add(firstHeadName);
+		        headsList.add(secondHeadName);
+		        List<List<Object>> dtoList = new ArrayList<>();	
 		        for (int t = 0; t < newspaperList.size(); t ++){
-		            Map<String,Object> map = new HashMap<>();		           
-		            map.put("tradeDt",newspaperList.get(t).getTradeDt());
-		            map.put("sInfoWindcode",newspaperList.get(t).getsInfoWindcode());
-		            map.put("fsInfoRank",newspaperList.get(t).getFsInfoRank());
-		            map.put("cJmem",newspaperList.get(t).getcJmem());
-		            map.put("cJl",newspaperList.get(t).getcJl());
-		            map.put("cJlbh",newspaperList.get(t).getcJlbh());
-		            map.put("fsInfoRank",newspaperList.get(t).getFsInfoRank());
-		            map.put("cBmem",newspaperList.get(t).getcBmem());
-		            map.put("cBl",newspaperList.get(t).getcBl());
-		            map.put("cBlbh",newspaperList.get(t).getcBlbh());
-		            map.put("fsInfoRank",newspaperList.get(t).getFsInfoRank());
-		            map.put("cSmem",newspaperList.get(t).getcSmem());
-		            map.put("cSl",newspaperList.get(t).getcSl());
-		            map.put("cSlbh",newspaperList.get(t).getcSlbh());
-		            exportList.add(map);
+		        	List<Object> dataList = new ArrayList<>();		           
+		        	dataList.add(newspaperList.get(t).getTradeDt());
+		        	dataList.add(newspaperList.get(t).getsInfoWindcode());
+		            dataList.add(newspaperList.get(t).getFsInfoRank());
+		            dataList.add(newspaperList.get(t).getcJmem());
+		            dataList.add(newspaperList.get(t).getcJl());
+		            dataList.add(newspaperList.get(t).getcJlbh());
+		            dataList.add(newspaperList.get(t).getFsInfoRank());
+		            dataList.add(newspaperList.get(t).getcBmem());
+		            dataList.add(newspaperList.get(t).getcBl());
+		            dataList.add(newspaperList.get(t).getcBlbh());
+		            dataList.add(newspaperList.get(t).getFsInfoRank());
+		            dataList.add(newspaperList.get(t).getcSmem());
+		            dataList.add(newspaperList.get(t).getcSl());
+		            dataList.add(newspaperList.get(t).getcSlbh());
+		            dtoList.add(dataList);
 		        }      
 		        HttpHeaders head = new HttpHeaders();
 		        String fileName = null;
@@ -234,8 +226,8 @@ public class NewspaperController {
 				}
 		        head.setContentDispositionFormData("attachment", fileName);
 		        head.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-		        ByteArrayOutputStream out = ExcelUtils.exportExcel("国债期货品种排名",
-		        		listName,listId, exportList);
+		        ByteArrayOutputStream out = ExcelUtil.export("国债期货品种排名",
+		        		headsList, dtoList, mergeList,mergeColume,mergeRow,fontColor);
 		        byte [] bytes = out.toByteArray();
 		        resEntity = new ResponseEntity<byte[]>(bytes,head,HttpStatus.OK);
 			}

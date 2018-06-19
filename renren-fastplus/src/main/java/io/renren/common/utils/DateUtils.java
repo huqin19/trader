@@ -51,5 +51,17 @@ public class DateUtils {
         }
         return null;
     }
-
+    public static boolean isValidDate(String date,String pattern) {
+        boolean convertSuccess=true;
+        	//指定日期格式为四位年/两位月份/两位日期，注意yyyy/MM/dd区分大小写；
+         SimpleDateFormat format = new SimpleDateFormat(pattern);
+         try {
+        	 //设置lenient为false. 否则SimpleDateFormat会比较宽松地验证日期，比如2007/02/29会被接受，并转换成2007/03/01
+            format.setLenient(false);
+            format.parse(date);
+         } catch (ParseException e) {
+             convertSuccess=false;
+         } 
+         return convertSuccess;
+  }
 }
