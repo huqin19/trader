@@ -170,10 +170,11 @@ public class NewspaperController {
 			}
 			if("3".equals(newspaperEntity.getStype())) {//国债期货品种排名 
 				newspaperList = newspaperService.queryVCBONDFUTURESPOSITIONSDList(newspaperEntity);
-		        List<Integer[]> mergeList = new ArrayList<>();
-		        Integer[] mergeColume = {1,3,3,3};
-		        mergeList.add(mergeColume);
-		        Integer[] mergeRow = null;
+		        List<Integer[]> mergeList = new ArrayList<>();		        
+		        Integer[] merge = {1,3,3,3};
+		        mergeList.add(merge);
+		        Integer[] mergeColume = {0};
+		        Integer[] mergeRow = {0};
 		        Integer[] fontColor = {5,9,13};
 		        List<String> firstHeadName = new ArrayList<>();
 		        firstHeadName.add("");

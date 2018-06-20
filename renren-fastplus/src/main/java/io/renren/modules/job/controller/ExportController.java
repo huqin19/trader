@@ -92,7 +92,7 @@ public class ExportController {
 	public ResponseEntity<byte[]> exportTest3(){
         ResponseEntity<byte[]> resEntity = null;
         List<Integer[]> mergeList = new ArrayList<>();
-        Integer[] arr1 = {1,1,0};
+        Integer[] arr1 = {2,0,0};
         mergeList.add(arr1);
         Integer[] mergeColume = {0};
         Integer[] needRow = {0};
@@ -111,7 +111,7 @@ public class ExportController {
         headsList.add(headName1);
         headsList.add(headName2);       
         List<List<Object>> dtoList = new ArrayList<>();
-        for (int t=0;t<5;t++){
+        for (int t=0;t<88;t++){
         	List<Object> dataList = new ArrayList<>();
         	if(t == 0) {
         		dataList.add("2");	

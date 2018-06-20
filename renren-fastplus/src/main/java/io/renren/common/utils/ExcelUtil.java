@@ -64,7 +64,7 @@ public class ExcelUtil {
 				if(mergeColume != null && ArrayUtils.contains(mergeColume, rownum)) {
 					cell = row.createCell(index);
 					cell.setCellValue(head);
-					if(mergeList.get(rownum)[headCellNum] != null) {
+					if(mergeList.get(rownum)!= null && mergeList.get(rownum)[headCellNum] != null) {//---
 						Integer difference = mergeList.get(rownum)[headCellNum];
 						if(difference > 0) {
 							region=new CellRangeAddress(rownum, rownum, index , index + difference);
@@ -156,7 +156,7 @@ public class ExcelUtil {
 				contentCell = row.createCell(cellNum);
 				if(ArrayUtils.contains(mergeRow, cellNum)) {
 					if(data != null && data.toString().trim() != "") {						
-						if(data == cacheData.get(cellNum)) {
+						if(cacheData.get(cellNum) != null && cacheData.get(cellNum).toString().equals(data.toString())) {
 							if(cacheNum.get(cellNum) != null && cacheNum.get(cellNum) >= 1 
 									&& rownum == dtoList.size() + headsList.size() - 1) {
 								regionRow = new CellRangeAddress(rownum - num - 1, rownum, cellNum , cellNum);
@@ -181,26 +181,21 @@ public class ExcelUtil {
 									contentCell.setCellStyle(contextstyle);
 									contentCell.setCellValue(
 											DateUtils.format(data.toString(), DateUtils.NUM_PATTERN, DateUtils.DATE_PATTERN));
-									System.out.println(data.toString() + "====isDate");
 								} else if (isInteger) {
 									if (zero) {
 										contentCell.setCellStyle(contextstyle);
 										contentCell.setCellValue(data.toString());
-										System.out.println(data.toString() + "====zero");
 									} else {
 										contentCell.setCellStyle(contextstyle);
 										contentCell.setCellValue(Double.parseDouble(data.toString()));
-										System.out.println(data.toString() + "====not zero");
 									}
 								} else {
 									contentCell.setCellStyle(contextstyle);
 									contentCell.setCellValue(Double.parseDouble(data.toString()));
-									System.out.println(data.toString() + "====is not Integer");
 								}
 							} else {
 								contentCell.setCellStyle(contextstyle);
 								contentCell.setCellValue(data.toString());
-								System.out.println(data.toString() + "====");
 							}
 						}					
 					}			
@@ -211,39 +206,35 @@ public class ExcelUtil {
 							contentCell.setCellStyle(contextstyle);
 							contentCell.setCellValue(
 									DateUtils.format(data.toString(), DateUtils.NUM_PATTERN, DateUtils.DATE_PATTERN));
-							System.out.println(data.toString() + "====isDate");
 						} else if (isInteger) {
 							if (zero) {
 								contentCell.setCellStyle(contextstyle);
 								contentCell.setCellValue(data.toString());
-								System.out.println(data.toString() + "====zero");
 							} else {
 								if(fontColor != null && ArrayUtils.contains(fontColor, cellNum)) {
 									if(Double.parseDouble(data.toString()) > 0) {
 										contentCell.setCellStyle(contextstyleRed);
 										contentCell.setCellValue(Double.parseDouble(data.toString()));
 									}else if(Double.parseDouble(data.toString()) < 0) {
-										HSSFFont font = wb.createFont();
-										font.setColor(IndexedColors.GREEN.getIndex());
 										contentCell.setCellStyle(contextstyleGreen);
 										contentCell.setCellValue(Double.parseDouble(data.toString()));
 									}else {
 										contentCell.setCellStyle(contextstyle);
 										contentCell.setCellValue(Double.parseDouble(data.toString()));
 									}
+								}else {
+									contentCell.setCellStyle(contextstyle);
+									contentCell.setCellValue(Double.parseDouble(data.toString()));	
 								}
 
-								System.out.println(data.toString() + "====not zero");
 							}
 						} else {
 							contentCell.setCellStyle(contextstyle);
 							contentCell.setCellValue(Double.parseDouble(data.toString()));
-							System.out.println(data.toString() + "====is not Integer");
 						}
 					} else {
 						contentCell.setCellStyle(contextstyle);
 						contentCell.setCellValue(data.toString());
-						System.out.println(data.toString() + "====");
 					}
 				}
 				cellNum ++;
