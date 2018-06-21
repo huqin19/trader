@@ -3,6 +3,9 @@ package io.renren.modules.sys.entity;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 /**
  * 角色与菜单对应关系
  * 
@@ -12,17 +15,19 @@ import java.io.Serializable;
  */
 public class SysRoleMenuEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Long id;
 
 	/**
 	 * 角色ID
 	 */
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Long roleId;
 
 	/**
 	 * 菜单ID
 	 */
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Long menuId;
 
 	/**

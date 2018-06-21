@@ -3,19 +3,20 @@
 
 <mapper namespace="io.renren.modules.sys.dao.SysRoleDeptDao">
 
-	<insert id="save">
+	<insert id="saveBatch" parameterType="java.util.List">
 		insert into sys_role_dept
 		(
 			id,
 			role_id, 
 			dept_id
 		)
-		values
-		<foreach collection="deptIdList" item="item" index="index" separator="," >
-		(
-			#{id},
-			#{roleId}, 
-			#{item} 
+		<foreach collection="list" item="item" index="index" separator="union all" >
+		(	
+			select
+			#{item.id,jdbcType=NUMERIC}, 
+			#{item.roleId,jdbcType=NUMERIC}, 
+			#{item.deptId,jdbcType=NUMERIC} 
+			from dual 
 		)
 		</foreach>
 	</insert>

@@ -2,8 +2,11 @@ package io.renren.modules.sys.service.impl;
 
 import io.renren.common.sequence.Sequence;
 import io.renren.modules.sys.dao.SysRoleMenuDao;
+import io.renren.modules.sys.entity.SysRoleDeptEntity;
+import io.renren.modules.sys.entity.SysRoleMenuEntity;
 import io.renren.modules.sys.service.SysRoleMenuService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,15 +40,17 @@ public class SysRoleMenuServiceImpl implements SysRoleMenuService {
 		if(menuIdList.size() == 0){
 			return ;
 		}
-
-		//生成主键
-		Long xid = sequence.nextId();
-		//保存角色与菜单关系
-		Map<String, Object> map = new HashMap<>();
-		map.put("roleId", roleId);
-		map.put("menuIdList", menuIdList);
-		map.put("id", xid);
-		sysRoleMenuDao.save(map);
+		List<SysRoleMenuEntity> sysRoleMenuList = new ArrayList<SysRoleMenuEntity>();
+		for(Long menuId : menuIdList) {
+			SysRoleMenuEntity sysRoleMenu = new SysRoleMenuEntity();
+			//生成主键
+			Long xid = sequence.nextId();
+			sysRoleMenu.setId(xid);
+			sysRoleMenu.setRoleId(roleId);
+			sysRoleMenu.setMenuId(menuId);
+			sysRoleMenuList.add(sysRoleMenu);
+		}
+		sysRoleMenuDao.saveBatch(sysRoleMenuList);
 	}
 
 	@Override

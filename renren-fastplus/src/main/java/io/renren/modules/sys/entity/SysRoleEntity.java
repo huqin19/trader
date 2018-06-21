@@ -3,6 +3,9 @@ package io.renren.modules.sys.entity;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
@@ -21,6 +24,7 @@ public class SysRoleEntity implements Serializable {
 	/**
 	 * 角色ID
 	 */
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Long roleId;
 
 	/**

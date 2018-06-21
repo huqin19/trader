@@ -81,6 +81,7 @@
 	</update>
 	
 	<delete id="deleteBatch">
+		begin
 		delete from sys_role where role_id in 
 		<foreach item="roleId" collection="array" open="(" separator="," close=")">
 			#{roleId}
@@ -100,6 +101,7 @@
 		<foreach item="roleId" collection="array" open="(" separator="," close=")">
 			#{roleId}
 		</foreach>
+		;end;
 	</delete>
 
 </mapper>

@@ -5,6 +5,9 @@ import io.renren.common.validator.group.UpdateGroup;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
@@ -23,6 +26,7 @@ public class SysUserEntity implements Serializable {
 	/**
 	 * 用户ID
 	 */
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Long userId;
 
 	/**
@@ -67,6 +71,7 @@ public class SysUserEntity implements Serializable {
 	/**
 	 * 创建者ID
 	 */
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Long createUserId;
 
 	/**

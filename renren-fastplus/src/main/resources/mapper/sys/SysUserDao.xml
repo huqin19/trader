@@ -115,6 +115,7 @@
 	</update>
 	
 	<delete id="deleteBatch">
+		begin
 		delete from sys_user where user_id in 
 		<foreach item="userId" collection="array" open="(" separator="," close=")">
 			#{userId}
@@ -124,6 +125,7 @@
 		<foreach item="userId" collection="array" open="(" separator="," close=")">
 			#{userId}
 		</foreach>
+		;end;
 	</delete>
 
 </mapper>
