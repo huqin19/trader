@@ -31,7 +31,7 @@ public class ExcelUtil {
 			,List<Integer[]> mergeList, Integer[] mergeColume, Integer[] mergeRow, Integer[] fontColor) {
 		HSSFWorkbook wb = new HSSFWorkbook();
 		HSSFSheet sheet = wb.createSheet(title);
-		sheet.setDefaultColumnWidth((short) 12);
+		sheet.setDefaultColumnWidth((short) 17);
 		// 生成一个样式
 		HSSFCellStyle style = wb.createCellStyle();
 		HSSFFont headFont = wb.createFont();
@@ -181,14 +181,9 @@ public class ExcelUtil {
 									contentCell.setCellStyle(contextstyle);
 									contentCell.setCellValue(
 											DateUtils.format(data.toString(), DateUtils.NUM_PATTERN, DateUtils.DATE_PATTERN));
-								} else if (isInteger) {
-									if (zero) {
+								} else if (isInteger && zero) {
 										contentCell.setCellStyle(contextstyle);
 										contentCell.setCellValue(data.toString());
-									} else {
-										contentCell.setCellStyle(contextstyle);
-										contentCell.setCellValue(Double.parseDouble(data.toString()));
-									}
 								} else {
 									contentCell.setCellStyle(contextstyle);
 									contentCell.setCellValue(Double.parseDouble(data.toString()));
@@ -206,31 +201,25 @@ public class ExcelUtil {
 							contentCell.setCellStyle(contextstyle);
 							contentCell.setCellValue(
 									DateUtils.format(data.toString(), DateUtils.NUM_PATTERN, DateUtils.DATE_PATTERN));
-						} else if (isInteger) {
-							if (zero) {
+						} else if (isInteger && zero) {
 								contentCell.setCellStyle(contextstyle);
 								contentCell.setCellValue(data.toString());
-							} else {
-								if(fontColor != null && ArrayUtils.contains(fontColor, cellNum)) {
-									if(Double.parseDouble(data.toString()) > 0) {
-										contentCell.setCellStyle(contextstyleRed);
-										contentCell.setCellValue(Double.parseDouble(data.toString()));
-									}else if(Double.parseDouble(data.toString()) < 0) {
-										contentCell.setCellStyle(contextstyleGreen);
-										contentCell.setCellValue(Double.parseDouble(data.toString()));
-									}else {
-										contentCell.setCellStyle(contextstyle);
-										contentCell.setCellValue(Double.parseDouble(data.toString()));
-									}
+						} else {
+							if(fontColor != null && ArrayUtils.contains(fontColor, cellNum)) {
+								if(Double.parseDouble(data.toString()) > 0) {
+									contentCell.setCellStyle(contextstyleRed);
+									contentCell.setCellValue(Double.parseDouble(data.toString()));
+								}else if(Double.parseDouble(data.toString()) < 0) {
+									contentCell.setCellStyle(contextstyleGreen);
+									contentCell.setCellValue(Double.parseDouble(data.toString()));
 								}else {
 									contentCell.setCellStyle(contextstyle);
-									contentCell.setCellValue(Double.parseDouble(data.toString()));	
+									contentCell.setCellValue(Double.parseDouble(data.toString()));
 								}
-
+							}else {
+								contentCell.setCellStyle(contextstyle);
+								contentCell.setCellValue(Double.parseDouble(data.toString()));	
 							}
-						} else {
-							contentCell.setCellStyle(contextstyle);
-							contentCell.setCellValue(Double.parseDouble(data.toString()));
 						}
 					} else {
 						contentCell.setCellStyle(contextstyle);
