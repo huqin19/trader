@@ -27,8 +27,8 @@ import org.apache.poi.ss.util.CellRangeAddress;
  *
  */
 public class ExcelUtil {
-	public static ByteArrayOutputStream export(String title, List<List<String>> headsList, List<List<Object>> dtoList
-			,List<Integer[]> mergeList, Integer[] mergeColume, Integer[] mergeRow, Integer[] fontColor) {
+	public static ByteArrayOutputStream export(String title, List<List<String>> headsList, List<List<Object>> dtoList,
+			List<Integer[]> mergeList, Integer[] mergeColume, Integer[] mergeRow, Integer[] fontColor) {
 		HSSFWorkbook wb = new HSSFWorkbook();
 		HSSFSheet sheet = wb.createSheet(title);
 		sheet.setDefaultColumnWidth((short) 17);
@@ -36,7 +36,7 @@ public class ExcelUtil {
 		HSSFCellStyle style = wb.createCellStyle();
 		HSSFFont headFont = wb.createFont();
 		style.setBorderTop(BorderStyle.THIN);// 上边框
-		style.setTopBorderColor(IndexedColors.GREY_50_PERCENT.getIndex());//边框颜色
+		style.setTopBorderColor(IndexedColors.GREY_50_PERCENT.getIndex());// 边框颜色
 		style.setBorderBottom(BorderStyle.THIN);// 下边框
 		style.setBottomBorderColor(IndexedColors.GREY_50_PERCENT.getIndex());
 		style.setBorderLeft(BorderStyle.THIN);// 左边框
@@ -60,22 +60,22 @@ public class ExcelUtil {
 			row.setHeightInPoints(25);// 设置高度
 			Integer index = 0;
 			CellRangeAddress region;
-			for (String head : headList) {			
-				if(mergeColume != null && ArrayUtils.contains(mergeColume, rownum)) {
+			for (String head : headList) {
+				if (mergeColume != null && ArrayUtils.contains(mergeColume, rownum)) {
 					cell = row.createCell(index);
 					cell.setCellValue(head);
-					if(mergeList.get(rownum)!= null && mergeList.get(rownum)[headCellNum] != null) {//---
+					if (mergeList.get(rownum) != null && mergeList.get(rownum)[headCellNum] != null) {// ---
 						Integer difference = mergeList.get(rownum)[headCellNum];
-						if(difference > 0) {
-							region=new CellRangeAddress(rownum, rownum, index , index + difference);
+						if (difference > 0) {
+							region = new CellRangeAddress(rownum, rownum, index, index + difference);
 							sheet.addMergedRegion(region);
 						}
-						index = index + difference + 1;	
-					}else{
-						index = headCellNum ++;
+						index = index + difference + 1;
+					} else {
+						index = headCellNum++;
 					}
-				
-				}else {
+
+				} else {
 					cell = row.createCell(headCellNum);
 					cell.setCellValue(head);
 				}
@@ -96,8 +96,8 @@ public class ExcelUtil {
 		contextstyle.setAlignment(HorizontalAlignment.CENTER);// 水平居中
 		contextstyle.setVerticalAlignment(VerticalAlignment.CENTER);// 垂直居中
 		contextstyle.setWrapText(true);// 自动换行
-		
-		HSSFCellStyle contextstyleRed = wb.createCellStyle();//红色字体
+
+		HSSFCellStyle contextstyleRed = wb.createCellStyle();// 红色字体
 		contextstyleRed.setBorderTop(BorderStyle.THIN);// 上边框
 		contextstyleRed.setTopBorderColor(IndexedColors.GREY_50_PERCENT.getIndex());
 		contextstyleRed.setBorderBottom(BorderStyle.THIN);// 下边框
@@ -112,8 +112,8 @@ public class ExcelUtil {
 		HSSFFont fontRed = wb.createFont();
 		fontRed.setColor(IndexedColors.RED.getIndex());
 		contextstyleRed.setFont(fontRed);
-		
-		HSSFCellStyle contextstyleGreen = wb.createCellStyle();//绿色字体
+
+		HSSFCellStyle contextstyleGreen = wb.createCellStyle();// 绿色字体
 		contextstyleGreen.setBorderTop(BorderStyle.THIN);// 上边框
 		contextstyleGreen.setTopBorderColor(IndexedColors.GREY_50_PERCENT.getIndex());
 		contextstyleGreen.setBorderBottom(BorderStyle.THIN);// 下边框
@@ -128,15 +128,15 @@ public class ExcelUtil {
 		HSSFFont fontGreen = wb.createFont();
 		fontGreen.setColor(IndexedColors.GREEN.getIndex());
 		contextstyleGreen.setFont(fontGreen);
-		
+
 		HSSFCell contentCell;
 		Map<Integer, Object> cacheData = new HashMap<Integer, Object>();
 		Map<Integer, Integer> cacheNum = new HashMap<Integer, Integer>();
-		Integer num = 0;		
+		Integer num = 0;
 		CellRangeAddress regionRow;
 		for (List<Object> list : dtoList) {
 			int cellNum = 0;
-			row = sheet.createRow(rownum);			
+			row = sheet.createRow(rownum);
 			for (Object data : list) {
 				if (data == null) {
 					data = "";
@@ -154,36 +154,37 @@ public class ExcelUtil {
 					isDate = DateUtils.isValidDate(data.toString(), DateUtils.NUM_PATTERN);
 				}
 				contentCell = row.createCell(cellNum);
-				if(ArrayUtils.contains(mergeRow, cellNum)) {
-					if(data != null && data.toString().trim() != "") {						
-						if(cacheData.get(cellNum) != null && cacheData.get(cellNum).toString().equals(data.toString())) {
-							if(cacheNum.get(cellNum) != null && cacheNum.get(cellNum) >= 1 
-									&& rownum == dtoList.size() + headsList.size() - 1) {
-								regionRow = new CellRangeAddress(rownum - num - 1, rownum, cellNum , cellNum);
-								sheet.addMergedRegion(regionRow);
-								contentCell.setCellStyle(contextstyle);
-							}	
-							num ++;
+				if (ArrayUtils.contains(mergeRow, cellNum)) {
+					if (data != null && data.toString().trim() != "") {
+						if (cacheData.get(cellNum) != null
+								&& cacheData.get(cellNum).toString().equals(data.toString())) {
+							num++;
 							cacheNum.put(cellNum, num);
 							cacheData.put(cellNum, data);
-						}else{
-							if(cacheNum.get(cellNum) != null &&cacheNum.get(cellNum) >= 1) {
-								regionRow = new CellRangeAddress(rownum - num -1, rownum - 1, cellNum , cellNum);
+							if (cacheNum.get(cellNum) != null && cacheNum.get(cellNum) >= 1
+									&& rownum == dtoList.size() + headsList.size() - 1) {
+								regionRow = new CellRangeAddress(rownum - num, rownum, cellNum, cellNum);
+								sheet.addMergedRegion(regionRow);
+								contentCell.setCellStyle(contextstyle);
+							}
+						} else {
+							if (cacheNum.get(cellNum) != null && cacheNum.get(cellNum) >= 1) {
+								regionRow = new CellRangeAddress(rownum - num - 1, rownum - 1, cellNum, cellNum);
 								sheet.addMergedRegion(regionRow);
 								contentCell.setCellStyle(contextstyle);
 								num = 0;
 								cacheNum.put(cellNum, num);
-							}	
+							}
 							cacheData.put(cellNum, data);
 							if (isNum && !isPercent) {
-								//HSSFDataFormat df = wb.createDataFormat();
+								// HSSFDataFormat df = wb.createDataFormat();
 								if (isDate) {
 									contentCell.setCellStyle(contextstyle);
-									contentCell.setCellValue(
-											DateUtils.format(data.toString(), DateUtils.NUM_PATTERN, DateUtils.DATE_PATTERN));
+									contentCell.setCellValue(DateUtils.format(data.toString(), DateUtils.NUM_PATTERN,
+											DateUtils.DATE_PATTERN));
 								} else if (isInteger && zero) {
-										contentCell.setCellStyle(contextstyle);
-										contentCell.setCellValue(data.toString());
+									contentCell.setCellStyle(contextstyle);
+									contentCell.setCellValue(data.toString());
 								} else {
 									contentCell.setCellStyle(contextstyle);
 									contentCell.setCellValue(Double.parseDouble(data.toString()));
@@ -192,33 +193,33 @@ public class ExcelUtil {
 								contentCell.setCellStyle(contextstyle);
 								contentCell.setCellValue(data.toString());
 							}
-						}					
-					}			
-				}else {
+						}
+					}
+				} else {
 					if (isNum && !isPercent) {
-						//HSSFDataFormat df = wb.createDataFormat();
+						// HSSFDataFormat df = wb.createDataFormat();
 						if (isDate) {
 							contentCell.setCellStyle(contextstyle);
 							contentCell.setCellValue(
 									DateUtils.format(data.toString(), DateUtils.NUM_PATTERN, DateUtils.DATE_PATTERN));
 						} else if (isInteger && zero) {
-								contentCell.setCellStyle(contextstyle);
-								contentCell.setCellValue(data.toString());
+							contentCell.setCellStyle(contextstyle);
+							contentCell.setCellValue(data.toString());
 						} else {
-							if(fontColor != null && ArrayUtils.contains(fontColor, cellNum)) {
-								if(Double.parseDouble(data.toString()) > 0) {
+							if (fontColor != null && ArrayUtils.contains(fontColor, cellNum)) {
+								if (Double.parseDouble(data.toString()) > 0) {
 									contentCell.setCellStyle(contextstyleRed);
 									contentCell.setCellValue(Double.parseDouble(data.toString()));
-								}else if(Double.parseDouble(data.toString()) < 0) {
+								} else if (Double.parseDouble(data.toString()) < 0) {
 									contentCell.setCellStyle(contextstyleGreen);
 									contentCell.setCellValue(Double.parseDouble(data.toString()));
-								}else {
+								} else {
 									contentCell.setCellStyle(contextstyle);
 									contentCell.setCellValue(Double.parseDouble(data.toString()));
 								}
-							}else {
+							} else {
 								contentCell.setCellStyle(contextstyle);
-								contentCell.setCellValue(Double.parseDouble(data.toString()));	
+								contentCell.setCellValue(Double.parseDouble(data.toString()));
 							}
 						}
 					} else {
@@ -226,7 +227,7 @@ public class ExcelUtil {
 						contentCell.setCellValue(data.toString());
 					}
 				}
-				cellNum ++;
+				cellNum++;
 			}
 			rownum++;
 		}
