@@ -12,19 +12,20 @@
 		</where>
 	</select>
  
-	<insert id="save">
+	<insert id="saveBatch" parameterType="java.util.List">
 		insert into sys_user_role
 		(
 			id,
 			user_id, 
 			role_id
 		)
-		values
-		<foreach collection="roleIdList" item="item" index="index" separator="," >
-		(
-			#{id}, 
-			#{userId}, 
-			#{item}
+		<foreach collection="list" item="item" index="index" separator="union all" >
+		(	
+			select
+			#{item.id,jdbcType=NUMERIC}, 
+			#{item.userId,jdbcType=NUMERIC}, 
+			#{item.roleId,jdbcType=NUMERIC}
+			from dual 
 		)
 		</foreach>
 	</insert>

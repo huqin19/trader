@@ -62,10 +62,10 @@
 		)
 		values
 		(
-			#{roleId, jdbcType=BIGINT}, 
+			#{roleId,jdbcType=NUMERIC}, 
 			#{roleName, jdbcType=VARCHAR}, 
 			#{remark, jdbcType=VARCHAR},
-			#{deptId, jdbcType=BIGINT},
+			#{deptId,jdbcType=NUMERIC},
 			#{createTime, jdbcType=DATE}
 		)
 	</insert>

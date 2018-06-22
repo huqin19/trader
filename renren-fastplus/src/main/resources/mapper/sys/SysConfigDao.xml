@@ -59,10 +59,12 @@
 	</select>
 	
 	<delete id="deleteBatch" parameterType="int">
+		beagin
 		delete from sys_config where id in 
 		<foreach item="id" collection="array" open="(" separator="," close=")">
 			#{id}
 		</foreach>
+		;end;
 	</delete>
 	
 	

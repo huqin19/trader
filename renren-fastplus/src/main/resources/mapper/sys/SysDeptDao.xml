@@ -48,10 +48,10 @@
 		)
 		values
 		(
-			#{deptId}, 
-			#{parentId}, 
-			#{name}, 
-			#{orderNum}
+			#{deptId,jdbcType=NUMERIC}, 
+			#{parentId,jdbcType=NUMERIC}, 
+			#{name,jdbcType=VARCHAR}, 
+			#{orderNum,jdbcType=NUMERIC}
 		)
 	</insert>
 	 

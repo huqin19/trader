@@ -26,6 +26,7 @@ public class SysMenuEntity implements Serializable {
 	/**
 	 * 父菜单ID，一级菜单为0
 	 */
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Long parentId;
 	
 	/**

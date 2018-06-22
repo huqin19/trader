@@ -21,7 +21,7 @@
 		)
 		values
 		(
-			#{userId, jdbcType=BIGINT}, 
+			#{userId,jdbcType=NUMERIC}, 
 			#{token, jdbcType=VARCHAR}, 
 			#{expireTime, jdbcType=DATE}, 
 			#{updateTime, jdbcType=DATE}

@@ -60,14 +60,14 @@
 		)
 		values
 		(
-			#{id}, 
-			#{username}, 
-			#{operation}, 
-			#{method}, 
-			#{params}, 
-			#{time},
-			#{ip},
-			#{createDate}
+			#{id,jdbcType=NUMERIC}, 
+			#{username,jdbcType=VARCHAR}, 
+			#{operation,jdbcType=VARCHAR}, 
+			#{method,jdbcType=VARCHAR}, 
+			#{params,jdbcType=VARCHAR}, 
+			#{time,jdbcType=NUMERIC},
+			#{ip,jdbcType=VARCHAR},
+			#{createDate,jdbcType=DATE}
 		)
 	</insert>
 	
@@ -76,10 +76,12 @@
 	</delete>
 	
 	<delete id="deleteBatch">
+		begin
 		delete from sys_log where id in 
 		<foreach item="id" collection="array" open="(" separator="," close=")">
 			#{id}
 		</foreach>
+		;end;
 	</delete>
 
 </mapper>

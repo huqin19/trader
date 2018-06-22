@@ -84,15 +84,15 @@
 		)
 		values
 		(
-			#{userId, jdbcType=BIGINT}, 
-			#{username, jdbcType=VARCHAR}, 
-			#{password, jdbcType=VARCHAR},
+			#{userId,jdbcType=NUMERIC}, 
+			#{username,jdbcType=VARCHAR}, 
+			#{password,jdbcType=VARCHAR},
 			#{salt, jdbcType=VARCHAR},
-			#{email, jdbcType=VARCHAR}, 
-			#{mobile, jdbcType=VARCHAR}, 
-			#{status, jdbcType=INTEGER},
-			#{deptId, jdbcType=BIGINT},
-			#{createTime, jdbcType=DATE}
+			#{email,jdbcType=VARCHAR}, 
+			#{mobile,jdbcType=VARCHAR}, 
+			#{status,jdbcType=INTEGER},
+			#{deptId,jdbcType=NUMERIC},
+			#{createTime,jdbcType=DATE}
 		)
 	</insert>
 	 

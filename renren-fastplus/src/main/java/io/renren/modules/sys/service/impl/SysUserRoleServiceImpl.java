@@ -2,8 +2,11 @@ package io.renren.modules.sys.service.impl;
 
 import io.renren.common.sequence.Sequence;
 import io.renren.modules.sys.dao.SysUserRoleDao;
+import io.renren.modules.sys.entity.SysRoleMenuEntity;
+import io.renren.modules.sys.entity.SysUserRoleEntity;
 import io.renren.modules.sys.service.SysUserRoleService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,15 +38,17 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
 		
 		//先删除用户与角色关系
 		sysUserRoleDao.delete(userId);
-		
-		//生成主键
-		Long xid = sequence.nextId();
-		//保存用户与角色关系
-		Map<String, Object> map = new HashMap<>();
-		map.put("userId", userId);
-		map.put("roleIdList", roleIdList);
-		map.put("id", xid);
-		sysUserRoleDao.save(map);
+		List<SysUserRoleEntity> sysUserRoleList = new ArrayList<SysUserRoleEntity>();
+		for(Long roleId : roleIdList) {
+			SysUserRoleEntity sysUserRole = new SysUserRoleEntity();
+			//生成主键
+			Long xid = sequence.nextId();
+			sysUserRole.setId(xid);
+			sysUserRole.setUserId(userId);
+			sysUserRole.setRoleId(roleId);		
+			sysUserRoleList.add(sysUserRole);
+		}
+		sysUserRoleDao.saveBatch(sysUserRoleList);
 	}
 
 	@Override

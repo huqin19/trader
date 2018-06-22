@@ -21,14 +21,14 @@
 		)
 		values
 		(
-			#{menuId}, 
-			#{parentId}, 
-			#{name}, 
-			#{url}, 
-			#{perms}, 
-			#{type}, 
-			#{icon}, 
-			#{orderNum}
+			#{menuId,jdbcType=NUMERIC}, 
+			#{parentId,jdbcType=NUMERIC}, 
+			#{name,jdbcType=VARCHAR}, 
+			#{url,jdbcType=VARCHAR}, 
+			#{perms,jdbcType=VARCHAR}, 
+			#{type,jdbcType=NUMERIC}, 
+			#{icon,jdbcType=VARCHAR}, 
+			#{orderNum,jdbcType=NUMERIC}
 		)
 	</insert>
 	
@@ -97,6 +97,7 @@
 	</update>
 	
 	<delete id="deleteBatch">
+		begin
 		delete from sys_menu where menu_id in 
 		<foreach item="menuId" collection="array" open="(" separator="," close=")">
 			#{menuId}
@@ -106,6 +107,7 @@
 		<foreach item="menuId" collection="array" open="(" separator="," close=")">
 			#{menuId}
 		</foreach>
+		;end;
 	</delete>
 	
 </mapper>
