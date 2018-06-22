@@ -3,7 +3,7 @@ $(function () {
         url: baseURL + 'sys/schedule/list',
         datatype: "json",
         colModel: [			
-			{ label: '任务ID', name: 'jobIdStr', width: 60, key: true },
+			{ label: '任务ID', name: 'jobId', width: 60, key: true },
 			{ label: 'bean名称', name: 'beanName', width: 100 },
 			{ label: '方法名称', name: 'methodName', width: 100 },
 			{ label: '参数', name: 'params', width: 100 },

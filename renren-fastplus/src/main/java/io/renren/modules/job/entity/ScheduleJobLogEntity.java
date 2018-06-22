@@ -25,6 +25,7 @@ public class ScheduleJobLogEntity implements Serializable {
 	/**
 	 * 任务id
 	 */
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Long jobId;
 	
 	/**

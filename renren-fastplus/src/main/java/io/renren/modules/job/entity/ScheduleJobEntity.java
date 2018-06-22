@@ -27,13 +27,7 @@ public class ScheduleJobEntity implements Serializable {
 	 * 任务id
 	 */
     @JsonSerialize(using = ToStringSerializer.class)
-	private Long jobId;
-	
-	/**
-	 * 任务id String
-	 */
-	private String jobIdStr;
-	
+	private Long jobId;	
 	/**
 	 * 行号
 	 */
@@ -179,14 +173,6 @@ public class ScheduleJobEntity implements Serializable {
 
 	public void setRowx(Long rowx) {
 		this.rowx = rowx;
-	}
-
-	public String getJobIdStr() {
-		return jobIdStr;
-	}
-
-	public void setJobIdStr(String jobIdStr) {
-		this.jobIdStr = jobIdStr;
 	}
 
 

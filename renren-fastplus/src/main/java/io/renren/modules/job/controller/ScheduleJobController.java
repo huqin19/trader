@@ -36,11 +36,7 @@ public class ScheduleJobController {
 		//查询列表数据
 		Query query = new Query(params);
 		List<ScheduleJobEntity> jobList = scheduleJobService.queryList(query);
-		for(ScheduleJobEntity scheduleJobEntity : jobList) {
-			scheduleJobEntity.setJobIdStr(scheduleJobEntity.getJobId().toString());
-		}
-		int total = scheduleJobService.queryTotal(query);
-		
+		int total = scheduleJobService.queryTotal(query);		
 		PageUtils pageUtil = new PageUtils(jobList, total, query.getLimit(), query.getPage());
 		
 		return R.ok().put("page", pageUtil);
@@ -51,9 +47,8 @@ public class ScheduleJobController {
 	 */
 	@RequestMapping("/info/{jobId}")
 	@RequiresPermissions("sys:schedule:info")
-	public R info(@PathVariable("jobId") String jobId){
-		ScheduleJobEntity schedule = scheduleJobService.queryObject(Long.parseLong(jobId));
-		schedule.setJobIdStr(jobId);
+	public R info(@PathVariable("jobId") Long jobId){
+		ScheduleJobEntity schedule = scheduleJobService.queryObject(jobId);
 		return R.ok().put("schedule", schedule);
 	}
 	
@@ -78,8 +73,6 @@ public class ScheduleJobController {
 	@RequestMapping("/update")
 	@RequiresPermissions("sys:schedule:update")
 	public R update(@RequestBody ScheduleJobEntity scheduleJob){
-		scheduleJob.setJobId(Long.parseLong(scheduleJob.getJobIdStr()));
-		
 		ValidatorUtils.validateEntity(scheduleJob);
 				
 		scheduleJobService.update(scheduleJob);
