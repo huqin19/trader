@@ -4,6 +4,9 @@ package io.renren.modules.sys.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 /**
  * 菜单管理
  * 
@@ -17,6 +20,7 @@ public class SysMenuEntity implements Serializable {
 	/**
 	 * 菜单ID
 	 */
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Long menuId;
 
 	/**

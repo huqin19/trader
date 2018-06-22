@@ -2,6 +2,8 @@ package io.renren.modules.generator.entity;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 import java.math.BigDecimal;
 import java.io.Serializable;
@@ -22,6 +24,7 @@ public class GoodsEntity implements Serializable {
 	 * 
 	 */
 	@TableId
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Long goodsId;
 	/**
 	 * 商品名

@@ -5,11 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.renren.common.utils.DateUtils;
 import io.renren.common.utils.ExcelUtil;
 import io.renren.common.utils.R;
 import io.renren.modules.api.annotation.AuthIgnore;
@@ -184,7 +181,8 @@ public class NewsOutController {
 		        List<List<Object>> dtoList = new ArrayList<>();		        
 		        for (int t = 0; t < newspaperList.size(); t ++){
 		        	List<Object> dataList = new ArrayList<>();
-		        	dataList.add(newspaperList.get(t).getTradeDt());
+		        	dataList.add(DateUtils.format(newspaperList.get(t).getTradeDt(),DateUtils.NUM_PATTERN,
+							DateUtils.DATE_PATTERN));
 		        	dataList.add(newspaperList.get(t).getsInfoWindcode());
 		        	dataList.add(newspaperList.get(t).getsDqOpen());
 		        	dataList.add(newspaperList.get(t).getsDqHigh());
@@ -245,7 +243,8 @@ public class NewsOutController {
 		        List<List<Object>> dtoList = new ArrayList<>();	
 		        for (int t = 0; t < newspaperList.size(); t ++){
 		        	List<Object> dataList = new ArrayList<>();		           
-		        	dataList.add(newspaperList.get(t).getTradeDt());
+		        	dataList.add(DateUtils.format(newspaperList.get(t).getTradeDt(),DateUtils.NUM_PATTERN,
+							DateUtils.DATE_PATTERN));
 		        	dataList.add(newspaperList.get(t).getsInfoWindcode());
 		            dataList.add(newspaperList.get(t).getFsInfoRank());
 		            dataList.add(newspaperList.get(t).getcJmem());

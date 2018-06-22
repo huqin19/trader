@@ -3,6 +3,9 @@ package io.renren.modules.sys.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 
 /**
  * 系统用户Token
@@ -11,6 +14,7 @@ public class SysUserTokenEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//用户ID
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Long userId;
 	//token
 	private String token;

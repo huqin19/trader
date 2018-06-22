@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 /**
  * 成员
  * @author DHB
@@ -11,6 +14,7 @@ import java.util.List;
  */
 public class UsersEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Long objectId;
 	/**
 	 * 成员名字

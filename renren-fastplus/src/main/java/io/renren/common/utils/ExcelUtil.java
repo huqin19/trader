@@ -145,13 +145,13 @@ public class ExcelUtil {
 				Boolean isInteger = false;
 				Boolean isPercent = false;
 				Boolean zero = false;
-				Boolean isDate = false;
+				//Boolean isDate = false;
 				if (data != null || !"".equals(data.toString().trim())) {
 					isNum = data.toString().matches("^(-?\\d+)(\\.\\d+)?$");
 					isInteger = data.toString().matches("^[-\\+]?[\\d]*$");
 					isPercent = data.toString().contains("%");
 					zero = data.toString().startsWith("0") && data.toString().trim().length() > 1;
-					isDate = DateUtils.isValidDate(data.toString(), DateUtils.NUM_PATTERN);
+					//isDate = DateUtils.isValidDate(data.toString(), DateUtils.NUM_PATTERN);
 				}
 				contentCell = row.createCell(cellNum);
 				if (ArrayUtils.contains(mergeRow, cellNum)) {
@@ -178,11 +178,11 @@ public class ExcelUtil {
 							cacheData.put(cellNum, data);
 							if (isNum && !isPercent) {
 								// HSSFDataFormat df = wb.createDataFormat();
-								if (isDate) {
+								/*if (isDate) {
 									contentCell.setCellStyle(contextstyle);
 									contentCell.setCellValue(DateUtils.format(data.toString(), DateUtils.NUM_PATTERN,
 											DateUtils.DATE_PATTERN));
-								} else if (isInteger && zero) {
+								} else */if (isInteger && zero) {
 									contentCell.setCellStyle(contextstyle);
 									contentCell.setCellValue(data.toString());
 								} else {
@@ -198,11 +198,11 @@ public class ExcelUtil {
 				} else {
 					if (isNum && !isPercent) {
 						// HSSFDataFormat df = wb.createDataFormat();
-						if (isDate) {
+						/*if (isDate) {
 							contentCell.setCellStyle(contextstyle);
 							contentCell.setCellValue(
 									DateUtils.format(data.toString(), DateUtils.NUM_PATTERN, DateUtils.DATE_PATTERN));
-						} else if (isInteger && zero) {
+				} else*/ if (isInteger && zero) {
 							contentCell.setCellStyle(contextstyle);
 							contentCell.setCellValue(data.toString());
 						} else {

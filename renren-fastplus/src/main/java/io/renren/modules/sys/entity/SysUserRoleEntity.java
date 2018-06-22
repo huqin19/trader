@@ -3,6 +3,9 @@ package io.renren.modules.sys.entity;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 /**
  * 用户与角色对应关系
  * 
@@ -12,23 +15,26 @@ import java.io.Serializable;
  */
 public class SysUserRoleEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Long id;
 
 	/**
 	 * 用户ID
 	 */
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Long userId;
 
 	/**
 	 * 角色ID
 	 */
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Long roleId;
 
 	/**
 	 * 设置：
 	 * @param id 
 	 */
+	
 	public void setId(Long id) {
 		this.id = id;
 	}

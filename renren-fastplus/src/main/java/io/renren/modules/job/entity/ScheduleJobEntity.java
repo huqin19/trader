@@ -5,6 +5,9 @@ import java.util.Date;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 /**
  * 定时器
  * 
@@ -23,6 +26,7 @@ public class ScheduleJobEntity implements Serializable {
 	/**
 	 * 任务id
 	 */
+    @JsonSerialize(using = ToStringSerializer.class)
 	private Long jobId;
 	
 	/**

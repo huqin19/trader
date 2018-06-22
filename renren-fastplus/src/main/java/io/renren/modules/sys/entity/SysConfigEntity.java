@@ -3,6 +3,9 @@ package io.renren.modules.sys.entity;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 /**
  * 系统配置信息
  * 
@@ -11,6 +14,7 @@ import org.hibernate.validator.constraints.NotBlank;
  * @date 2016年12月4日 下午6:43:36
  */
 public class SysConfigEntity {
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Long id;
 	@NotBlank(message="参数名不能为空")
 	private String key;

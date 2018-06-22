@@ -3,6 +3,9 @@ package io.renren.modules.sys.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 
 /**
  * 系统日志
@@ -13,7 +16,7 @@ import java.util.Date;
  */
 public class SysLogEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Long id;
 	//用户名
 	private String username;

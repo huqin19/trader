@@ -2,6 +2,9 @@ package io.renren.modules.job.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 /**
  * 推送同步日志
  * @author DHB
@@ -12,6 +15,7 @@ public class SyncPushLogEntity implements Serializable{
 	/**
 	 * 日志id
 	*/
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Long id;
 	/**
 	 * 同步接口地址

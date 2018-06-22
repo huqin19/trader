@@ -3,6 +3,9 @@ package io.renren.modules.job.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 
 /**
  * 返回部门
@@ -11,6 +14,7 @@ import java.util.Date;
  */	
 public class DepartmentEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Long objectId;
 	//部门ID
 	private Integer id;

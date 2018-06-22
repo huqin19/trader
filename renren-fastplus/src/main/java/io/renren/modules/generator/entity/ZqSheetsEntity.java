@@ -6,6 +6,8 @@ import java.sql.Timestamp;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 /**
  * ${comments}
@@ -22,6 +24,7 @@ public class ZqSheetsEntity implements Serializable {
 	 * $column.comments
 	 */
 	@TableId
+	@JsonSerialize(using = ToStringSerializer.class)
 	private BigDecimal objectId;
 	/**
 	 * $column.comments

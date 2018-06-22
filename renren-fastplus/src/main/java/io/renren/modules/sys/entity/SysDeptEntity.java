@@ -3,6 +3,9 @@ package io.renren.modules.sys.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 
 /**
  * 部门管理
@@ -15,6 +18,7 @@ public class SysDeptEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//部门ID
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Long deptId;
 	//上级部门ID，一级部门为0
 	private Long parentId;
