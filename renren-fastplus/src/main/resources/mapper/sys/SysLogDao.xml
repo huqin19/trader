@@ -23,7 +23,7 @@
 					x.operation like '%' || #{key} || '%'
 				</if>
 				<if test="offset != null and limit != null ">
-					rownum &lt;= ${offset} + ${limit}
+					and rownum &lt;= ${offset} + ${limit}
 				</if>
 			</where>
 			order by 
