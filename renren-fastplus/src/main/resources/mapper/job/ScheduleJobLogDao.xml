@@ -20,7 +20,7 @@
 					and job_id = #{jobId}
 				</if>
 				<if test="offset != null and limit != null ">
-					rownum &lt;= ${offset} + ${limit}
+					and rownum &lt;= ${offset} + ${limit}
 				</if>
 			</where>
 			order by 
