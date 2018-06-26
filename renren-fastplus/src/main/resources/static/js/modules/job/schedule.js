@@ -3,11 +3,11 @@ $(function () {
         url: baseURL + 'sys/schedule/list',
         datatype: "json",
         colModel: [			
-			{ label: '任务ID', name: 'jobId', width: 60, key: true },
-			{ label: 'bean名称', name: 'beanName', width: 100 },
-			{ label: '方法名称', name: 'methodName', width: 100 },
+			{ label: '任务ID', name: 'jobId',index: 'job_id', width: 60, key: true },
+			{ label: 'bean名称', name: 'beanName',index: 'bean_name', width: 100 },
+			{ label: '方法名称', name: 'methodName',index: 'method_name', width: 100 },
 			{ label: '参数', name: 'params', width: 100 },
-			{ label: 'cron表达式 ', name: 'cronExpression', width: 100 },
+			{ label: 'cron表达式 ', name: 'cronExpression',index: 'cron_expression', width: 100 },
 			{ label: '备注 ', name: 'remark', width: 100 },
 			{ label: '状态', name: 'status', width: 60, formatter: function(value, options, row){
 				return value === 0 ? 

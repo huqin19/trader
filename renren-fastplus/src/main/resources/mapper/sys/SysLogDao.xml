@@ -2,12 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="io.renren.modules.sys.dao.SysLogDao">
-
 	<select id="queryObject" resultType="io.renren.modules.sys.entity.SysLogEntity">
 		select * from sys_log where id = #{value}
 	</select>
 
-	<select id="queryList" resultType="io.renren.modules.sys.entity.SysLogEntity">
+	<select id="queryList"  resultType="io.renren.modules.sys.entity.SysLogEntity">
 		select 
 			* 
 		from 
@@ -15,7 +14,17 @@
 			select 
 				rownum rowx, x.* 
 			from 
-				sys_log x
+				(select * from sys_log l 
+				<choose>
+					<when test="sidx != null and sidx.trim() != ''">
+						order by <!--x.-->${sidx} ${order}
+					</when>
+					<otherwise>
+						order by l.id desc 
+					</otherwise>
+				</choose>
+				)x
+				 <!--sys_log x-->
 			<where>
 				<if test="key != null and key.trim() != ''">
 					x.username like '%' || #{key} || '%'
@@ -26,8 +35,6 @@
 					and rownum &lt;= ${offset} + ${limit}
 				</if>
 			</where>
-			order by 
-				x.id desc 
 		)
 		<if test="offset != null ">
 			where 

@@ -14,7 +14,17 @@
 			select 
 				rownum rowx, x.* 
 			from 
-				schedule_job x
+				(select * from schedule_job j 
+					<choose>
+						<when test="sidx != null and sidx.trim() != ''">
+							order by <!--l.-->${sidx} ${order}
+						</when>
+						<otherwise>
+							order by j.job_id desc 
+						</otherwise>
+					</choose>
+				)x
+				<!--schedule_job x-->
 			<where>
 				<if test="beanName != null and beanName.trim() != ''">
 					x.bean_name like '%' || #{beanName} || '%'
@@ -23,8 +33,6 @@
 					and rownum &lt;= ${offset} + ${limit}
 				</if>
 			</where>
-			order by 
-				x.job_id desc
 		)
 		<if test="offset != null ">
 			where 

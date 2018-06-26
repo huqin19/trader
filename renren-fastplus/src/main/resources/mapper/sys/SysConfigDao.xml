@@ -13,7 +13,17 @@
 			select 
 				rownum rowx, x.*
 			from
-				sys_config x
+				(select * from sys_config c 
+					<choose>
+						<when test="sidx != null and sidx.trim() != ''">
+							order by <!--x.-->${sidx} ${order}
+						</when>
+						<otherwise>
+							order by c.id desc
+						</otherwise>
+					</choose>
+				)x
+				<!--sys_config x-->
 			where
 				status = 1 
 				<if test="key != null and key.trim() != ''">
@@ -22,8 +32,6 @@
 				<if test="offset != null and limit != null ">
 					and rownum &lt;= ${offset} + ${limit}
 				</if>
-			order by 
-				x.id asc
 		)
 		<if test="offset != null ">
 			where 

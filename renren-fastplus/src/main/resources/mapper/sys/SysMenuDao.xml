@@ -56,7 +56,7 @@
 			</where>
 			<choose>
 				<when test="sidx != null and sidx.trim() != ''">
-					order by m.${sidx} ${order}
+					order by <!--m.-->${sidx} ${order}
 				</when>
 				<otherwise>
 					order by m.order_num asc

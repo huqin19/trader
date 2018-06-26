@@ -14,7 +14,17 @@
 			select 
 				rownum rowx, x.* 
 			from 
-				schedule_job_log x
+				(select * from schedule_job_log l 
+				<choose>
+					<when test="sidx != null and sidx.trim() != ''">
+						order by <!--l.-->${sidx} ${order}
+					</when>
+					<otherwise>
+						order by l.job_id desc 
+					</otherwise>
+				</choose>
+				)x
+				<!--schedule_job_log x-->
 			<where>
 				<if test="jobId != null and jobId.trim() != ''">
 					and job_id = #{jobId}
@@ -23,8 +33,6 @@
 					and rownum &lt;= ${offset} + ${limit}
 				</if>
 			</where>
-			order by 
-				log_id desc 
 		)
 		<if test="offset != null ">
 			where 

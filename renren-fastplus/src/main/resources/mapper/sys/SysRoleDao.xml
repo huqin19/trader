@@ -13,7 +13,19 @@
 		from 
 		(
 			select 
-				rownum rowx, r.*, (select d.name from sys_dept d where d.dept_id = r.dept_id) deptName from sys_role r
+				rownum rowx, r.* from 
+					(select s.*,(select d.name from sys_dept d where d.dept_id = s.dept_id) deptName 
+						from sys_role s 
+						<choose>
+							<when test="sidx != null and sidx.trim() != ''">
+								order by <!--l.-->${sidx} ${order}
+							</when>
+							<otherwise>
+								order by s.role_id desc 
+							</otherwise>
+						</choose>
+					)r
+					<!--sys_role r-->
 			<where>
 				<if test="roleName != null and roleName.trim() != ''">
 					and r.role_name like '%' || #{roleName} || '%'
@@ -24,14 +36,6 @@
 					and rownum &lt;= ${offset} + ${limit}
 				</if>
 			</where>
-			<choose>
-				<when test="sidx != null and sidx.trim() != ''">
-					order by r.${sidx} ${order}
-				</when>
-				<otherwise>
-					order by r.role_id asc
-				</otherwise>
-			</choose>
 		)
 		<if test="offset != null ">
 			where 

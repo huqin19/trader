@@ -10,9 +10,20 @@
 		select 
 			* 
 		from 
-		( 
+		(	
 			select 
-				rownum rowx, u.*, (select d.name from sys_dept d where d.dept_id = u.dept_id) deptName from sys_user u
+				rownum rowx, u.* from 
+					(select s.*,(select d.name from sys_dept d where d.dept_id = s.dept_id) deptName 
+						from sys_user s 
+						<choose>
+							<when test="sidx != null and sidx.trim() != ''">
+								order by <!--l.-->${sidx} ${order}
+							</when>
+							<otherwise>
+								order by s.user_id desc 
+							</otherwise>
+						</choose>
+		)u
 			<where>
 				<if test="username != null and username.trim() != ''">
 					and u.username like '%' || #{username} || '%'
@@ -23,14 +34,6 @@
 					and rownum &lt;= ${offset} + ${limit}
 				</if>
 			</where>
-			<choose>
-				<when test="sidx != null and sidx.trim() != ''">
-					order by u.${sidx} ${order}
-				</when>
-				<otherwise>
-					order by u.user_id desc
-				</otherwise>
-			</choose>
 		)
 		<if test="offset != null ">
 			where 
