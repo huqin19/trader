@@ -67,7 +67,6 @@ public class SysLoginController {
 
 		//用户信息
 		SysUserEntity user = sysUserService.queryByUserName(username);
-
 		//账号不存在、密码错误
 		if(user == null || !user.getPassword().equals(new Sha256Hash(password, user.getSalt()).toHex())) {
 			return R.error("账号或密码不正确");
