@@ -14,15 +14,22 @@
 		( 
 			select 
 				rownum rowx, x.*  
-			from 
-				sys_oss x
+			from			
+				(select * from sys_oss o 
+					<choose>
+						<when test="sidx != null and sidx.trim() != ''">
+							order by <!--o.-->${sidx} ${order}
+						</when>
+						<otherwise>
+							order by o.id desc
+						</otherwise>
+					</choose>
+				)x 
 			<where>
 				<if test="offset != null and limit != null ">
 					rownum &lt;= ${offset} + ${limit}
 				</if>
 			</where>
-			order by 
-				id desc
 		)
 		<if test="offset != null ">
 			where 
@@ -43,9 +50,9 @@
 		)
 		values
 		(
-			#{id}, 
-			#{url}, 
-			#{createDate}
+			#{id,jdbcType=NUMERIC}, 
+			#{url,jdbcType=VARCHAR}, 
+			#{createDate,jdbcType=DATE}
 		)
 	</insert>
 	 

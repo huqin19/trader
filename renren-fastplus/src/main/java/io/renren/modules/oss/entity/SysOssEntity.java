@@ -3,6 +3,9 @@ package io.renren.modules.oss.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 
 
 /**
@@ -16,6 +19,7 @@ public class SysOssEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Long id;
 	//URL地址
 	private String url;

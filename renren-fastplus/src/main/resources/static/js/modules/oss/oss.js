@@ -5,7 +5,7 @@ $(function () {
         colModel: [			
 			{ label: 'id', name: 'id', width: 20, key: true },
             { label: 'URL地址', name: 'url', width: 160 },
-			{ label: '创建时间', name: 'createDate', width: 40 }
+			{ label: '创建时间', name: 'createDate',index: 'create_date', width: 40 }
         ],
 		viewrecords: true,
         height: 385,
