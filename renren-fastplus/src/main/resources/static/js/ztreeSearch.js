@@ -36,7 +36,6 @@
 		//<4>.高亮显示并展示【指定节点s】
 		highlightAndExpand_ztree(treeId, highlightNodes, searchCondition, flag);
 		if(0 < highlightNodes.length){
-			alert(highlightNodes[0].name);
 			treeObj.selectNode(highlightNodes[0]);
 		}
 	}
