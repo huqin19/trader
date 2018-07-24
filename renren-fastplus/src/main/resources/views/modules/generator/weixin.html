@@ -21,13 +21,18 @@
 	<script src="../../plugins/jqgrid/jquery.jqGrid.min.js"></script>
 	<script src="../../plugins/ztree/jquery.ztree.all.min.js"></script>
 	<script type="text/javascript" src="../../js/echarts.js"></script>
+	
+	<script src="../../libs/dom-to-image.js"></script>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	
+	<script src="../../libs/html2canvas.js"></script>
     <!-- <script type="text/javascript" src="../../js/common.js"></script> -->
 	
   <link rel="stylesheet" href="../../css/reset.css">
   <link rel="stylesheet" href="../../css/weixin.css">
 </head>
 <body>
-  <div class="container">
+  <div class="container" id = "test1">
     <div class="form1">
       <h3>银行间每日债券借贷</h3>
       <table id="table1">
@@ -58,6 +63,13 @@
            -->
         </tbody>
       </table>
+      
+      <div id = "img1">  	
+		<img id="myIMG" src= "./chart.png"/>		
+      </div>
+      <img src="https://static.oschina.net/uploads/space/2018/0103/095025_6PJt_3070088.png" />
+      
+      
     </div>
     
     <div class="form2">
@@ -275,15 +287,42 @@
 									    		"<td>" + item.weightedAverageRate + "</td>" +
 									    		"<td>" + item.volume + "</td>" +
 								    		"</tr>";
-								})  
+								})  															
 								$("#table1 tbody").html('');
 								$("#table1 tbody").html(strTd);
+								
+								/* html2canvas(document.getElementById("form1")).then(function(canvas) {
+								    document.body.appendChild(canvas);
+								}); */
+
+								  html2canvas(document.getElementById("test1"),{
+								    onrendered: function(canvas) {
+								        var imgURL=canvas.toDataURL("image/png");
+								        alert(imgURL);
+								        $('#myIMG').attr("src",imgURL);
+								    }
+								}); 
+								
+								   /* var node = document.getElementById('table1');
+							        domtoimage.toPng(node,{ quality: 0.95 })
+							                  .then(function (dataUrl) {
+							                      var img = new Image();
+							                      img.src = dataUrl;	
+							                      document.getElementById("img1").appendChild(img);
+													img.onclick=function(){
+														 alert(img.src);
+														 wx.previewImage({
+														    current: img.src,
+														}); 												           
+													} 
+							                  }); */  
+							        
 							}else{
 								$(".form1 h3").html(r.newspaperEntity.paramdate + "银行间每日债券借贷 无数据");
 							}
 						}else{
 							$(".form1 h3").html('');
-						}
+						}						
 						// ============== 表格：国债期货当日结算价  ==============
 						if(r.newspaperEntity.stype == '1' || r.newspaperEntity.stype == '2'){
 							str = ""; strTd = "";
@@ -491,6 +530,25 @@
 							$(".form3 h3").html('');
 						}
 				
+						/*  var imgsurl=[];
+						var nowurl='';
+						var imgObj=$("img");
+						for(var i=0;i<imgObj.length;i++){
+							imgsurl[i]=imgObj[i].src;
+							imgObj[i].onclick=function(){
+								 alert("ok...");
+								nowurl=this.src; 
+								 wx.previewImage({
+								    current: nowurl,
+								    urls: imgsurl
+								}); 
+						          WeixinJSBridge.invoke("imagePreview",{
+						              "urls":imgsurl,
+						              "current":nowurl
+						              });
+							}
+						} */
+						
 					}else{
 						alert(r.msg);
 					}
@@ -518,7 +576,7 @@
 		var r = window.location.search.substr(1).match(reg);  
 		if (r != null) return unescape(r[2]);  
 		return null;  
-	}  
+	} 
 
   </script>
 </html>
