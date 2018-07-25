@@ -19,7 +19,9 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<mybatis.spring.boot.version>1.3.0</mybatis.spring.boot.version>
-		<mybatisplus.version>2.1.9</mybatisplus.version>
+		<!-- springboot启动异常 由2.1.9改为2.1.8
+		FileNotFoundException: class path resource [templates/] cannot be resolved to absolute file path -->
+		<mybatisplus.version>2.1.8</mybatisplus.version>
 		<mysql.version>5.1.38</mysql.version>
 		<!-- <oracle.version>12.2.0.1</oracle.version>  -->
 		<oracle.version>12.1.0.2.0</oracle.version>
@@ -81,7 +83,7 @@
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>${mybatis.spring.boot.version}</version>
 		</dependency>
-		<dependency>
+		 <dependency>
 			<groupId>com.baomidou</groupId>
 			<artifactId>mybatis-plus</artifactId>
 			<version>${mybatisplus.version}</version>
